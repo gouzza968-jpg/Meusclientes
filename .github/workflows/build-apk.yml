@@ -31,6 +31,11 @@ jobs:
           npx cap add android
           npx cap sync android
 
+      - name: Plugin nativo do WhatsApp Business
+        run: |
+          D=android/app/src/main/java/com/meusclientes/app
+          cp native/WaBusinessPlugin.java native/MainActivity.java "$D/"
+
       - name: Compilar APK
         working-directory: android
         run: ./gradlew assembleDebug

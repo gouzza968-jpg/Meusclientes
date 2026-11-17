@@ -36,6 +36,16 @@ jobs:
           D=android/app/src/main/java/com/meusclientes/app
           cp native/WaBusinessPlugin.java native/MainActivity.java "$D/"
 
+      - name: Versão e assinatura fixa (permite atualizar o app por cima)
+        run: |
+          VC=$((100 + GITHUB_RUN_NUMBER))
+          VN="1.$GITHUB_RUN_NUMBER"
+          G=android/app/build.gradle
+          sed -i "s/versionCode [0-9]*/versionCode $VC/; s/versionName \"[^\"]*\"/versionName \"$VN\"/" $G
+          sed -i "0,/^android {/s//android {\n    signingConfigs {\n        debug {\n            storeFile rootProject.file('..\/native\/meusclientes.keystore')\n            storePassword 'meusclientes'\n            keyAlias 'meusclientes'\n            keyPassword 'meusclientes'\n        }\n    }/" $G
+          sed -i "s/__APP_VERSION__/$VN/" www/index.html android/app/src/main/assets/public/index.html
+          grep -n "versionCode\|versionName\|storeFile" $G
+
       - name: Compilar APK
         working-directory: android
         run: ./gradlew assembleDebug

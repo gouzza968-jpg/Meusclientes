@@ -357,7 +357,9 @@ dialog::backdrop{-webkit-backdrop-filter:none;backdrop-filter:none;background:rg
       <button class="btn del" id="da">Apagar todos os clientes</button>
       <input id="file" type="file" accept="application/json" hidden>
     </div>
+    <p class="meta" id="ver" style="text-align:center;margin:32px 0 0"></p>
   </div>
+  
 </div></div>
 </main>
 <div class="toast" id="toast" role="status"></div>
@@ -801,6 +803,7 @@ dialog::backdrop{-webkit-backdrop-filter:none;backdrop-filter:none;background:rg
   function push(){}
   function netUi(){}
 
+  (function(){var v="__APP_VERSION__";$("ver").textContent="Meus clientes · versão "+(v.indexOf("__")===0?"dev":v)})();
   load();render();
 
   /* ---- renovação com aprovação ---- */

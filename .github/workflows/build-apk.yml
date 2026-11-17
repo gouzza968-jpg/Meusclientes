@@ -31,6 +31,9 @@ jobs:
           npx cap add android
           npx cap sync android
 
+      - name: Ícone do aplicativo
+        run: cp -r native/res/. android/app/src/main/res/
+
       - name: Plugin nativo do WhatsApp Business
         run: |
           D=android/app/src/main/java/com/meusclientes/app

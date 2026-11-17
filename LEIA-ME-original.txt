@@ -1,0 +1,22 @@
+MEUS CLIENTES - VERSAO OFFLINE (para virar APK)
+
+Arquivos desta pasta:
+  index.html  -> o app, sem login e sem sincronizacao (dados ficam so no aparelho)
+  (falta)     -> xlsx.full.min.js  (leitor de planilhas; baixe 1 vez e coloque nesta pasta)
+                 https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js
+
+COMO GERAR O APK (Capacitor, precisa de Node.js e Android Studio no computador)
+  1. Crie uma pasta "www" e coloque nela index.html e xlsx.full.min.js
+  2. Na pasta do projeto:
+       npm init -y
+       npm i @capacitor/core @capacitor/cli @capacitor/android
+       npx cap init "Meus clientes" com.meusclientes.app --web-dir www
+       npx cap add android
+       npx cap copy
+       npx cap open android
+  3. No Android Studio: Build > Build Bundle(s)/APK(s) > Build APK(s)
+
+AVISOS
+  - Os dados ficam no aparelho. Se desinstalar o app, perde tudo: faca backup antes.
+  - "Baixar backup" e "Exportar planilha" podem precisar de adaptacao dentro do APK.
+  - O botao "Abrir WhatsApp" pode precisar de ajuste para abrir o app de fora do APK.

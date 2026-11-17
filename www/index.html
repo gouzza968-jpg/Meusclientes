@@ -376,6 +376,27 @@ body::after{animation:none}
 @media (max-height:720px){.n-dial{transform:scale(.82);margin:-14px 0 -10px}.n-title{font-size:31px}}
 @media (max-height:640px){.n-pills{display:none}}
 @media (max-height:560px){.n-cards{display:none}}
+/* ---- painel embutido ---- */
+#web{width:100%;max-width:100%;height:92vh;height:92dvh;max-height:92dvh;margin:auto 0 0 0;padding:0;border-radius:22px 22px 0 0;display:none;flex-direction:column;overflow:hidden;border-bottom:0}
+#web[open]{display:flex;animation:sheet .38s cubic-bezier(.2,.9,.25,1)}
+@keyframes sheet{from{transform:translateY(100%)}to{transform:none}}
+.wb-hd{flex:none;padding:6px 10px 8px;position:relative;border-bottom:1px solid var(--line)}
+.wb-grab{display:block;width:40px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 6px}
+.wb-row{display:flex;align-items:center;gap:6px}
+.wb-t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.wb-t b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wb-t small{font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wb-acts{display:flex;gap:6px;flex:none;align-items:center}
+.wb-acts .ib{width:34px;height:34px;padding:0;border-radius:50%;display:inline-grid;place-items:center;line-height:0}
+.wb-acts .ib svg{width:17px;height:17px}
+.wb-load{position:absolute;left:0;right:0;bottom:-1px;height:3px;overflow:hidden;opacity:0;transition:opacity .3s}
+.wb-load.on{opacity:1}
+.wb-load i{display:block;width:40%;height:100%;border-radius:3px;background:linear-gradient(90deg,#34d399,#38bdf8,#a78bfa);animation:wbl 1.1s ease-in-out infinite}
+@keyframes wbl{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
+.wb-body{flex:1;position:relative;background:#fff;min-height:0}
+.wb-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.wb-blk{position:absolute;inset:0;display:grid;place-content:center;gap:14px;text-align:center;padding:24px;background:var(--bg)}
+.wb-blk p{margin:0;color:var(--mute)}
 </style>
 </head>
 <body>
@@ -539,6 +560,18 @@ body::after{animation:none}
   </div>
 </dialog>
 
+<dialog id="web" aria-label="Painel de gerenciamento">
+  <div class="wb-hd"><i class="wb-grab"></i>
+    <div class="wb-row"><div class="wb-t"><b id="wb-t">Painel</b><small id="wb-h"></small></div>
+      <span class="wb-acts"><button class="btn mini" id="wb-user" hidden style="margin:0">Copiar usuário</button>
+        <button class="btn ib" id="wb-rl" aria-label="Recarregar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.5 15a9 9 0 1 1-2.1-9.4L23 10"/></svg></button>
+        <button class="btn ib" id="wb-ext" aria-label="Abrir no navegador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14L21 3"/></svg></button>
+        <button class="btn ib" id="wb-x" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></span></div>
+    <div class="wb-load" id="wb-load"><i></i></div></div>
+  <div class="wb-body"><iframe id="wb-f" title="Painel" allow="clipboard-write; clipboard-read; fullscreen"></iframe>
+    <div class="wb-blk" id="wb-blk" hidden><p>Este painel não permite abrir dentro do app.</p><button class="btn pri" id="wb-ext2">Abrir em janela do Chrome</button></div></div>
+</dialog>
+
 <dialog id="cfm" aria-labelledby="cfm-t">
   <div class="bd"><h2 id="cfm-t">Excluir cliente?</h2><p id="cfm-p">Essa ação remove o cliente da lista.</p></div>
   <div class="bt"><button id="cfm-no">Cancelar</button><button id="cfm-ok">Excluir</button></div>
@@ -645,7 +678,33 @@ body::after{animation:none}
     trash:svg('<path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>')
   };
   function wa(c){var n=(c.tel||"").replace(/\D/g,"");if(n.length<10)return "";if(n.length<=11)n="55"+n;return n}
-  function openSite(u){var B=plug("Browser");if(NATIVE&&B){B.open({url:u}).catch(function(){window.open(u,"_blank")});return}window.open(u,"_blank","noopener")}
+  function openExternal(u){var B=plug("Browser");if(NATIVE&&B){B.open({url:u}).catch(function(){window.open(u,"_blank")});return}window.open(u,"_blank","noopener")}
+  var webUrl="";
+  function embedSite(u,ctx){
+    webUrl=u;var host=u;try{host=new URL(u).host}catch(e){}
+    $("wb-t").textContent=(ctx&&ctx.title)||"Painel";$("wb-h").textContent=host;
+    $("wb-user").hidden=!(ctx&&ctx.user);$("wb-user").dataset.u=(ctx&&ctx.user)||"";$("wb-user").textContent="Copiar usuário";
+    $("wb-blk").hidden=true;$("wb-load").classList.add("on");
+    $("wb-f").src=u;if(!$("web").open)$("web").showModal();snd("open")
+  }
+  function openSite(u,ctx){
+    var H=NATIVE&&plug("CapacitorHttp");
+    if(!H){embedSite(u,ctx);return}
+    toast("Abrindo painel…");
+    H.request({url:u,method:"GET",connectTimeout:8000,readTimeout:8000}).then(function(r){
+      var h={};Object.keys(r.headers||{}).forEach(function(k){h[k.toLowerCase()]=String(r.headers[k]).toLowerCase()});
+      var m=/frame-ancestors([^;]*)/.exec(h["content-security-policy"]||"");
+      var blocked=/deny|sameorigin/.test(h["x-frame-options"]||"")||(m&&!/\*/.test(m[1]));
+      if(blocked){toast("Esse painel não abre embutido; abrindo no Chrome");openExternal(u)}else embedSite(u,ctx)
+    },function(){embedSite(u,ctx)})
+  }
+  $("wb-f").addEventListener("load",function(){$("wb-load").classList.remove("on")});
+  $("wb-x").onclick=function(){$("web").close()};
+  $("web").addEventListener("close",function(){$("wb-f").src="about:blank";$("wb-load").classList.remove("on")});
+  $("wb-ext").onclick=$("wb-ext2").onclick=function(){openExternal(webUrl)};
+  $("wb-rl").onclick=function(){$("wb-load").classList.add("on");var f=$("wb-f");f.src="about:blank";setTimeout(function(){f.src=webUrl},60)};
+  $("wb-user").onclick=function(){var b=this,u=b.dataset.u;function ok(){b.textContent="Copiado ✓";snd("tap")}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,function(){});else ok()};
+  $("web").onclick=function(e){if(e.target!==this)return;var r=this.getBoundingClientRect();if(e.clientY<r.top)this.close()};
   function openWa(c){
     var n=wa(c);if(!n)return;snd("wpp");var P=plug("WaBusiness");
     if(NATIVE&&P){P.open({phone:n,text:""}).catch(function(){toast("Não foi possível abrir o WhatsApp")});return}
@@ -1032,7 +1091,7 @@ body::after{animation:none}
         $("rn-site-t").innerHTML="Quer abrir o site do <b>"+esc(c.server)+"</b> para alterar o usuário"+(c.user?" <b>"+esc(c.user)+"</b>":"")+"?";
         $("rn-copy").hidden=!c.user;$("rn-copy").textContent="Copiar usuário";$("rn-site").hidden=false;snd("open")
       },2900);
-      $("rn-open").onclick=function(){finishRen();openSite(url)};
+      $("rn-open").onclick=function(){finishRen();openSite(url,{user:c.user,title:"Painel "+(c.server||"")})};
       $("rn-later").onclick=function(){finishRen()};
       $("rn-copy").onclick=function(){var b=this;function ok(){b.textContent="Copiado ✓"}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(c.user).then(ok,function(){});else ok()}
     }else renTimer=setTimeout(finishRen,4200)
@@ -1148,7 +1207,7 @@ body::after{animation:none}
     $("c-theme").onclick=function(e){var b=e.target.closest("button[data-t]");if(!b)return;cfg.theme=b.dataset.t;saveCfg();applyTheme();th();snd("tab")};
     $("c-unitv").onchange=function(){cfg.sites.UNITV=this.value.trim();saveCfg();toast("Site do UNITV salvo");snd("save")};
     $("c-iptv").onchange=function(){cfg.sites.IPTV=this.value.trim();saveCfg();toast("Site do IPTV salvo");snd("save")};
-    $("v-cfg").onclick=function(e){var b=e.target.closest("button[data-open]");if(!b)return;var inp=$(b.dataset.open==="UNITV"?"c-unitv":"c-iptv");cfg.sites[b.dataset.open]=inp.value.trim();saveCfg();var u=siteUrl(b.dataset.open);if(!u){toast("Cadastre o endereço primeiro");return}openSite(u)}
+    $("v-cfg").onclick=function(e){var b=e.target.closest("button[data-open]");if(!b)return;var inp=$(b.dataset.open==="UNITV"?"c-unitv":"c-iptv");cfg.sites[b.dataset.open]=inp.value.trim();saveCfg();var u=siteUrl(b.dataset.open);if(!u){toast("Cadastre o endereço primeiro");return}openSite(u,{title:"Painel "+b.dataset.open})}
   })();
   intro();
 })();

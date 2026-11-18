@@ -625,6 +625,13 @@ main{padding-bottom:128px}
 .impgo{display:flex;align-items:center;gap:12px;width:100%;margin:0 0 10px;padding:10px 14px;border-radius:18px;border:1px solid color-mix(in srgb,#22c55e 40%,transparent);background:linear-gradient(135deg,color-mix(in srgb,#22c55e 16%,transparent),var(--glass));color:var(--ink);font:inherit;text-align:left;cursor:pointer;box-shadow:0 0 20px -10px #22c55e}
 .impgo span{flex:1;min-width:0}.impgo b{display:block;font-size:15px}.impgo small{color:var(--mute);font-size:12px}.impgo em{font-style:normal;font-size:24px;color:#22c55e}.impgo:active{transform:scale(.98)}
 .sub-h{margin:20px 0 0;padding-top:16px;border-top:1px solid var(--line);font-weight:800;font-size:15px}
+.pages{transition:transform .6s cubic-bezier(.22,1,.36,1);will-change:transform;backface-visibility:hidden}
+.pg{transition:opacity .5s ease,transform .6s cubic-bezier(.22,1,.36,1),filter .5s;transform-origin:50% 0}
+.pg:not(.on){opacity:.25;transform:scale(.95);filter:blur(2px)}
+.pages.drag{transition:none}
+.pages.drag .pg{opacity:1!important;transform:none!important;filter:none!important}
+.pages.moving:not(.drag) .pg.on{animation:pgin .55s cubic-bezier(.22,1,.36,1)}
+@keyframes pgin{from{opacity:.4;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -802,7 +809,7 @@ main{padding-bottom:128px}
   var $=function(i){return document.getElementById(i)};
   /* ---- configurações ---- */
   var DEF_UNITV="https://panel-web.resell.media/#/login";
-  var CKEY="clientes-cfg-v1",cfg={soundStart:true,soundChg:true,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",sites:{IPTV:"",UNITV:""}};
+  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",sites:{IPTV:"",UNITV:""}};
   try{var c0=JSON.parse(localStorage.getItem(CKEY)||"null");if(c0){cfg=Object.assign(cfg,c0);cfg.sites=Object.assign({IPTV:"",UNITV:""},c0.sites||{})}}catch(e){}
   if(!cfg.sites.UNITV)cfg.sites.UNITV=DEF_UNITV;
   function saveCfg(){try{localStorage.setItem(CKEY,JSON.stringify(cfg))}catch(e){}}
@@ -1110,7 +1117,7 @@ main{padding-bottom:128px}
       kv("Valor",brl(c.val))+
       kv("Vencimento",fmtDate(c.due))+
       (c.note?kv("Observações",esc(c.note)):"");
-    $("in-acts").innerHTML=(link?'<button class="btn wpp" data-act="wa">'+WICON+' Abrir WhatsApp</button>':'')+'<button class="btn" data-act="copyall">Copiar tudo</button><button class="btn" data-act="edit">Editar</button><button class="btn" data-act="close">Fechar</button>';
+    $("in-acts").innerHTML=(link?'<button class="btn wpp" data-act="wa">'+WICON+' Abrir WhatsApp</button>':'')+'<button class="btn pri" data-act="renew">'+IC.renew+' Renovar</button><button class="btn" data-act="copyall">Copiar tudo</button><button class="btn" data-act="edit">Editar</button><button class="btn" data-act="close">Fechar</button>';
     $("info").showModal()
   }
   $("info").onclick=function(e){
@@ -1124,6 +1131,7 @@ main{padding-bottom:128px}
     if(b.dataset.act==="wa")openWa(c);
     if(b.dataset.act==="copyall")copyAll(c);
     if(b.dataset.act==="edit"){this.close();openForm(c)}
+    if(b.dataset.act==="renew"){this.close();openRenew(c)}
   };
   $("list").onkeydown=$("venc-list").onkeydown=function(e){if(e.key!=="Enter"&&e.key!==" ")return;var w=e.target.closest(".who[data-id]");if(w){e.preventDefault();openInfo(w.dataset.id)}};
   $("cfm").onclick=function(e){if(e.target===this)this.close()};
@@ -1182,7 +1190,7 @@ main{padding-bottom:128px}
     $("hd-ic").classList.remove("pop");void $("hd-ic").offsetWidth;$("hd-ic").classList.add("pop");
     if(i===1)renderVenc();if(i===2)renderRel();if(i===3)nstat();
     $("add").hidden=i!==0;$("kb").hidden=true;
-    clearTimeout(go.t);go.t=setTimeout(function(){pg.classList.remove("moving","drag")},450);
+    clearTimeout(go.t);go.t=setTimeout(function(){pg.classList.remove("moving","drag")},700);
     window.scrollTo(0,0)
   }
   function show(tab){go(typeof tab==="number"?tab:Math.max(0,TABS.indexOf(tab)))}
@@ -1417,10 +1425,10 @@ main{padding-bottom:128px}
     },{passive:true});
     function end(){
       if(!on)return;on=false;if(lock!=="x")return;
-      pg.style.transition="";pg.style.transform="";
+      pg.style.transition="";pg.style.transform="";pg.classList.remove("drag");
       var w=pg.offsetWidth,v=Math.abs(dx)/Math.max(1,Date.now()-t0),next=dx<0?curTab+1:curTab-1;
       if(next>=0&&next<=3&&(Math.abs(dx)>w*.25||(v>.45&&Math.abs(dx)>36)))go(next);
-      else{clearTimeout(go.t);go.t=setTimeout(function(){pg.classList.remove("moving","drag")},450)}
+      else{clearTimeout(go.t);go.t=setTimeout(function(){pg.classList.remove("moving","drag")},700)}
     }
     vp.addEventListener("touchend",end);vp.addEventListener("touchcancel",end)
   })();
@@ -1468,10 +1476,13 @@ main{padding-bottom:128px}
   function dueList(off){var o=[];clients.forEach(function(c){var d=days(c)-off;if(d<=7&&d>=-30)o.push({c:c,d:d})});o.sort(function(a,b){return a.d-b.d});return o}
   function dlabel(d){return d<0?"venceu há "+(-d)+(d===-1?" dia":" dias"):d===0?"vence hoje":d===1?"vence amanhã":"vence em "+d+" dias"}
   function ntText(l){
-    var n=l.length,bad=l.filter(function(x){return x.d<0}).length;
-    var title=n===1?"1 cliente precisa de atenção":n+" clientes precisam de atenção"+(bad&&bad<n?"":"");
-    var body=l.slice(0,4).map(function(x){return x.c.name+" ("+dlabel(x.d)+")"}).join(", ")+(n>4?" e mais "+(n-4):"");
-    return {title:title,body:body}
+    var n=l.length,bad=l.filter(function(x){return x.d<0}).length,hoje=l.filter(function(x){return x.d===0}).length;
+    var title=(bad?"🔴 ":hoje?"🟠 ":"🟡 ")+(n===1?"1 cliente precisa de atenção":n+" clientes precisam de atenção");
+    function em(d){return d<0?"🔴":d<=1?"🟠":"🟡"}
+    var parts=[];if(bad)parts.push(bad+(bad===1?" vencido":" vencidos"));if(hoje)parts.push(hoje+" vence hoje");var rest=n-bad-hoje;if(rest)parts.push(rest+" nos próximos 7 dias");
+    var body=l.slice(0,3).map(function(x){return x.c.name.split(" ")[0]+" · "+dlabel(x.d)}).join("  |  ")+(n>3?"  +"+(n-3):"");
+    var big=l.slice(0,10).map(function(x){return em(x.d)+" "+x.c.name+" — "+dlabel(x.d)+(x.c.server?" ("+x.c.server+")":"")}).join("\n")+(n>10?"\n… e mais "+(n-10):"");
+    return {title:title,body:body,largeBody:big,summaryText:parts.join(" · ")}
   }
   function notifPerm(ask){
     var L=LN();if(!L)return Promise.resolve("web");
@@ -1492,7 +1503,7 @@ main{padding-bottom:128px}
         for(var k=0;k<30;k++){
           var at=new Date(now.getFullYear(),now.getMonth(),now.getDate()+k,H,M,0);if(at<=now)continue;
           var l=dueList(k);if(!l.length)continue;var t=ntText(l);
-          arr.push({id:1000+k,title:t.title,body:t.body,schedule:{at:at,allowWhileIdle:true},channelId:"vencimentos",smallIcon:NTI,autoCancel:true})
+          arr.push({id:1000+k,title:t.title,body:t.body,largeBody:t.largeBody,summaryText:t.summaryText,iconColor:"#8B5CF6",schedule:{at:at,allowWhileIdle:true},channelId:"vencimentos",smallIcon:NTI,autoCancel:true})
         }
         return arr.length?L.schedule({notifications:arr}):0
       })
@@ -1509,6 +1520,7 @@ main{padding-bottom:128px}
   }
   (function(){var L=LN();if(L){try{L.createChannel({id:"vencimentos",name:"Vencimentos",description:"Aviso diário de clientes vencidos ou a vencer",importance:4,visibility:1,vibration:true}).catch(function(){})}catch(e){}
     if(cfg.notify)notifPerm(true).then(function(){schedNotif()})}})();
+  (function(){var L=LN();if(L&&L.addListener)try{L.addListener("localNotificationActionPerformed",function(){setTimeout(function(){show("list");$("bell").click()},400)})}catch(e){}})();
   /* sino */
   $("bell").onclick=function(){
     var l=dueList(0).filter(function(x){return x.d>=-30});snd("open");
@@ -1530,7 +1542,7 @@ main{padding-bottom:128px}
     $("c-ntest").onclick=function(){
       snd("tap");var L=LN(),t=ntText(dueList(0).length?dueList(0):[{c:{name:"Cliente exemplo"},d:3}]);
       if(L){notifPerm(true).then(function(st){if(st!=="granted"){toast("Permita as notificações do app primeiro");return}
-        L.schedule({notifications:[{id:999,title:t.title,body:t.body,schedule:{at:new Date(Date.now()+3000)},channelId:"vencimentos",smallIcon:NTI}]}).then(function(){toast("Notificação de teste chega em 3 segundos")},function(){toast("Não foi possível agendar o teste")})});return}
+        L.schedule({notifications:[{id:999,title:t.title,body:t.body,largeBody:t.largeBody,summaryText:t.summaryText,iconColor:"#8B5CF6",schedule:{at:new Date(Date.now()+3000)},channelId:"vencimentos",smallIcon:NTI}]}).then(function(){toast("Notificação de teste chega em 3 segundos")},function(){toast("Não foi possível agendar o teste")})});return}
       if("Notification" in window){Notification.requestPermission().then(function(p){if(p==="granted"){new Notification(t.title,{body:t.body});toast("Notificação enviada")}else toast("Notificações bloqueadas no navegador")});return}
       toast("Teste disponível no aplicativo instalado")
     };

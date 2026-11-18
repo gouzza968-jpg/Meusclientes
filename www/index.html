@@ -622,6 +622,9 @@ main{padding-bottom:128px}
 
 .mc.bad i{background:linear-gradient(180deg,#fb7185,#ef4444);box-shadow:0 0 14px -4px #ef4444}
 .srch svg,.pillsel svg{z-index:2}.srch svg{color:var(--ink);opacity:.55}.pillsel svg{color:#a78bfa}
+.impgo{display:flex;align-items:center;gap:12px;width:100%;margin:0 0 10px;padding:10px 14px;border-radius:18px;border:1px solid color-mix(in srgb,#22c55e 40%,transparent);background:linear-gradient(135deg,color-mix(in srgb,#22c55e 16%,transparent),var(--glass));color:var(--ink);font:inherit;text-align:left;cursor:pointer;box-shadow:0 0 20px -10px #22c55e}
+.impgo span{flex:1;min-width:0}.impgo b{display:block;font-size:15px}.impgo small{color:var(--mute);font-size:12px}.impgo em{font-style:normal;font-size:24px;color:#22c55e}.impgo:active{transform:scale(.98)}
+.sub-h{margin:20px 0 0;padding-top:16px;border-top:1px solid var(--line);font-weight:800;font-size:15px}
 </style>
 </head>
 <body>
@@ -637,12 +640,12 @@ main{padding-bottom:128px}
 </div></div></template>
 <main>
   <header class="hd"><span class="hd-ic" id="hd-ic"></span><div class="hd-t"><h1 id="hd-h">Clientes</h1><p class="sub" id="greet">Vencimentos e renovações num só lugar.</p></div><button class="bell" id="bell" aria-label="Notificações"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><b id="bell-n" hidden>0</b></button></header>
-  <div class="tabs" id="tabs" role="tablist"><button role="tab" id="t-list" aria-selected="true"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Clientes</button><button role="tab" id="t-imp" aria-selected="false"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>Importar</button><button role="tab" id="t-cfg" aria-selected="false"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Config.</button></div>
 <div class="vp"><div class="pages" id="pages">
 <div class="pg on" id="v-list">
   <div class="money" id="net" hidden role="status" style="margin-top:0"></div>
   <div class="sum" id="sum"></div>
   <div class="money rev" id="money"></div>
+  <button class="impgo" id="impgo"><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg></i><span><b>Importar clientes</b><small>Planilha e backup em Configurações</small></span><em>›</em></button>
   <div class="sr"><label class="srch"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg><input id="q" type="search" placeholder="Buscar cliente, telefone ou usuário" aria-label="Buscar cliente"></label><button class="fbtn" id="clr" aria-label="Limpar filtros" title="Limpar filtros"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg><i id="clr-d" hidden></i></button></div>
   <div class="pills"><label class="pillsel"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></svg><select id="srvf" aria-label="Servidor"><option value="">Todos os servidores</option><option value="IPTV">IPTV</option><option value="UNITV">UNITV</option></select></label><label class="pillsel"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h13M3 12h9M3 18h5M17 8v12M17 20l4-4M17 20l-4-4"/></svg><select id="sort" aria-label="Ordenar"><option value="due">Vencimento</option><option value="name">Nome</option><option value="val">Maior valor</option></select></label></div>
   <div class="list" id="list"></div>
@@ -658,8 +661,8 @@ main{padding-bottom:128px}
   <div id="rel-out"></div>
 </div>
 
-<div class="pg" id="v-imp">
-  <section class="cfg-card">
+<div class="pg" id="v-cfg">
+<section class="cfg-card" id="sec-imp">
     <h3><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></i>Importar de planilha</h3>
     <p class="meta" style="margin:2px 0 0">Envie um arquivo .xlsx, .xls ou .csv. A primeira linha deve ter os nomes das colunas: <b>Nome</b> e <b>Vencimento</b> (obrigatórias), WhatsApp, Usuário, Senha, Plano, Valor e Obs.</p>
     <label for="imp-srv">Servidor dos clientes</label><select id="imp-srv"><option value="">Escolha o servidor…</option><option value="IPTV">IPTV</option><option value="UNITV">UNITV</option></select>
@@ -668,24 +671,15 @@ main{padding-bottom:128px}
     <p class="meta" id="imp-msg" role="status"></p>
     <div id="imp-out"></div>
   </section>
-  <section class="cfg-card">
+<section class="cfg-card" id="sec-bkp">
     <h3><i class="ci" style="--tc:#3b82f6"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></i>Backup e exportação</h3>
     <p class="meta" style="margin:2px 0 0">Os clientes ficam salvos só neste aparelho. Baixe um backup de vez em quando e use “Restaurar backup” para levar os dados a outro aparelho.</p>
     <div class="btns"><button class="btn big g-blue" id="exp"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>Baixar backup</button>
     <button class="btn big g-violet" id="imp"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 4v6h-6"/><path d="M20.5 15a9 9 0 1 1-2.1-9.4L23 10"/></svg>Restaurar backup</button>
     <button class="btn big g-teal" id="csv"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Exportar planilha</button>
     <button class="btn big g-blue" id="shr" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>Compartilhar backup</button></div>
-  </section>
-  <section class="cfg-card">
-    <h3><i class="ci" style="--tc:#ef4444"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></i>Limpeza</h3>
-    <p class="meta" style="margin:2px 0 0">Apague os duplicados ou zere a lista para começar com um backup novo. Baixe um backup antes.</p>
-    <div class="btns"><button class="btn big g-orange" id="dd"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Apagar duplicados</button>
-    <button class="btn big g-red" id="da"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Apagar todos os clientes</button></div>
-    <input id="file" type="file" accept="application/json" hidden>
-  </section>
-</div>
-
-<div class="pg" id="v-cfg">
+  <div class="sub-h">Limpeza</div><p class="meta" style="margin:2px 0 0">Apague os duplicados ou zere a lista para começar com um backup novo. Baixe um backup antes.</p><div class="btns"><button class="btn big g-orange" id="dd"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Apagar duplicados</button>
+    <button class="btn big g-red" id="da"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Apagar todos os clientes</button></div><input id="file" type="file" accept="application/json" hidden></section>
   <section class="cfg-card">
     <h3><i class="ci" style="--tc:#f59e0b"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></i>Notificações</h3>
     <label class="sw"><span><b>Avisar sobre vencimentos</b><small>Todo dia, quando houver cliente vencido ou com menos de 7 dias</small></span><input type="checkbox" id="c-notify"><i></i></label>
@@ -971,7 +965,7 @@ main{padding-bottom:128px}
       if(filter!=="all"&&status(c)!==filter)return false;
       return !q||(c.name+" "+c.tel+" "+c.user).toLowerCase().indexOf(q)>-1
     }).sort(function(a,b){if(sortBy==="name")return a.name.localeCompare(b.name,"pt-BR");if(sortBy==="val")return Number(b.val||0)-Number(a.val||0)||(a.due<b.due?-1:1);return a.due<b.due?-1:1});
-    $("list").innerHTML=rows.length?rows.map(card).join(""):'<div class="empty">'+(clients.length?"Nenhum cliente nesse filtro.":"Nenhum cliente ainda. Toque em + para cadastrar o primeiro ou use a aba Importar.")+'</div>';
+    $("list").innerHTML=rows.length?rows.map(card).join(""):'<div class="empty">'+(clients.length?"Nenhum cliente nesse filtro.":"Nenhum cliente ainda. Toque em + para cadastrar o primeiro ou use Importar clientes.")+'</div>';
     renderVenc();renderRel();bellUpd()
   }
   function renderVenc(){
@@ -1177,8 +1171,8 @@ main{padding-bottom:128px}
   /* ---- Importação de planilha ---- */
   var pending=[];
   function pad(n){return String(n).padStart(2,"0")}
-  var TABS=["list","venc","rel","imp","cfg"],curTab=0;
-  var HD={list:["users","Clientes",""],venc:["cal","Vencimentos","Quem precisa de atenção"],rel:["bars","Relatórios","Resumo da carteira"],imp:["upload","Importar","Planilhas e backup"],cfg:["gear","Configurações","Personalize o app"]};
+  var TABS=["list","venc","rel","cfg"],curTab=0;
+  var HD={list:["users","Clientes",""],venc:["cal","Vencimentos","Quem precisa de atenção"],rel:["bars","Relatórios","Resumo da carteira"],cfg:["gear","Configurações","Personalize o app"]};
   function go(i){
     var pg=$("pages");if(i!==curTab)snd("tab");curTab=i;
     pg.classList.add("moving");pg.style.setProperty("--i",i);
@@ -1186,16 +1180,14 @@ main{padding-bottom:128px}
     [].forEach.call($("bnav").children,function(b){b.classList.toggle("on",b.dataset.p===TABS[i])});
     var h=HD[TABS[i]];document.body.dataset.p=TABS[i];$("hd-ic").innerHTML=IC[h[0]];$("hd-h").textContent=h[1];$("greet").textContent=i===0?gtxt:h[2];
     $("hd-ic").classList.remove("pop");void $("hd-ic").offsetWidth;$("hd-ic").classList.add("pop");
-    if(i===1)renderVenc();if(i===2)renderRel();if(i===4)nstat();
+    if(i===1)renderVenc();if(i===2)renderRel();if(i===3)nstat();
     $("add").hidden=i!==0;$("kb").hidden=true;
     clearTimeout(go.t);go.t=setTimeout(function(){pg.classList.remove("moving","drag")},450);
     window.scrollTo(0,0)
   }
   function show(tab){go(typeof tab==="number"?tab:Math.max(0,TABS.indexOf(tab)))}
+  $("impgo").onclick=function(){show("cfg");setTimeout(function(){var e=$("sec-imp");window.scrollTo({top:e.getBoundingClientRect().top+window.scrollY-12,behavior:"smooth"})},60)};
   $("bnav").onclick=function(e){var b=e.target.closest("button[data-p]");if(b)show(b.dataset.p)};
-  $("t-list").onclick=function(){show("list")};
-  $("t-imp").onclick=function(){show("imp")};
-  $("t-cfg").onclick=function(){show("cfg")};
   $("xpick").onclick=function(){if(!$("imp-srv").value){$("imp-msg").textContent="Escolha primeiro o servidor dos clientes (IPTV ou UNITV).";$("imp-srv").focus();return}$("xfile").click()};
   $("imp-srv").onchange=function(){if(pending.length){pending=[];$("imp-out").innerHTML="";$("imp-msg").textContent="Servidor alterado. Escolha a planilha de novo."}else $("imp-msg").textContent=""};
   function norm(s){return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,"")}
@@ -1420,14 +1412,14 @@ main{padding-bottom:128px}
       if(lock===null){if(Math.abs(mx)<8&&Math.abs(my)<8)return;lock=Math.abs(mx)>Math.abs(my)*1.3?"x":"y";if(lock==="x"){clearTimeout(go.t);pg.classList.add("moving","drag");pg.style.transition="none";}}
       if(lock!=="x")return;
       var w=pg.offsetWidth+16;dx=mx;
-      if((curTab===0&&dx>0)||(curTab===4&&dx<0))dx*=.22;
+      if((curTab===0&&dx>0)||(curTab===3&&dx<0))dx*=.22;
       pg.style.transform="translateX("+(-curTab*w+dx)+"px)";
     },{passive:true});
     function end(){
       if(!on)return;on=false;if(lock!=="x")return;
       pg.style.transition="";pg.style.transform="";
       var w=pg.offsetWidth,v=Math.abs(dx)/Math.max(1,Date.now()-t0),next=dx<0?curTab+1:curTab-1;
-      if(next>=0&&next<=4&&(Math.abs(dx)>w*.25||(v>.45&&Math.abs(dx)>36)))go(next);
+      if(next>=0&&next<=3&&(Math.abs(dx)>w*.25||(v>.45&&Math.abs(dx)>36)))go(next);
       else{clearTimeout(go.t);go.t=setTimeout(function(){pg.classList.remove("moving","drag")},450)}
     }
     vp.addEventListener("touchend",end);vp.addEventListener("touchcancel",end)

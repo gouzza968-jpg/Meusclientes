@@ -1,5 +1,11 @@
 {
   "appId": "com.meusclientes.app",
   "appName": "Meus clientes",
-  "webDir": "www"
+  "webDir": "www",
+  "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_clientes",
+      "iconColor": "#8B5CF6"
+    }
+  }
 }

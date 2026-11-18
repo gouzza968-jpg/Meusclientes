@@ -34,6 +34,14 @@ jobs:
       - name: Ícone do aplicativo
         run: cp -r native/res/. android/app/src/main/res/
 
+      - name: Permissões de notificação
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          for P in POST_NOTIFICATIONS RECEIVE_BOOT_COMPLETED SCHEDULE_EXACT_ALARM; do
+            grep -q "android.permission.$P" $M || sed -i "s#<application#<uses-permission android:name=\"android.permission.$P\" />\n    <application#" $M
+          done
+          grep -n "uses-permission" $M
+
       - name: Plugin nativo do WhatsApp Business
         run: |
           D=android/app/src/main/java/com/meusclientes/app

@@ -652,6 +652,28 @@ main{padding-bottom:128px}
 .ns.on svg{color:var(--org)}
 .ns:active{transform:scale(.96)}
 .udbar{height:10px;border-radius:6px;background:color-mix(in srgb,var(--ink) 10%,transparent);overflow:hidden;margin-top:14px}.udbar i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,#3b82f6,#8b5cf6);transition:width .3s}
+/* cards v9 */
+.row.cl{padding:13px 13px 15px;gap:10px;background:linear-gradient(155deg,color-mix(in srgb,var(--sc) 15%,rgba(255,255,255,.03)),rgba(255,255,255,.02) 60%),var(--gl);box-shadow:0 0 0 1px color-mix(in srgb,var(--sc) 34%,transparent),0 14px 30px -18px var(--sc),inset 0 1px 0 var(--gl-hi)}
+.cl .avw{width:52px;height:52px;padding:3px;box-shadow:0 0 20px -5px var(--sc)}
+.cl .av{width:46px;height:46px;font-size:16px;box-shadow:inset 0 -6px 12px rgba(0,0,0,.18)}
+.cl .dbg{min-width:22px;height:18px;font-size:11px;box-shadow:0 0 0 2px var(--bg),0 0 12px -2px var(--sc)}
+.cl .name{font-size:17.5px;font-weight:800;letter-spacing:-.015em}
+.cl .meta2{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.cl .meta2>span{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 7px;border-radius:999px;background:color-mix(in srgb,var(--ink) 8%,transparent);font-size:12px;font-weight:600;line-height:1.35}
+.cl .meta2 svg{width:12px;height:12px}
+.cl .meta2 .val{color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,transparent);font-weight:800;padding-left:9px}
+.cl .meta2 .c-k{background:color-mix(in srgb,var(--warn) 13%,transparent)}
+.cl .meta2 .c-k svg{color:var(--warn)}
+.cl .tag{padding:5px 11px;font-size:12px;font-weight:800;letter-spacing:.01em;box-shadow:0 0 14px -6px var(--sc)}
+.cl .foot2{padding-top:9px;border-top:1px dashed color-mix(in srgb,var(--ink) 12%,transparent)}
+.cl .due{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:650;color:var(--ink)}
+.pbar{position:absolute;left:0;bottom:0;height:3px;width:var(--p);border-radius:0 3px 3px 0;background:linear-gradient(90deg,var(--sc),color-mix(in srgb,var(--sc) 55%,#fff));box-shadow:0 0 10px var(--sc);z-index:2;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.cl .who{align-items:flex-start;flex:1;min-width:0}
+.cl .mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.cl .nm{display:flex;align-items:center;gap:8px;min-width:0}
+.cl .nm .name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl .tag{align-self:flex-start;width:fit-content}
+.cl .meta2{margin-top:1px}
 </style>
 </head>
 <body>
@@ -762,7 +784,7 @@ main{padding-bottom:128px}
 <div id="lic" hidden role="dialog" aria-modal="true"><div class="lc"><span class="lg"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><h2 id="lc-t">Ative o Meus clientes</h2><p class="meta" id="lc-p"></p><input id="lc-pw" type="password" placeholder="Senha de ativação ou de teste" autocomplete="off" autocapitalize="off" spellcheck="false"><p class="lc-e" id="lc-e" role="alert"></p><button class="btn big g-violet" id="lc-go">Liberar</button><div class="lc-price">Ativação permanente · <b>R$ 20,00</b></div><button class="btn big g-green" id="lc-wa"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.3-1-2.5s.6-1.8.9-2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>Falar com o suporte</button></div></div>
 <dialog id="updd" aria-labelledby="ud-t"><div style="text-align:center"><i class="ci" style="--tc:#3b82f6;width:56px;height:56px;border-radius:18px;margin:0 auto 10px"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg></i><h2 id="ud-t" style="margin:0 0 4px">Nova versão disponível</h2><p class="meta" id="ud-v" style="margin:0"></p><p id="ud-n" style="margin:10px 0 0;font-size:14px"></p></div>
 <div class="udbar" id="ud-bar" hidden><i id="ud-fill"></i></div><p class="meta" id="ud-s" style="text-align:center;margin:8px 0 0;min-height:18px"></p>
-<div class="acts" style="margin-top:14px;justify-content:center"><button class="btn big g-blue" id="ud-go" style="width:auto;padding:0 22px">Atualizar agora</button><button class="btn" id="ud-no">Depois</button></div></dialog>
+<div class="acts" style="margin-top:14px;justify-content:center"><button class="btn big g-blue" id="ud-go" style="width:auto;padding:0 22px">Atualizar agora</button></div></dialog>
 <div class="toast" id="toast" role="status"></div>
 <nav class="bnav" id="bnav" aria-label="Navegação"><button data-p="list" class="on"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Clientes</span></button><button data-p="venc"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Vencimentos</span></button><button data-p="rel"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>Relatórios</span></button><button data-p="cfg"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Configurações</span></button></nav>
 <button class="fab" id="add" aria-label="Novo cliente"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -995,12 +1017,12 @@ main{padding-bottom:128px}
   function card(c,i){
     var s=status(c),link=wa(c),d=days(c),p=pctFor(d,c),P=PLN[c.plan]||"";
     var chips=(c.user?'<span class="c-u">'+IC.user+esc(c.user)+'</span>':'')+(c.pass?'<span class="c-k">'+IC.key+esc(c.pass)+'</span>':'')+(P?'<span class="c-p">'+IC.clock+P+'</span>':'')+'<span class="val">'+brl(c.val)+'</span>'+(c.tel?'<span class="c-t">'+IC.phone+esc(c.tel)+'</span>':'');
-    return '<div class="row cl s-'+s+'" style="--h:'+hueFor(d)+';--p:'+p+'%;--i:'+i+'"><div class="top"><div class="who" data-id="'+c.id+'" tabindex="0" role="button" aria-label="Ver informações de '+esc(c.name)+'"><span class="avw"><span class="av" style="background-color:'+avc(c.name)+'">'+ini(c.name)+'</span><b class="dbg">'+(d<0?"!":d>99?"99+":d)+'</b></span><div class="mid"><div class="nm"><p class="name">'+esc(c.name)+'</p>'+(c.server?'<b class="srv" data-s="'+esc(c.server)+'">'+esc(c.server)+'</b>':'')+'</div><div class="meta2">'+chips+'</div></div></div><span class="tag '+s+'">'+label(c)+'</span></div>'+
+    return '<div class="row cl s-'+s+'" style="--h:'+hueFor(d)+';--p:'+p+'%;--i:'+i+'"><div class="top"><div class="who" data-id="'+c.id+'" tabindex="0" role="button" aria-label="Ver informações de '+esc(c.name)+'"><span class="avw"><span class="av" style="background-color:'+avc(c.name)+'">'+ini(c.name)+'</span><b class="dbg">'+(d<0?"!":d>99?"99+":d)+'</b></span><div class="mid"><div class="nm"><p class="name">'+esc(c.name)+'</p>'+(c.server?'<b class="srv" data-s="'+esc(c.server)+'">'+esc(c.server)+'</b>':'')+'</div><span class="tag '+s+'">'+label(c)+'</span><div class="meta2">'+chips+'</div></div></div></div>'+
     '<div class="foot2"><span class="due">'+IC.cal+fmtDate(c.due)+(c.note?' · '+esc(c.note):'')+'</span>'+
     '<div class="acts2"><button class="btn pri sm" data-a="renew" data-id="'+c.id+'">'+IC.renew+'Renovar</button>'+
     (link?'<button class="btn wpp ib" data-a="wa" data-id="'+c.id+'" aria-label="Abrir WhatsApp Business" title="WhatsApp Business">'+WICON+'</button>':'')+
     '<button class="btn ib ed" data-a="edit" data-id="'+c.id+'" aria-label="Editar" title="Editar">'+IC.edit+'</button>'+
-    '<button class="btn ib mo" data-a="more" data-id="'+c.id+'" aria-label="Mais opções" title="Mais opções">'+IC.dots+'</button></div></div></div>'
+    '<button class="btn ib mo" data-a="more" data-id="'+c.id+'" aria-label="Mais opções" title="Mais opções">'+IC.dots+'</button></div></div><i class="pbar"></i></div>'
   }
   function render(){
     var q=$("q").value.trim().toLowerCase();
@@ -1687,29 +1709,39 @@ main{padding-bottom:128px}
   document.addEventListener("visibilitychange",licLoop);
   setInterval(licLoop,1000);licLoop();
 
-  /* ---- atualização por dentro do app ---- */
-  var UPD_URL="https://github.com/gouzza968-jpg/Meusclientes/releases/latest/download/update.json",updInfo=null,updBusy=false;
+  /* ---- atualização obrigatória por dentro do app ---- */
+  var UPD_URL="https://github.com/gouzza968-jpg/Meusclientes/releases/latest/download/update.json",UNK="clientes-upd-need",updInfo=null,updBusy=false,updNotified=0;
   function httpJson(u){
     var H=NATIVE&&plug("CapacitorHttp");
     if(H)return H.request({url:u+"?t="+Date.now(),method:"GET",connectTimeout:10000,readTimeout:10000}).then(function(r){if(r.status!==200)throw new Error("http "+r.status);return typeof r.data==="string"?JSON.parse(r.data):r.data});
     return fetch(u+"?t="+Date.now()).then(function(r){if(!r.ok)throw new Error("http");return r.json()})
   }
+  function updNeed(u){
+    updInfo=u;try{localStorage.setItem(UNK,JSON.stringify(u))}catch(e){}
+    $("upd-st").hidden=false;$("upd-chk").textContent="Atualizar agora";$("upd-msg").textContent="Atualização obrigatória: versão "+u.versionName+".";
+    updOpen();
+    var L=LN();if(L&&document.hidden&&updNotified!==u.versionCode){updNotified=u.versionCode;try{L.schedule({notifications:[{id:998,title:"🔒 Atualização de segurança disponível",body:"Abra o Meus clientes para atualizar. É necessário para continuar usando.",schedule:{at:new Date(Date.now()+1500)},channelId:"venc_"+(cfg.nsound&&cfg.nsound!=="mudo"?cfg.nsound:"sys"),smallIcon:NTI}]}).catch(function(){})}catch(e){}}
+  }
+  function updOk(cur){updInfo=null;try{localStorage.removeItem(UNK)}catch(e){}$("upd-st").hidden=true;$("upd-chk").textContent="Verificar atualização";$("upd-msg").textContent="Você está na versão mais recente"+(cur?" ("+cur.versionName+")":"")+".";if($("updd").open)$("updd").close()}
   function updCheck(manual){
     var P=plug("AppUpdate");
     if(!NATIVE||!P){if(manual)toast("A atualização funciona no aplicativo instalado");$("upd-msg").textContent="Disponível só no aplicativo instalado.";return}
-    $("upd-msg").textContent="Verificando…";
+    if(updBusy)return;
     P.info().then(function(cur){
+      var saved=null;try{saved=JSON.parse(localStorage.getItem(UNK)||"null")}catch(e){}
+      if(saved&&Number(saved.versionCode)>Number(cur.versionCode))updNeed(saved);   /* sem internet: continua bloqueado */
+      else if(saved)updOk(cur);
       return httpJson(UPD_URL).then(function(u){
-        if(Number(u.versionCode)>Number(cur.versionCode)){
-          updInfo=u;$("upd-st").hidden=false;$("upd-msg").textContent="Versão "+u.versionName+" disponível (você está na "+cur.versionName+").";$("upd-chk").textContent="Atualizar agora";
-          if(manual||!updCheck.shown){updCheck.shown=1;updOpen()}
-        }else{updInfo=null;$("upd-st").hidden=true;$("upd-chk").textContent="Verificar atualização";$("upd-msg").textContent="Você está na versão mais recente ("+cur.versionName+").";if(manual)toast("Seu app já está atualizado")}
+        if(Number(u.versionCode)>Number(cur.versionCode))updNeed(u);else updOk(cur);
+        if(manual&&!updInfo)toast("Seu app já está atualizado")
       })
-    }).catch(function(){$("upd-msg").textContent="Não foi possível verificar agora. Confira a internet.";if(manual)toast("Sem conexão para verificar")})
+    }).catch(function(){if(manual)toast("Sem conexão para verificar")})
   }
   function updOpen(){
-    if(!updInfo)return;$("ud-v").textContent="Versão "+updInfo.versionName;$("ud-n").textContent=updInfo.notes||"";
-    $("ud-bar").hidden=true;$("ud-s").textContent="";$("ud-go").disabled=false;$("ud-go").textContent="Atualizar agora";$("updd").showModal()
+    if(!updInfo)return;
+    $("ud-t").textContent="Atualização de segurança";
+    $("ud-v").textContent="Versão "+updInfo.versionName+" · obrigatória";$("ud-n").textContent="Para continuar usando o app, instale esta atualização de segurança.";
+    if(!$("updd").open){$("ud-bar").hidden=true;$("ud-s").textContent="";$("ud-go").disabled=false;$("ud-go").textContent="Atualizar agora";document.querySelectorAll("dialog[open]").forEach(function(d){d.close()});$("updd").showModal()}
   }
   function updGo(){
     var P=plug("AppUpdate");if(!P||!updInfo||updBusy)return;
@@ -1726,9 +1758,12 @@ main{padding-bottom:128px}
       })
     })
   }
-  $("ud-go").onclick=updGo;$("ud-no").onclick=function(){$("updd").close()};
+  $("ud-go").onclick=updGo;
+  $("updd").addEventListener("cancel",function(e){if(updInfo)e.preventDefault()});
+  $("updd").addEventListener("close",function(){if(updInfo)setTimeout(updOpen,50)});
   $("upd-chk").onclick=function(){if(updInfo)updOpen();else updCheck(true)};
-  if(NATIVE)setTimeout(function(){if(licState()!=="lock")updCheck(false)},4500);else $("upd-msg").textContent="Disponível só no aplicativo instalado.";
+  if(NATIVE){updCheck(false);setInterval(function(){updCheck(false)},20*60*1000);document.addEventListener("visibilitychange",function(){if(!document.hidden)updCheck(false)})}
+  else $("upd-msg").textContent="Disponível só no aplicativo instalado."
   document.body.dataset.p="list";$("hd-ic").innerHTML=IC.users;
   intro();
 })();

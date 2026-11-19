@@ -58,6 +58,7 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(WaBusinessPlugin.class);
         registerPlugin(AppUpdatePlugin.class);
+        registerPlugin(LicensePlugin.class);
         super.onCreate(savedInstanceState);
         if (!integro()) {
             finishAffinity();

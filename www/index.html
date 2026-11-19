@@ -632,6 +632,18 @@ main{padding-bottom:128px}
 .pages.drag .pg{opacity:1!important;transform:none!important;filter:none!important}
 .pages.moving:not(.drag) .pg.on{animation:pgin .55s cubic-bezier(.22,1,.36,1)}
 @keyframes pgin{from{opacity:.4;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+#lic{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:24px;background:radial-gradient(90% 70% at 50% 30%,#1b1245 0,#070815 65%,#03040b 100%);overflow:auto}
+.lc{width:min(380px,100%);text-align:center;display:flex;flex-direction:column;gap:12px}
+.lc .lg{margin:0 auto;width:76px;height:76px;border-radius:24px;display:grid;place-items:center;background:linear-gradient(140deg,#a78bfa,#6d28d9 55%,#2563eb);box-shadow:0 0 50px -6px #8b5cf6,inset 0 2px 0 rgba(255,255,255,.4)}
+.lc h2{margin:6px 0 0;font-size:24px;color:#fff}.lc .meta{margin:0;color:#aab1d6}
+.lc input{text-align:center;font-size:17px;padding:14px;border-radius:16px;color:#fff}
+.lc-e{min-height:18px;margin:0;font-size:13px;font-weight:650;color:#fb7185}.lc-e.ok{color:#34d399}
+.lc-price{font-size:14px;color:#aab1d6}.lc-price b{color:#fff;font-size:17px}
+.lpill{margin-left:auto;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--org) 20%,transparent);color:var(--org);border:1px solid color-mix(in srgb,var(--org) 50%,transparent)}
+.lpill.ok{background:color-mix(in srgb,var(--ok) 20%,transparent);color:var(--ok);border-color:color-mix(in srgb,var(--ok) 50%,transparent)}
+.supp{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.supp span{flex:1;min-width:0}.supp b{display:block;font-size:14.5px}.supp small{color:var(--mute);font-size:12.5px}
+.supp .btn{display:flex;align-items:center;gap:6px;height:42px;padding:0 14px;border-radius:14px}
 </style>
 </head>
 <body>
@@ -669,6 +681,13 @@ main{padding-bottom:128px}
 </div>
 
 <div class="pg" id="v-cfg">
+  <section class="cfg-card" id="sec-lic">
+    <h3><i class="ci" style="--tc:#8b5cf6"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></i>Licença<span class="lpill" id="lic-st"></span></h3>
+    <p class="meta" id="lic-left" style="margin:2px 0 0"></p>
+    <div id="lic-act"><label for="lic-pw2">Senha de ativação</label><div class="urlrow"><input id="lic-pw2" type="password" placeholder="Digite a senha" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn g-violet" id="lic-go2">Ativar</button></div><p class="lc-e" id="lic-e" role="alert"></p>
+    <p class="meta" style="margin:8px 0 0">Ativação permanente: <b>R$ 20,00</b></p></div>
+    <div class="supp"><span><b>Suporte · Telão Play</b><small>WhatsApp (44) 99172-8175</small></span><button class="btn g-green" id="lic-wa"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.3-1-2.5s.6-1.8.9-2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>WhatsApp</button></div>
+  </section>
 <section class="cfg-card" id="sec-imp">
     <h3><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></i>Importar de planilha</h3>
     <p class="meta" style="margin:2px 0 0">Envie um arquivo .xlsx, .xls ou .csv. A primeira linha deve ter os nomes das colunas: <b>Nome</b> e <b>Vencimento</b> (obrigatórias), WhatsApp, Usuário, Senha, Plano, Valor e Obs.</p>
@@ -721,6 +740,7 @@ main{padding-bottom:128px}
 </div>
 </div></div>
 </main>
+<div id="lic" hidden role="dialog" aria-modal="true"><div class="lc"><span class="lg"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><h2 id="lc-t">Ative o Meus clientes</h2><p class="meta" id="lc-p"></p><input id="lc-pw" type="password" placeholder="Senha de ativação ou de teste" autocomplete="off" autocapitalize="off" spellcheck="false"><p class="lc-e" id="lc-e" role="alert"></p><button class="btn big g-violet" id="lc-go">Liberar</button><div class="lc-price">Ativação permanente · <b>R$ 20,00</b></div><button class="btn big g-green" id="lc-wa"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.3-1-2.5s.6-1.8.9-2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>Falar com o suporte</button></div></div>
 <div class="toast" id="toast" role="status"></div>
 <nav class="bnav" id="bnav" aria-label="Navegação"><button data-p="list" class="on"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Clientes</span></button><button data-p="venc"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Vencimentos</span></button><button data-p="rel"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>Relatórios</span></button><button data-p="cfg"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Configurações</span></button></nav>
 <button class="fab" id="add" aria-label="Novo cliente"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -1560,6 +1580,73 @@ main{padding-bottom:128px}
     $("c-iptv").onchange=function(){cfg.sites.IPTV=this.value.trim();saveCfg();toast("Site do IPTV salvo");snd("save")};
     $("v-cfg").onclick=function(e){var b=e.target.closest("button[data-open]");if(!b)return;var inp=$(b.dataset.open==="UNITV"?"c-unitv":"c-iptv");cfg.sites[b.dataset.open]=inp.value.trim();saveCfg();var u=siteUrl(b.dataset.open);if(!u){toast("Cadastre o endereço primeiro");return}openSite(u,{title:"Painel "+b.dataset.open})}
   })();
+
+  /* ---- licença (teste de 1 hora / ativação) ---- */
+  function sha256(m){
+    var K=sha256.K;
+    if(!K){K=sha256.K=[];sha256.H=[];var p=0,n=2,ok,d;for(;p<64;n++){ok=true;for(d=2;d*d<=n;d++)if(n%d===0){ok=false;break}if(ok){K[p]=Math.floor((Math.cbrt(n)%1)*4294967296);if(p<8)sha256.H[p]=Math.floor((Math.sqrt(n)%1)*4294967296);p++}}}
+    var H=sha256.H.slice(),b=unescape(encodeURIComponent(m)),l=b.length,N=(((l+8)>>6)+1)*16,w=[],i,j;
+    for(i=0;i<N;i++)w[i]=0;
+    for(i=0;i<l;i++)w[i>>2]|=b.charCodeAt(i)<<(24-(i%4)*8);
+    w[l>>2]|=0x80<<(24-(l%4)*8);w[N-1]=l*8;
+    for(j=0;j<N;j+=16){
+      var W=w.slice(j,j+16),a=H.slice(),t1,t2,x,y,e,A;
+      for(i=16;i<64;i++){x=W[i-15];y=W[i-2];W[i]=(W[i-16]+(((x>>>7)|(x<<25))^((x>>>18)|(x<<14))^(x>>>3))+W[i-7]+(((y>>>17)|(y<<15))^((y>>>19)|(y<<13))^(y>>>10)))|0}
+      for(i=0;i<64;i++){e=a[4];A=a[0];
+        t1=(a[7]+(((e>>>6)|(e<<26))^((e>>>11)|(e<<21))^((e>>>25)|(e<<7)))+((e&a[5])^(~e&a[6]))+K[i]+W[i])|0;
+        t2=((((A>>>2)|(A<<30))^((A>>>13)|(A<<19))^((A>>>22)|(A<<10)))+((A&a[1])^(A&a[2])^(a[1]&a[2])))|0;
+        a=[(t1+t2)|0,A,a[1],a[2],(a[3]+t1)|0,e,a[5],a[6]]}
+      for(i=0;i<8;i++)H[i]=(H[i]+a[i])|0
+    }
+    return H.map(function(v){return ("0000000"+(v>>>0).toString(16)).slice(-8)}).join("")
+  }
+  var LK="clientes-lic-v1",LS="mc!2026#tp",L_T="e642f6809e4068194dab5c6ce8e3b8b7727b853de3b8fcc3f3446995a73c3fff",L_A="8cd2b63c820e5751ae85f4586a49e120d0c05bcbc9b410c74169818e0715871e",TEST_MS=3600000,TEST_MAX=2,SUP="5544991728175";
+  var lic={act:0,uses:0,end:0,seen:0};
+  try{var l0=JSON.parse(localStorage.getItem(LK)||"null");if(l0)lic=Object.assign(lic,l0)}catch(e){}
+  function saveLic(){try{localStorage.setItem(LK,JSON.stringify(lic))}catch(e){}}
+  function nowT(){var n=Date.now();return n<lic.seen?lic.seen:n}
+  function licState(){return lic.act?"act":(lic.end&&nowT()<lic.end?"test":"lock")}
+  function tryPw(pw){
+    pw=String(pw||"");if(!pw)return {ok:0,m:"Digite a senha."};
+    var h=sha256(LS+pw);
+    if(h===L_A){lic.act=1;saveLic();return {ok:1,m:"App ativado! Obrigado pela compra."}}
+    if(h===L_T){
+      if(licState()==="test")return {ok:1,m:"O teste já está em andamento."};
+      if(lic.uses>=TEST_MAX)return {ok:0,m:"A senha de teste já foi usada "+TEST_MAX+" vezes neste aparelho. Use a senha de ativação."};
+      lic.uses++;lic.seen=nowT();lic.end=lic.seen+TEST_MS;saveLic();return {ok:1,m:"Teste de 1 hora liberado!"}
+    }
+    return {ok:0,m:"Senha inválida."}
+  }
+  function fmtLeft(ms){var t=Math.max(0,Math.ceil(ms/1000)),m=Math.floor(t/60),s=t%60;return m+":"+String(s).padStart(2,"0")}
+  function openSup(){var u="https://wa.me/"+SUP+"?text="+encodeURIComponent("Olá! Quero ativar o app Meus clientes.");openExternal(u)}
+  var licTick=0;
+  function licUI(){
+    var st=licState(),lk=$("lic");
+    if(st==="lock"){
+      if(lk.hidden){document.querySelectorAll("dialog[open]").forEach(function(d){d.close()});lk.hidden=false;$("lc-pw").value="";$("lc-e").textContent=""}
+      $("lc-t").textContent=lic.uses?"Teste encerrado":"Ative o Meus clientes";
+      $("lc-p").textContent=lic.uses?"Seu teste de 1 hora terminou. Digite a senha de ativação para continuar usando.":"Digite a senha de teste para usar grátis por 1 hora, ou a senha de ativação."
+    }else if(!lk.hidden)lk.hidden=true;
+    var pill=$("lic-st"),left=$("lic-left");
+    if(st==="act"){pill.textContent="Ativado ✓";pill.className="lpill ok";left.textContent="Licença permanente ativa neste aparelho.";$("lic-act").hidden=true}
+    else{pill.textContent="Versão teste";pill.className="lpill";$("lic-act").hidden=false;left.textContent=st==="test"?"Tempo restante do teste: "+fmtLeft(lic.end-nowT()):"Teste não iniciado ou encerrado."}
+  }
+  function licLoop(){
+    var n=nowT();if(n>lic.seen){lic.seen=n}
+    if(licState()==="test"&&++licTick%5===0)saveLic();
+    licUI()
+  }
+  function doPw(inp,err,after){
+    var r=tryPw(inp.value);err.textContent=r.m;err.className="lc-e"+(r.ok?" ok":"");
+    if(r.ok){inp.value="";snd("save");licUI();toast(r.m);if(after)after()}
+  }
+  $("lc-go").onclick=function(){doPw($("lc-pw"),$("lc-e"))};
+  $("lc-pw").onkeydown=function(e){if(e.key==="Enter")$("lc-go").click()};
+  $("lic-go2").onclick=function(){doPw($("lic-pw2"),$("lic-e"))};
+  $("lic-pw2").onkeydown=function(e){if(e.key==="Enter")$("lic-go2").click()};
+  $("lc-wa").onclick=$("lic-wa").onclick=openSup;
+  document.addEventListener("visibilitychange",licLoop);
+  setInterval(licLoop,1000);licLoop();
   document.body.dataset.p="list";$("hd-ic").innerHTML=IC.users;
   intro();
 })();

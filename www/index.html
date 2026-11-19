@@ -689,6 +689,11 @@ main{padding-bottom:128px}
 </div>
 
 <div class="pg" id="v-cfg">
+  <section class="cfg-card" id="sec-nome">
+    <h3><i class="ci" style="--tc:#ec4899"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></i>Seu nome</h3>
+    <p class="meta" style="margin:2px 0 0">Digite seu nome ou o nome do seu negócio. Ele aparece na abertura do app e na saudação da tela inicial no lugar de “Meus clientes”.</p>
+    <input id="c-nome" type="text" maxlength="30" autocomplete="off" placeholder="Meus clientes" style="margin-top:10px">
+  </section>
   <section class="cfg-card" id="sec-lic">
     <h3><i class="ci" style="--tc:#8b5cf6"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></i>Licença<span class="lpill" id="lic-st"></span></h3>
     <p class="meta" id="lic-left" style="margin:2px 0 0"></p>
@@ -846,7 +851,7 @@ main{padding-bottom:128px}
   var $=function(i){return document.getElementById(i)};
   /* ---- configurações ---- */
   var DEF_UNITV="https://panel-web.resell.media/#/login";
-  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",nsound:"sino",sites:{IPTV:"",UNITV:""}};
+  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",nsound:"sino",appName:"",sites:{IPTV:"",UNITV:""}};
   try{var c0=JSON.parse(localStorage.getItem(CKEY)||"null");if(c0){cfg=Object.assign(cfg,c0);cfg.sites=Object.assign({IPTV:"",UNITV:""},c0.sites||{})}}catch(e){}
   if(!cfg.sites.UNITV)cfg.sites.UNITV=DEF_UNITV;
   function saveCfg(){try{localStorage.setItem(CKEY,JSON.stringify(cfg))}catch(e){}}
@@ -1355,7 +1360,7 @@ main{padding-bottom:128px}
   function greet(cnt){
     var h=new Date().getHours(),g=h<12?"Bom dia":h<18?"Boa tarde":"Boa noite";
     var t=cnt.bad?cnt.bad+(cnt.bad===1?" cliente vencido":" clientes vencidos"):cnt.warn?cnt.warn+(cnt.warn===1?" vence":" vencem")+" esta semana":"tudo em dia";
-    gtxt=g+"! "+(clients.length?t.charAt(0).toUpperCase()+t.slice(1)+".":"Cadastre ou importe seus clientes.");if((curTab|0)===0)$("greet").textContent=gtxt
+    gtxt=g+(cfg.appName?", "+cfg.appName:"")+"! "+(clients.length?t.charAt(0).toUpperCase()+t.slice(1)+".":"Cadastre ou importe seus clientes.");if((curTab|0)===0)$("greet").textContent=gtxt
   }
   function toast(t,undo){
     var e=$("toast");e.textContent=t;e.style.pointerEvents=undo?"auto":"";
@@ -1478,7 +1483,7 @@ main{padding-bottom:128px}
     if(!force&&(cfg.skipIntro||rm)){bootList();return}
     document.body.appendChild($("intro-tpl").content.cloneNode(true));
     var el=$("intro"),t0=performance.now(),raf=0,done=false,played=false,boom=false;
-    var tt=$("in-title"),txt=tt.textContent;tt.textContent="";
+    var tt=$("in-title"),txt=cfg.appName||tt.textContent;tt.textContent="";
     txt.split("").forEach(function(ch,k){var sp=document.createElement("span");sp.textContent=ch===" "?" ":ch;sp.style.animationDelay=(1.5+k*.055)+"s";tt.appendChild(sp)});
     var cv=$("in-fx"),cx=cv.getContext("2d"),dpr=Math.min(2,window.devicePixelRatio||1),W=cv.width=innerWidth*dpr,H=cv.height=innerHeight*dpr;cx.scale(dpr,dpr);
     var w=innerWidth,h=innerHeight,COL=["#a78bfa","#60a5fa","#f472b6","#ffffff","#34d399"],P=[],i;
@@ -1587,6 +1592,8 @@ main{padding-bottom:128px}
 
   /* ---- aba Configurações ---- */
   (function(){
+    $("c-nome").value=cfg.appName||"";
+    $("c-nome").onchange=function(){cfg.appName=this.value.trim().slice(0,30);saveCfg();render();toast(cfg.appName?"Nome salvo: "+cfg.appName:"Nome padrão restaurado");snd("save")};
     $("c-notify").checked=!!cfg.notify;$("c-ntime").value=cfg.ntime||"09:00";
     $("c-notify").onchange=function(){cfg.notify=this.checked;saveCfg();snd("tap");
       if(this.checked)notifPerm(true).then(function(st){if(NATIVE&&st!=="granted")toast("Permita as notificações para receber os avisos");schedNotif();nstat()});else{schedNotif();nstat()}};

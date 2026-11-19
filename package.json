@@ -11,5 +11,8 @@
     "@capacitor/filesystem": "^6.0.2",
     "@capacitor/local-notifications": "^6.1.0",
     "@capacitor/share": "^6.0.3"
+  },
+  "devDependencies": {
+    "javascript-obfuscator": "^4.1.1"
   }
 }

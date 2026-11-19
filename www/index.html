@@ -644,6 +644,13 @@ main{padding-bottom:128px}
 .supp{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
 .supp span{flex:1;min-width:0}.supp b{display:block;font-size:14.5px}.supp small{color:var(--mute);font-size:12.5px}
 .supp .btn{display:flex;align-items:center;gap:6px;height:42px;padding:0 14px;border-radius:14px}
+.nsh{margin:16px 0 8px;font-weight:800;font-size:14px}
+.nsnd{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ns{display:flex;align-items:center;gap:8px;padding:10px 11px;border-radius:14px;border:1px solid var(--glass-line);background:var(--glass);color:var(--ink);font:inherit;font-size:13.5px;font-weight:650;cursor:pointer;text-align:left;transition:all .25s}
+.ns svg{flex:none;width:16px;height:16px;color:var(--mute)}
+.ns.on{border-color:color-mix(in srgb,var(--org) 70%,transparent);background:linear-gradient(135deg,color-mix(in srgb,var(--org) 24%,transparent),color-mix(in srgb,var(--org) 6%,transparent));box-shadow:0 0 16px -6px var(--org)}
+.ns.on svg{color:var(--org)}
+.ns:active{transform:scale(.96)}
 </style>
 </head>
 <body>
@@ -710,6 +717,7 @@ main{padding-bottom:128px}
     <h3><i class="ci" style="--tc:#f59e0b"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></i>Notificações</h3>
     <label class="sw"><span><b>Avisar sobre vencimentos</b><small>Todo dia, quando houver cliente vencido ou com menos de 7 dias</small></span><input type="checkbox" id="c-notify"><i></i></label>
     <div class="trow"><span><b>Horário do aviso</b><small>Hora em que a notificação chega todos os dias</small></span><input type="time" id="c-ntime" value="09:00" aria-label="Horário das notificações"></div>
+    <div class="nsh">Som da notificação</div><div class="nsnd" id="c-nsnd"></div>
     <p class="meta nstat" id="c-nmsg" role="status"></p>
     <div class="btns"><button class="btn big g-orange" id="c-ntest"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Testar notificação</button></div>
   </section>
@@ -829,7 +837,7 @@ main{padding-bottom:128px}
   var $=function(i){return document.getElementById(i)};
   /* ---- configurações ---- */
   var DEF_UNITV="https://panel-web.resell.media/#/login";
-  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",sites:{IPTV:"",UNITV:""}};
+  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",nsound:"sino",sites:{IPTV:"",UNITV:""}};
   try{var c0=JSON.parse(localStorage.getItem(CKEY)||"null");if(c0){cfg=Object.assign(cfg,c0);cfg.sites=Object.assign({IPTV:"",UNITV:""},c0.sites||{})}}catch(e){}
   if(!cfg.sites.UNITV)cfg.sites.UNITV=DEF_UNITV;
   function saveCfg(){try{localStorage.setItem(CKEY,JSON.stringify(cfg))}catch(e){}}
@@ -1523,7 +1531,7 @@ main{padding-bottom:128px}
         for(var k=0;k<30;k++){
           var at=new Date(now.getFullYear(),now.getMonth(),now.getDate()+k,H,M,0);if(at<=now)continue;
           var l=dueList(k);if(!l.length)continue;var t=ntText(l);
-          arr.push({id:1000+k,title:t.title,body:t.body,largeBody:t.largeBody,summaryText:t.summaryText,iconColor:"#8B5CF6",schedule:{at:at,allowWhileIdle:true},channelId:"vencimentos",smallIcon:NTI,autoCancel:true})
+          arr.push({id:1000+k,title:t.title,body:t.body,largeBody:t.largeBody,summaryText:t.summaryText,iconColor:"#8B5CF6",schedule:{at:at,allowWhileIdle:true},channelId:chId(),smallIcon:NTI,autoCancel:true})
         }
         return arr.length?L.schedule({notifications:arr}):0
       })
@@ -1538,8 +1546,23 @@ main{padding-bottom:128px}
       else{e.className="meta nstat bad";e.textContent="Permissão negada. Ative as notificações do app nas configurações do Android."}
     })
   }
-  (function(){var L=LN();if(L){try{L.createChannel({id:"vencimentos",name:"Vencimentos",description:"Aviso diário de clientes vencidos ou a vencer",importance:4,visibility:1,vibration:true}).catch(function(){})}catch(e){}
+  var NSN=[["sino","Sino"],["gota","Gota"],["cristal","Cristal"],["harpa","Harpa"],["alerta","Alerta"],["digital","Digital"],["suave","Suave"],["sys","Padrão do sistema"],["mudo","Silencioso"]];
+  function chId(){return "venc_"+(cfg.nsound||"sino")}
+  (function(){var L=LN();if(L){
+    NSN.forEach(function(x){try{var o={id:"venc_"+x[0],name:"Vencimentos · "+x[1],description:"Aviso diário de clientes vencidos ou a vencer",importance:x[0]==="mudo"?2:4,visibility:1,vibration:x[0]!=="mudo"};
+      if(x[0]!=="sys"&&x[0]!=="mudo")o.sound="nt_"+x[0]+".wav";if(x[0]==="mudo")o.sound="";
+      L.createChannel(o).catch(function(){})}catch(e){}});
     if(cfg.notify)notifPerm(true).then(function(){schedNotif()})}})();
+  var NPA=null;
+  function nsRender(){
+    $("c-nsnd").innerHTML=NSN.map(function(x){var on=cfg.nsound===x[0],ic=x[0]==="mudo"?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4z"/><path d="M23 9l-6 6M17 9l6 6"/></svg>':on?IC.check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>';return '<button class="ns'+(on?' on':'')+'" data-k="'+x[0]+'">'+ic+x[1]+'</button>'}).join("")
+  }
+  $("c-nsnd").onclick=function(e){
+    var b=e.target.closest("button[data-k]");if(!b)return;var k=b.dataset.k;cfg.nsound=k;saveCfg();nsRender();
+    try{if(NPA){NPA.pause();NPA=null}if(k!=="sys"&&k!=="mudo"){NPA=new Audio("sons/"+k+".wav");NPA.play().catch(function(){})}else if(k==="sys")snd("tap")}catch(x){}
+    schedNotif();toast("Som da notificação: "+b.textContent)
+  };
+  nsRender();
   (function(){var L=LN();if(L&&L.addListener)try{L.addListener("localNotificationActionPerformed",function(){setTimeout(function(){show("list");$("bell").click()},400)})}catch(e){}})();
   /* sino */
   $("bell").onclick=function(){
@@ -1562,7 +1585,7 @@ main{padding-bottom:128px}
     $("c-ntest").onclick=function(){
       snd("tap");var L=LN(),t=ntText(dueList(0).length?dueList(0):[{c:{name:"Cliente exemplo"},d:3}]);
       if(L){notifPerm(true).then(function(st){if(st!=="granted"){toast("Permita as notificações do app primeiro");return}
-        L.schedule({notifications:[{id:999,title:t.title,body:t.body,largeBody:t.largeBody,summaryText:t.summaryText,iconColor:"#8B5CF6",schedule:{at:new Date(Date.now()+3000)},channelId:"vencimentos",smallIcon:NTI}]}).then(function(){toast("Notificação de teste chega em 3 segundos")},function(){toast("Não foi possível agendar o teste")})});return}
+        L.schedule({notifications:[{id:999,title:t.title,body:t.body,largeBody:t.largeBody,summaryText:t.summaryText,iconColor:"#8B5CF6",schedule:{at:new Date(Date.now()+3000)},channelId:chId(),smallIcon:NTI}]}).then(function(){toast("Notificação de teste chega em 3 segundos")},function(){toast("Não foi possível agendar o teste")})});return}
       if("Notification" in window){Notification.requestPermission().then(function(p){if(p==="granted"){new Notification(t.title,{body:t.body});toast("Notificação enviada")}else toast("Notificações bloqueadas no navegador")});return}
       toast("Teste disponível no aplicativo instalado")
     };

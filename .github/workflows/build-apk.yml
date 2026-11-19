@@ -57,6 +57,25 @@ jobs:
           sed -i "s/__APP_VERSION__/$VN/" www/index.html android/app/src/main/assets/public/index.html
           grep -n "versionCode\|versionName\|storeFile" $G
 
+      - name: Sons de notificação
+        run: |
+          mkdir -p android/app/src/main/res/raw
+          for f in www/sons/*.wav; do cp "$f" "android/app/src/main/res/raw/nt_$(basename $f)"; done
+          ls android/app/src/main/res/raw
+
+      - name: Proteger o app (ofuscar código e travar assinatura)
+        run: |
+          H=android/app/src/main/assets/public/index.html
+          node native/protect.js $H
+          node --check /tmp/_check.js
+          CERT=$(keytool -list -v -keystore native/meusclientes.keystore -storepass meusclientes -alias meusclientes 2>/dev/null | grep "SHA256:" | sed 's/.*SHA256: //;s/://g' | tr A-Z a-z)
+          HASH=$(sha256sum $H | cut -d' ' -f1)
+          echo "cert=$CERT html=$HASH"
+          test -n "$CERT" && test -n "$HASH"
+          J=android/app/src/main/java/com/meusclientes/app/MainActivity.java
+          sed -i "s/__CERT_SHA256__/$CERT/; s/__HTML_SHA256__/$HASH/" $J
+          grep -n "SHA256 =" $J
+
       - name: Compilar APK
         working-directory: android
         run: ./gradlew assembleDebug

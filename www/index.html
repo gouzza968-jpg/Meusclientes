@@ -719,6 +719,8 @@ main{padding-bottom:128px}
 .sadd{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}.sadd .sh{font-weight:800;font-size:14px;margin-bottom:8px}
 .srow{margin-top:12px}.srow .urlrow{margin-top:6px}
 .srow .btn.x{width:44px;height:46px;padding:0;border-radius:14px;display:grid;place-items:center;color:var(--bad)}
+.vrow{display:flex;align-items:center;gap:8px;margin-top:8px}.vrow span{flex:none;font-size:12.5px;font-weight:650;color:var(--mute);width:62px;line-height:1.2}
+.vrow input{width:96px;flex:none;text-align:center;font-weight:750}.vrow .btn{flex:1;height:44px;border-radius:13px;font-size:13px;padding:0 8px}
 </style>
 </head>
 <body>
@@ -921,7 +923,7 @@ main{padding-bottom:128px}
   var $=function(i){return document.getElementById(i)};
   /* ---- configurações ---- */
   var DEF_UNITV="https://panel-web.resell.media/#/login";
-  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",nsound:"sino",appName:"",sites:{IPTV:"",UNITV:""}};
+  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",nsound:"sino",appName:"",vals:{},sites:{IPTV:"",UNITV:""}};
   try{var c0=JSON.parse(localStorage.getItem(CKEY)||"null");if(c0){cfg=Object.assign(cfg,c0);cfg.sites=Object.assign({IPTV:"",UNITV:""},c0.sites||{})}}catch(e){}
   if(!cfg.sites.UNITV)cfg.sites.UNITV=DEF_UNITV;
   function saveCfg(){try{localStorage.setItem(CKEY,JSON.stringify(cfg))}catch(e){}}
@@ -937,7 +939,7 @@ main{padding-bottom:128px}
     var st=$("srvcss");if(!st){st=document.createElement("style");st.id="srvcss";document.head.appendChild(st)}st.textContent=css
   }
   function sitesUI(){
-    $("c-sites").innerHTML=srvNames().map(function(n){return '<div class="srow"><label class="u"><span class="srv" data-s="'+esc(n)+'">'+esc(n)+'</span></label><div class="urlrow"><input type="url" inputmode="url" autocomplete="off" autocapitalize="off" data-sv="'+esc(n)+'" value="'+esc(cfg.sites[n]||"")+'" placeholder="https://painel…"><button class="btn g-green" data-open="'+esc(n)+'">Abrir</button>'+(BUILT[n]?'':'<button class="btn x" data-del="'+esc(n)+'" aria-label="Remover">'+IC.trash+'</button>')+'</div></div>'}).join("");
+    $("c-sites").innerHTML=srvNames().map(function(n){return '<div class="srow"><label class="u"><span class="srv" data-s="'+esc(n)+'">'+esc(n)+'</span></label><div class="urlrow"><input type="url" inputmode="url" autocomplete="off" autocapitalize="off" data-sv="'+esc(n)+'" value="'+esc(cfg.sites[n]||"")+'" placeholder="https://painel…"><button class="btn g-green" data-open="'+esc(n)+'">Abrir</button>'+(BUILT[n]?'':'<button class="btn x" data-del="'+esc(n)+'" aria-label="Remover">'+IC.trash+'</button>')+'</div><div class="vrow"><span>Valor por cliente</span><input data-vv="'+esc(n)+'" inputmode="decimal" placeholder="R$ 0,00" value="'+(cfg.vals[n]!=null?String(cfg.vals[n]).replace(".",","):"")+'" aria-label="Valor dos clientes de '+esc(n)+'"><button class="btn g-violet" data-apply="'+esc(n)+'">Aplicar a todos ('+clients.filter(function(c){return c.server===n}).length+')</button></div></div>'}).join("");
     fillServers()
   }
   function siteUrl(sv){var u=String(cfg.sites[sv]||"").trim();if(!u)return "";if(!/^https?:\/\//i.test(u))u="https://"+u;return u}
@@ -1139,10 +1141,12 @@ main{padding-bottom:128px}
     editId=c?c.id:null;$("dt").textContent=c?"Editar cliente":"Novo cliente";
     $("f-name").value=c?c.name:"";$("f-tel").value=c?c.tel:"";$("f-user").value=c?c.user:"";$("f-pass").value=c&&c.pass?c.pass:"";
     $("f-plan").value=c?c.plan:"1";fillServers(c&&c.server);$("f-srv").value=c&&c.server?c.server:(c?"":srvf);$("f-val").value=c?c.val:"";
-    $("f-due").value=c?c.due:iso(addMonths(today(),1));$("f-note").value=c?c.note:"";
+    $("f-due").value=c?c.due:iso(addMonths(today(),1));$("f-val").dataset.auto="";if(!c&&srvf&&cfg.vals[srvf]!=null){$("f-val").value=cfg.vals[srvf];$("f-val").dataset.auto="1"}$("f-note").value=c?c.note:"";
     $("dlg").showModal();$("f-name").focus()
   }
   $("add").onclick=function(){openForm(null)};
+  $("f-val").addEventListener("input",function(){this.dataset.auto=""});
+  $("f-srv").addEventListener("change",function(){var d=cfg.vals[this.value],f=$("f-val");if(d!=null&&(!f.value||f.dataset.auto==="1")){f.value=String(d).replace(".",",");f.dataset.auto="1"}});
   $("cancel").onclick=function(){$("dlg").close()};
   $("save").onclick=function(){
     var name=$("f-name").value.trim();
@@ -1182,12 +1186,12 @@ main{padding-bottom:128px}
   $("sort").onchange=function(){sortBy=this.value;render()};
   $("srvf").onchange=function(){srvf=this.value;render()};
   function askDel(c){
-    $("cfm-t").textContent="Excluir "+c.name+"?";$("cfm-p").textContent="Essa ação remove o cliente da lista.";
+    $("cfm-ok").textContent="Excluir";$("cfm-ok").style.color="";$("cfm-t").textContent="Excluir "+c.name+"?";$("cfm-p").textContent="Essa ação remove o cliente da lista.";
     $("cfm-ok").onclick=function(){$("cfm").close();snd("del");clients=clients.filter(function(x){return x.id!==c.id});persist();render();toast("Cliente excluído",function(){clients.push(c);persist();render()})};
     $("cfm").showModal()
   }
   $("cfm-no").onclick=function(){$("cfm").close()};
-  function askBulk(t,p,fn){$("cfm-t").textContent=t;$("cfm-p").textContent=p;$("cfm-ok").onclick=function(){$("cfm").close();snd("del");fn()};$("cfm").showModal()}
+  function askBulk(t,p,fn,lab){$("cfm-ok").textContent=lab||"Excluir";$("cfm-ok").style.color=lab?"var(--acc)":"";$("cfm-t").textContent=t;$("cfm-p").textContent=p;$("cfm-ok").onclick=function(){$("cfm").close();snd("del");fn()};$("cfm").showModal()}
   function dupGroups(){
     var m={};
     clients.forEach(function(c){
@@ -1392,6 +1396,7 @@ main{padding-bottom:128px}
     pending=[];
     rows.forEach(function(r){
       var c={server:$("imp-srv").value,pass:String(pick(r,"pass")).trim(),name:String(pick(r,"name")).trim(),tel:String(pick(r,"tel")).trim(),user:String(pick(r,"user")).trim(),plan:toPlan(pick(r,"plan")),val:toNum(pick(r,"val")),due:toDate(pick(r,"due")),note:[String(pick(r,"note")).trim(),pick(r,"email")?"E-mail: "+String(pick(r,"email")).trim():""].filter(Boolean).join(" — ")};
+      if(!c.val&&cfg.vals[c.server]!=null)c.val=cfg.vals[c.server];
       if(!c.name&&!c.tel&&!c.due&&!c.user)return;
       var st="ok",why="";
       if(!c.name){st="bad";why="sem nome"}
@@ -1702,11 +1707,28 @@ main{padding-bottom:128px}
     $("c-skip").checked=!!cfg.skipIntro;$("c-skip").onchange=function(){cfg.skipIntro=this.checked;saveCfg();snd("tap")};
     $("c-t3").onclick=function(){actx();intro(true)};
     $("c-theme").onclick=function(e){var b=e.target.closest("button[data-t]");if(!b)return;cfg.theme=b.dataset.t;saveCfg();applyTheme();th();snd("tab")};
-    $("c-sites").addEventListener("change",function(e){var i=e.target.closest("input[data-sv]");if(!i)return;cfg.sites[i.dataset.sv]=i.value.trim();saveCfg();toast("Site do "+i.dataset.sv+" salvo");snd("save")});
+    function parseV(x){var v=parseFloat(String(x).replace(/[^0-9,.]/g,"").replace(",","."));return isFinite(v)?v:NaN}
+    function applyVal(n,v){
+      var old={};clients.forEach(function(c){if(c.server===n){old[c.id]=c.val;c.val=v}});
+      var k=Object.keys(old).length;persist();render();sitesUI();
+      toast(k?"R$ "+v.toFixed(2).replace(".",",")+" aplicado a "+k+(k===1?" cliente":" clientes"):"Valor salvo (nenhum cliente neste servidor ainda)",k?function(){clients.forEach(function(c){if(old[c.id]!==undefined)c.val=old[c.id]});persist();render();sitesUI()}:null)
+    }
+    $("c-sites").addEventListener("change",function(e){
+      var vi=e.target.closest("input[data-vv]");
+      if(vi){var n=vi.dataset.vv,t=vi.value.trim();
+        if(!t){delete cfg.vals[n];saveCfg();toast("Valor padrão removido");return}
+        var v=parseV(t);if(isNaN(v)){toast("Valor inválido");return}
+        cfg.vals[n]=v;saveCfg();vi.value=v.toFixed(2).replace(".",",");
+        var k=clients.filter(function(c){return c.server===n}).length;
+        if(k)askBulk("Aplicar R$ "+v.toFixed(2).replace(".",",")+" a "+k+(k===1?" cliente":" clientes")+"?","Todos os clientes do servidor "+n+" passam a ter esse valor. Depois você pode editar o valor de cada cliente individualmente.",function(){applyVal(n,v)},"Aplicar");
+        else{toast("Valor do "+n+" salvo");snd("save")}
+        return}var i=e.target.closest("input[data-sv]");if(!i)return;cfg.sites[i.dataset.sv]=i.value.trim();saveCfg();toast("Site do "+i.dataset.sv+" salvo");snd("save")});
     $("v-cfg").onclick=function(e){
+      var ap=e.target.closest("button[data-apply]");
+      if(ap){var an=ap.dataset.apply,vv=document.querySelector('input[data-vv="'+an.replace(/"/g,'\\"')+'"]'),v2=parseV(vv.value);if(isNaN(v2)){toast("Digite o valor primeiro");vv.focus();return}cfg.vals[an]=v2;saveCfg();applyVal(an,v2);return}
       var o=e.target.closest("button[data-open]"),d=e.target.closest("button[data-del]");
       if(o){var n=o.dataset.open,inp=document.querySelector('input[data-sv="'+n.replace(/"/g,'\\"')+'"]');cfg.sites[n]=inp.value.trim();saveCfg();var u=siteUrl(n);if(!u){toast("Cadastre o endereço primeiro");return}openSite(u,{title:"Painel "+n})}
-      if(d){var n2=d.dataset.del;askBulk("Remover o site "+n2+"?","Os clientes desse servidor continuam cadastrados; só o endereço do painel é removido.",function(){delete cfg.sites[n2];saveCfg();sitesUI();toast("Site removido")})}
+      if(d){var n2=d.dataset.del;askBulk("Remover o site "+n2+"?","Os clientes desse servidor continuam cadastrados; só o endereço do painel é removido.",function(){delete cfg.sites[n2];delete cfg.vals[n2];saveCfg();sitesUI();toast("Site removido")})}
     };
     $("c-addb").onclick=function(){
       var n=$("c-addn").value.trim().toUpperCase().slice(0,20),u=$("c-addu").value.trim();

@@ -716,6 +716,9 @@ main{padding-bottom:128px}
 .irow .il svg{display:none}
 #in-contact .iv{font-size:14.5px;letter-spacing:-.02em}
 #in-contact .il{min-width:0}
+.sadd{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}.sadd .sh{font-weight:800;font-size:14px;margin-bottom:8px}
+.srow{margin-top:12px}.srow .urlrow{margin-top:6px}
+.srow .btn.x{width:44px;height:46px;padding:0;border-radius:14px;display:grid;place-items:center;color:var(--bad)}
 </style>
 </head>
 <body>
@@ -808,11 +811,9 @@ main{padding-bottom:128px}
   </section>
   <section class="cfg-card">
     <h3><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></i>Sites de gerenciamento</h3>
-    <p class="meta" style="margin:2px 0 0">Cadastre o endereço do painel de cada servidor. Ao renovar, o app oferece abrir o site para alterar o usuário.</p>
-    <label class="u" for="c-unitv"><span class="srv" data-s="UNITV">UNITV</span></label>
-    <div class="urlrow"><input id="c-unitv" type="url" inputmode="url" autocomplete="off" autocapitalize="off" placeholder="https://panel-web.resell.media/#/login"><button class="btn g-green" data-open="UNITV">Abrir</button></div>
-    <label class="u" for="c-iptv"><span class="srv" data-s="IPTV">IPTV</span></label>
-    <div class="urlrow"><input id="c-iptv" type="url" inputmode="url" autocomplete="off" autocapitalize="off" placeholder="https://painel-iptv.com"><button class="btn g-green" data-open="IPTV">Abrir</button></div>
+    <p class="meta" style="margin:2px 0 0">Cadastre o endereço do painel de cada servidor, quantos quiser. O nome aparece nas listas de servidor dos clientes. Ao renovar, o app oferece abrir o site para alterar o usuário.</p>
+    <div id="c-sites"></div>
+    <div class="sadd"><div class="sh">Adicionar outro site</div><div class="two"><div><input id="c-addn" placeholder="Nome (ex.: P2P)" maxlength="20" autocomplete="off"></div><div><input id="c-addu" type="url" inputmode="url" placeholder="https://painel…" autocomplete="off" autocapitalize="off"></div></div><button class="btn big g-green" id="c-addb" style="margin-top:10px">Adicionar site</button></div>
   </section>
   <section class="cfg-card" id="sec-upd">
     <h3><i class="ci" style="--tc:#3b82f6"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg></i>Atualização do app<span class="lpill ok" id="upd-st" hidden>Nova versão</span></h3>
@@ -926,6 +927,19 @@ main{padding-bottom:128px}
   function saveCfg(){try{localStorage.setItem(CKEY,JSON.stringify(cfg))}catch(e){}}
   function applyTheme(){var r=document.documentElement;if(cfg.theme==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",cfg.theme)}
   applyTheme();
+  var BUILT={IPTV:1,UNITV:1};
+  function srvNames(){return Object.keys(cfg.sites)}
+  function hueOf(n){var h=0;for(var i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))>>>0;return h%360}
+  function fillServers(extra){
+    function opts(first){var l=srvNames().slice();if(extra&&l.indexOf(extra)<0)l.push(extra);return (first?'<option value="">'+first+'</option>':'')+l.map(function(n){return '<option value="'+esc(n)+'">'+esc(n)+'</option>'}).join("")}
+    [["f-srv","Não informado"],["srvf","Todos os servidores"],["imp-srv","Escolha o servidor…"]].forEach(function(x){var e=$(x[0]);if(!e)return;var v=e.value;e.innerHTML=opts(x[1]);e.value=v})
+    var css=srvNames().filter(function(n){return !BUILT[n]}).map(function(n){var h=hueOf(n),q=n.replace(/\\/g,"\\\\").replace(/"/g,'\\"');return '.srv[data-s="'+q+'"]{background:hsl('+h+' 75% 50% / .22)!important;color:hsl('+h+' 85% 66%)!important}'}).join("");
+    var st=$("srvcss");if(!st){st=document.createElement("style");st.id="srvcss";document.head.appendChild(st)}st.textContent=css
+  }
+  function sitesUI(){
+    $("c-sites").innerHTML=srvNames().map(function(n){return '<div class="srow"><label class="u"><span class="srv" data-s="'+esc(n)+'">'+esc(n)+'</span></label><div class="urlrow"><input type="url" inputmode="url" autocomplete="off" autocapitalize="off" data-sv="'+esc(n)+'" value="'+esc(cfg.sites[n]||"")+'" placeholder="https://painel…"><button class="btn g-green" data-open="'+esc(n)+'">Abrir</button>'+(BUILT[n]?'':'<button class="btn x" data-del="'+esc(n)+'" aria-label="Remover">'+IC.trash+'</button>')+'</div></div>'}).join("");
+    fillServers()
+  }
   function siteUrl(sv){var u=String(cfg.sites[sv]||"").trim();if(!u)return "";if(!/^https?:\/\//i.test(u))u="https://"+u;return u}
 
   /* ---- sons (sintetizados, sem arquivos) ---- */
@@ -1124,7 +1138,7 @@ main{padding-bottom:128px}
   function openForm(c){
     editId=c?c.id:null;$("dt").textContent=c?"Editar cliente":"Novo cliente";
     $("f-name").value=c?c.name:"";$("f-tel").value=c?c.tel:"";$("f-user").value=c?c.user:"";$("f-pass").value=c&&c.pass?c.pass:"";
-    $("f-plan").value=c?c.plan:"1";$("f-srv").value=c&&c.server?c.server:(c?"":srvf);$("f-val").value=c?c.val:"";
+    $("f-plan").value=c?c.plan:"1";fillServers(c&&c.server);$("f-srv").value=c&&c.server?c.server:(c?"":srvf);$("f-val").value=c?c.val:"";
     $("f-due").value=c?c.due:iso(addMonths(today(),1));$("f-note").value=c?c.note:"";
     $("dlg").showModal();$("f-name").focus()
   }
@@ -1311,7 +1325,7 @@ main{padding-bottom:128px}
   function show(tab){go(typeof tab==="number"?tab:Math.max(0,TABS.indexOf(tab)))}
   $("impgo").onclick=function(){show("cfg");setTimeout(function(){var e=$("sec-imp");window.scrollTo({top:e.getBoundingClientRect().top+window.scrollY-12,behavior:"smooth"})},60)};
   $("bnav").onclick=function(e){var b=e.target.closest("button[data-p]");if(b)show(b.dataset.p)};
-  $("xpick").onclick=function(){if(!$("imp-srv").value){$("imp-msg").textContent="Escolha primeiro o servidor dos clientes (IPTV ou UNITV).";$("imp-srv").focus();return}$("xfile").click()};
+  $("xpick").onclick=function(){if(!$("imp-srv").value){$("imp-msg").textContent="Escolha primeiro o servidor dos clientes.";$("imp-srv").focus();return}$("xfile").click()};
   $("imp-srv").onchange=function(){if(pending.length){pending=[];$("imp-out").innerHTML="";$("imp-msg").textContent="Servidor alterado. Escolha a planilha de novo."}else $("imp-msg").textContent=""};
   function norm(s){return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,"")}
   var ALIAS={pass:["senha","password","pass","pw"],name:["nome","cliente","name","nomecliente","nomedocomprador","comprador"],tel:["whatsapp","telefone","celular","fone","tel","phone","contato","numero","telefonedocomprador"],user:["conta","usuario","user","login","lista","username"],plan:["plano","periodo","plan","nomedopacote","pacote"],val:["valor","preco","price","mensalidade"],due:["vencimento","venc","vence","validade","expira","expiracao","datavencimento","datadevalidadedaconta","validadedaconta"],note:["obs","observacao","observacoes","nota","notas"],email:["email","emaildocomprador"]};
@@ -1679,7 +1693,7 @@ main{padding-bottom:128px}
       toast("Teste disponível no aplicativo instalado")
     };
     $("c-sstart").checked=cfg.soundStart;$("c-schg").checked=cfg.soundChg;
-    $("c-unitv").value=cfg.sites.UNITV||"";$("c-iptv").value=cfg.sites.IPTV||"";
+    sitesUI();
     function th(){[].forEach.call($("c-theme").children,function(b){b.setAttribute("aria-pressed",String(b.dataset.t===cfg.theme))})}th();
     $("c-sstart").onchange=function(){cfg.soundStart=this.checked;saveCfg();if(this.checked)S.tap()};
     $("c-schg").onchange=function(){cfg.soundChg=this.checked;saveCfg();if(this.checked)S.tab()};
@@ -1688,9 +1702,18 @@ main{padding-bottom:128px}
     $("c-skip").checked=!!cfg.skipIntro;$("c-skip").onchange=function(){cfg.skipIntro=this.checked;saveCfg();snd("tap")};
     $("c-t3").onclick=function(){actx();intro(true)};
     $("c-theme").onclick=function(e){var b=e.target.closest("button[data-t]");if(!b)return;cfg.theme=b.dataset.t;saveCfg();applyTheme();th();snd("tab")};
-    $("c-unitv").onchange=function(){cfg.sites.UNITV=this.value.trim();saveCfg();toast("Site do UNITV salvo");snd("save")};
-    $("c-iptv").onchange=function(){cfg.sites.IPTV=this.value.trim();saveCfg();toast("Site do IPTV salvo");snd("save")};
-    $("v-cfg").onclick=function(e){var b=e.target.closest("button[data-open]");if(!b)return;var inp=$(b.dataset.open==="UNITV"?"c-unitv":"c-iptv");cfg.sites[b.dataset.open]=inp.value.trim();saveCfg();var u=siteUrl(b.dataset.open);if(!u){toast("Cadastre o endereço primeiro");return}openSite(u,{title:"Painel "+b.dataset.open})}
+    $("c-sites").addEventListener("change",function(e){var i=e.target.closest("input[data-sv]");if(!i)return;cfg.sites[i.dataset.sv]=i.value.trim();saveCfg();toast("Site do "+i.dataset.sv+" salvo");snd("save")});
+    $("v-cfg").onclick=function(e){
+      var o=e.target.closest("button[data-open]"),d=e.target.closest("button[data-del]");
+      if(o){var n=o.dataset.open,inp=document.querySelector('input[data-sv="'+n.replace(/"/g,'\\"')+'"]');cfg.sites[n]=inp.value.trim();saveCfg();var u=siteUrl(n);if(!u){toast("Cadastre o endereço primeiro");return}openSite(u,{title:"Painel "+n})}
+      if(d){var n2=d.dataset.del;askBulk("Remover o site "+n2+"?","Os clientes desse servidor continuam cadastrados; só o endereço do painel é removido.",function(){delete cfg.sites[n2];saveCfg();sitesUI();toast("Site removido")})}
+    };
+    $("c-addb").onclick=function(){
+      var n=$("c-addn").value.trim().toUpperCase().slice(0,20),u=$("c-addu").value.trim();
+      if(!n){$("c-addn").focus();toast("Digite o nome do servidor");return}
+      if(Object.keys(cfg.sites).some(function(k){return k.toUpperCase()===n})){toast("Já existe um site com esse nome");return}
+      cfg.sites[n]=u;saveCfg();$("c-addn").value="";$("c-addu").value="";sitesUI();snd("save");toast("Site "+n+" adicionado")
+    };
   })();
 
   /* ---- licença (teste de 1 hora / ativação) ---- */

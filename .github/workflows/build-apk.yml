@@ -83,7 +83,13 @@ jobs:
 
       - name: Compilar APK
         working-directory: android
-        run: ./gradlew assembleDebug
+        run: |
+          ok=0
+          for i in 1 2 3 4; do
+            ./gradlew assembleDebug && ok=1 && break
+            echo "Falha ao baixar pacotes; tentando de novo ($i)"; sleep 40
+          done
+          test $ok = 1
 
       - name: Publicar APK
         uses: actions/upload-artifact@v4

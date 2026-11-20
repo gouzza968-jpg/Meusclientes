@@ -722,6 +722,23 @@ main{padding-bottom:128px}
 .vrow{display:flex;align-items:center;gap:8px;margin-top:8px}.vrow span{flex:none;font-size:12.5px;font-weight:650;color:var(--mute);width:62px;line-height:1.2}
 .vrow input{width:96px;flex:none;text-align:center;font-weight:750}.vrow .btn{flex:1;height:44px;border-radius:13px;font-size:13px;padding:0 8px}
 .lc-or{font-size:12px;color:#8d96bd;font-weight:650;letter-spacing:.04em;text-transform:uppercase;margin:2px 0 -4px}
+/* calendário de vencimentos */
+.calc{padding:14px 12px 12px;border-radius:22px;margin:6px 0 4px}
+.cal-h{display:flex;align-items:center;gap:8px;margin:0 2px 10px}
+.cal-h h3{display:block!important;text-align:center;flex:1;margin:0;font-size:16px;font-weight:800;text-transform:capitalize}
+.cal-h small{display:block;font-weight:650;font-size:12px;color:var(--mute);text-transform:none}
+.cal-h .nv{width:34px;height:34px;border-radius:11px;border:1px solid var(--glass-line);background:var(--glass);color:var(--ink);font-size:18px;cursor:pointer;display:grid;place-items:center}
+.cal-w,.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal-w span{text-align:center;font-size:11px;font-weight:750;color:var(--mute);padding-bottom:2px}
+.cd{position:relative;aspect-ratio:1;border:1px solid transparent;border-radius:13px;background:color-mix(in srgb,var(--ink) 6%,transparent);color:var(--ink);font:inherit;font-size:14px;font-weight:650;display:grid;place-items:center;cursor:pointer;padding:0;transition:transform .2s,box-shadow .2s}
+.cd:active{transform:scale(.92)}
+.cd.empty{background:none;pointer-events:none}
+.cd.today{border-color:var(--vio);box-shadow:0 0 0 1px var(--vio) inset,0 0 14px -4px var(--vio)}
+.cd.has{background:color-mix(in srgb,var(--cc) 20%,transparent);border-color:color-mix(in srgb,var(--cc) 55%,transparent);box-shadow:0 0 14px -6px var(--cc);font-weight:800}
+.cd.has.sel{background:color-mix(in srgb,var(--cc) 45%,transparent);box-shadow:0 0 0 2px var(--cc),0 0 20px -4px var(--cc)}
+.cd i{position:absolute;top:-5px;right:-3px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--cc);color:#fff;font-style:normal;font-size:11px;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px var(--bg)}
+.cal-l{display:flex;flex-wrap:wrap;gap:6px 12px;margin:10px 2px 0;font-size:11.5px;color:var(--mute);font-weight:650}
+.cal-l span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--cc);margin-right:5px;vertical-align:-1px}
 </style>
 </head>
 <body>
@@ -749,8 +766,7 @@ main{padding-bottom:128px}
 </div>
 
 <div class="pg" id="v-venc">
-  <div class="sec-t">Vencimentos</div>
-  <p class="meta" style="margin:0 2px 4px">Quem precisa de atenção, em ordem de urgência.</p>
+  <div id="cal-out"></div>
   <div id="venc-list"></div>
 </div>
 
@@ -1103,13 +1119,37 @@ main{padding-bottom:128px}
     $("list").innerHTML=rows.length?rows.map(card).join(""):'<div class="empty">'+(clients.length?"Nenhum cliente nesse filtro.":"Nenhum cliente ainda. Toque em + para cadastrar o primeiro ou use Importar clientes.")+'</div>';
     renderVenc();renderRel();bellUpd()
   }
+  var calM=null,calSel="";
+  function pad2(n){return (n<10?"0":"")+n}
+  function renderCal(){
+    var t=today();if(!calM)calM={y:t.getFullYear(),m:t.getMonth()};
+    var y=calM.y,m=calM.m,first=new Date(y,m,1).getDay(),nd=new Date(y,m+1,0).getDate(),cnt={},tot=0,MN=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"],tk=iso(t);
+    clients.forEach(function(c){if(c.due&&c.due.slice(0,7)===y+"-"+pad2(m+1)){cnt[c.due]=(cnt[c.due]||0)+1;tot++}});
+    var cells="",i;for(i=0;i<first;i++)cells+='<span class="cd empty"></span>';
+    for(i=1;i<=nd;i++){
+      var ds=y+"-"+pad2(m+1)+"-"+pad2(i),n=cnt[ds]||0,dd=Math.round((parse(ds)-t)/864e5),col=dd<0?"#ef4444":dd<=7?"#f59e0b":"#22c55e";
+      cells+='<button class="cd'+(n?" has":"")+(ds===tk?" today":"")+(ds===calSel?" sel":"")+'" data-d="'+ds+'" style="--cc:'+col+'" aria-label="Dia '+i+(n?": "+n+" vencimento"+(n>1?"s":""):"")+'">'+i+(n?'<i>'+n+'</i>':'')+'</button>'
+    }
+    $("cal-out").innerHTML='<div class="calc cfg-card"><div class="cal-h"><button class="nv" data-nav="-1" aria-label="Mês anterior">‹</button><h3>'+MN[m]+' '+y+'<small>'+(tot?tot+(tot===1?" vencimento neste mês":" vencimentos neste mês"):"Nenhum vencimento neste mês")+'</small></h3><button class="nv" data-nav="1" aria-label="Próximo mês">›</button></div><div class="cal-w"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div><div class="cal-g">'+cells+'</div><div class="cal-l"><span style="--cc:#ef4444">Vencido</span><span style="--cc:#f59e0b">Até 7 dias</span><span style="--cc:#22c55e">Em dia</span></div></div>'
+  }
+  $("cal-out").onclick=function(e){
+    var nv=e.target.closest("[data-nav]");
+    if(nv){var d=new Date(calM.y,calM.m+Number(nv.dataset.nav),1);calM={y:d.getFullYear(),m:d.getMonth()};calSel="";snd("tab");renderVenc();return}
+    var b=e.target.closest(".cd[data-d]");if(!b)return;
+    var ds=b.dataset.d;calSel=calSel===ds?"":ds;snd("tap");renderVenc()
+  };
   function renderVenc(){
+    renderCal();
     var G=[["bad","Vencidos","#ef4444",function(d){return d<0}],["hoje","Vencem hoje","#f97316",function(d){return d===0}],["sem","Próximos 7 dias","#f59e0b",function(d){return d>0&&d<=7}],["mes","Próximos 30 dias","#22c55e",function(d){return d>7&&d<=30}]],h="",n=0;
     G.forEach(function(g){
       var l=clients.filter(function(c){return g[3](days(c))}).sort(function(a,b){return a.due<b.due?-1:a.due>b.due?1:a.name.localeCompare(b.name,"pt-BR")});
       if(!l.length)return;n+=l.length;
       h+='<div class="grp" style="--gc:'+g[2]+'"><i></i>'+g[1]+'<em>'+l.length+'</em></div><div class="list" style="margin-top:0">'+l.map(card).join("")+'</div>'
     });
+    if(calSel){
+      var sl=clients.filter(function(c){return c.due===calSel}).sort(function(a,b){return a.name.localeCompare(b.name,"pt-BR")}),pp=calSel.split("-");
+      h='<div class="grp" style="--gc:#8b5cf6"><i></i>Dia '+pp[2]+'/'+pp[1]+'<em>'+sl.length+'</em></div>'+(sl.length?'<div class="list" style="margin-top:0">'+sl.map(card).join("")+'</div>':'<div class="empty">Nenhum cliente vence neste dia.</div>')+h;n+=1
+    }
     $("venc-list").innerHTML=n?h:'<div class="empty">Nenhum vencimento nos próximos 30 dias. 🎉</div>'
   }
   function renderRel(){

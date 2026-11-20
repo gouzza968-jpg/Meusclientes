@@ -291,7 +291,7 @@ button{cursor:pointer}
     var ini=((d.name&&d.name!=='Cliente novo')?d.name:'?').trim().charAt(0).toUpperCase();
     var more=open?'<div class="more">'+
       (s==='bloqueado'?'<button class="b sm" data-a="unb" data-id="'+id+'">Reativar</button>':'<button class="b sm bad" data-a="blk" data-id="'+id+'">Desativar</button>')+
-      ((s==='teste'||s==='expirado')?'<button class="b sm" data-a="test" data-id="'+id+'">+1 teste de 1 hora</button>':'')+
+      ((s==='teste'||s==='expirado')?'<button class="b sm" data-a="test" data-id="'+id+'">+1 teste de 30 min</button>':'')+
       '<button class="b sm" data-a="edit" data-id="'+id+'">Editar</button><button class="b sm" data-a="copy" data-id="'+id+'">Copiar código</button>'+
       (delId===d.code?'<button class="b sm bad" data-a="del2" data-id="'+id+'">Confirmar exclusão</button><button class="b sm" data-a="cancel">Cancelar</button>':'<button class="b sm bad" data-a="del" data-id="'+id+'">Excluir</button>')+'</div>':'';
     return'<article class="cd s-'+s+'"><div class="top" data-a="tog" data-id="'+id+'"><span class="av">'+esc(ini)+'</span><div class="mid"><b class="nm">'+esc(d.name)+'</b><span class="cdx">'+id+'</span></div><span class="pill">'+LAB[s]+'</span></div>'+

@@ -109,4 +109,25 @@ public class LicensePlugin extends Plugin {
         } catch (Exception ignored) {}
         call.resolve();
     }
+
+    /** código do aparelho (MC-XXXX-XXXX), sempre o mesmo para o mesmo aparelho */
+    @PluginMethod
+    public void code(PluginCall call) {
+        try {
+            String id = did();
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] b = md.digest(("mc-dev|" + id).getBytes("UTF-8"));
+            String a = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            StringBuilder s = new StringBuilder("MC-");
+            for (int i = 0; i < 8; i++) {
+                if (i == 4) s.append('-');
+                s.append(a.charAt((b[i] & 0xff) % 32));
+            }
+            JSObject o = new JSObject();
+            o.put("code", id.isEmpty() ? "" : s.toString());
+            call.resolve(o);
+        } catch (Exception e) {
+            call.reject("erro");
+        }
+    }
 }

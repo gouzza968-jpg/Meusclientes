@@ -1,0 +1,56 @@
+name: Gerar APK
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Biblioteca do Supabase local
+        run: cp node_modules/@supabase/supabase-js/dist/umd/supabase.js www/supabase.js
+
+      - name: Criar projeto Android
+        run: |
+          npx cap add android
+          npx cap sync android
+
+      - name: Versão
+        run: |
+          G=android/app/build.gradle
+          sed -i "s/versionCode [0-9]*/versionCode $((100 + GITHUB_RUN_NUMBER))/; s/versionName \"[^\"]*\"/versionName \"1.$GITHUB_RUN_NUMBER\"/" $G
+          echo "VN=1.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
+      - name: Compilar APK
+        working-directory: android
+        run: |
+          ok=0
+          for i in 1 2 3 4; do
+            ./gradlew assembleDebug && ok=1 && break
+            echo "Falha ao baixar pacotes; tentando de novo ($i)"; sleep 40
+          done
+          test $ok = 1
+
+      - name: Publicar APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk painel-licencas.apk
+          gh release create "v$VN" painel-licencas.apk --title "Painel Licenças $VN" --notes "APK do painel" --latest

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c1120">
+<title>Painel de Licenças</title>
+<style>
+:root{--bg:#0c1120;--surface:#151c31;--line:#263050;--fg:#e8ecf8;--mute:#93a0c2;--accent:#4da3ff;--accent-fg:#06101f;
+--ok:#3ddc84;--okbg:#12301f;--warn:#ffb74d;--warnbg:#38290f;--bad:#ff6b70;--badbg:#3a1518;--info:#4da3ff;--infobg:#10294a;color-scheme:dark}
+@media (prefers-color-scheme:light){:root{--bg:#f3f5f9;--surface:#fff;--line:#dfe4ee;--fg:#141a2b;--mute:#5d6882;--accent:#0a7cff;--accent-fg:#fff;
+--ok:#0f9d58;--okbg:#e3f6ec;--warn:#b36b00;--warnbg:#fff0d6;--bad:#d93036;--badbg:#fde7e8;--info:#0a7cff;--infobg:#e4f0ff;color-scheme:light}}
+*{box-sizing:border-box}
+body{margin:0;padding-top:max(20px,env(safe-area-inset-top,0px));background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:20px 16px 48px}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:16px}
+h1,h2{margin:0}h1{font-size:24px}h2{font-size:17px;margin-bottom:10px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font-size:26px;font-variant-numeric:tabular-nums}.stat span{color:var(--mute);font-size:12px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{min-width:0}
+input,button,select{font:inherit;color:var(--fg)}
+input,select{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-height:40px}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.grow{flex:1 1 160px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 14px;min-height:40px;cursor:pointer;font-weight:600}
+.btn:hover{border-color:var(--accent)}.btn.pri{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.btn.bad{color:var(--bad)}.btn.sm{min-height:34px;padding:5px 11px;font-size:13px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:13px}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.list{display:grid;gap:10px}
+.dev{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:10px}
+.dev-h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.who{min-width:0}.who b{display:block;overflow-wrap:anywhere}.who small{color:var(--mute)}
+.code{font:500 15px ui-monospace,Consolas,monospace;letter-spacing:.04em;background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:3px 8px}
+.pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.warn{background:var(--warnbg);color:var(--warn)}
+.pill.bad{background:var(--badbg);color:var(--bad)}.pill.info{background:var(--infobg);color:var(--info)}
+.meta{display:flex;gap:16px;flex-wrap:wrap;color:var(--mute);font-size:12.5px}.meta b{color:var(--fg)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.empty{text-align:center;color:var(--mute);padding:22px}
+.err{color:var(--bad);font-size:13px;min-height:18px;margin-top:6px}
+.login{max-width:380px;margin:12vh auto 0}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:20}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="login panel" id="login">
+  <h1>Painel de Licenças</h1>
+  <p style="color:var(--mute);margin:6px 0 14px">Digite a senha do painel.</p>
+  <form id="f-login" class="row" style="flex-direction:column">
+    <input id="l-mail" type="text" value="admin@telaoplay.com" autocomplete="username" hidden>
+    <input id="l-pass" type="password" placeholder="Senha" autocomplete="current-password" required>
+    <button class="btn pri" type="submit" id="l-go">Entrar</button>
+  </form>
+  <div class="err" id="l-err" role="alert"></div>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <header class="top">
+    <h1>Painel de Licenças</h1>
+    <div class="row"><button class="btn sm" id="b-ref" type="button">Atualizar</button><button class="btn sm" id="b-out" type="button">Sair</button></div>
+  </header>
+  <section class="stats" id="stats"></section>
+
+  <section class="panel">
+    <h2>Ativar um aparelho</h2>
+    <form class="row" id="f-add">
+      <input class="grow" id="a-code" placeholder="Código (ex.: MC-7F3A-92KD)" autocomplete="off" style="text-transform:uppercase;font-family:ui-monospace,Consolas,monospace">
+      <input class="grow" id="a-name" placeholder="Nome do cliente" autocomplete="off">
+      <input class="grow" id="a-wa" placeholder="WhatsApp (opcional)" inputmode="tel" autocomplete="off">
+      <select id="a-m" aria-label="Meses de plano"><option value="1">1 mês</option><option value="3">3 meses</option><option value="6">6 meses</option><option value="12">12 meses</option></select>
+      <button class="btn pri" type="submit">Ativar plano</button>
+    </form>
+    <div class="err" id="a-err" role="alert"></div>
+  </section>
+
+  <section class="panel">
+    <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 style="margin:0">Aparelhos</h2>
+      <input class="grow" id="q" type="search" placeholder="Buscar por nome, código ou WhatsApp" style="max-width:340px">
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="list" id="list"><div class="empty">Carregando...</div></div>
+  </section>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="supabase.js"></script>
+<script>
+(function(){
+  var SB_URL='https://qtummrheznvefuifaxtb.supabase.co';
+  var SB_KEY='sb_publishable_oL2BpyR4JhIhvqHOFOz_9g_CGYmyyGA';
+  var ADMIN_EMAIL='admin@telaoplay.com';
+  var sb=supabase.createClient(SB_URL,SB_KEY);
+  var db=[],filter='todos',q='',delId=null;
+  function $(i){return document.getElementById(i)}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function toast(m){var t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(function(){t.hidden=true},2600)}
+  var DAY=86400000;
+  function sit(d){
+    if(d.status==='bloqueado')return'bloqueado';
+    if(d.status==='ativado'){
+      var p=d.paid_until?new Date(d.paid_until).getTime():0;
+      if(p>Date.now())return p-Date.now()<=7*DAY?'vence':'ativo';
+      return'vencido';
+    }
+    return d.test_end&&new Date(d.test_end)>new Date()?'teste':'expirado';
+  }
+  var LAB={ativo:['Plano ativo','ok'],vence:['Vence em breve','warn'],vencido:['Plano vencido','bad'],teste:['Em teste','info'],expirado:['Teste expirado','warn'],bloqueado:['Desativado','bad']};
+  function fmtD(t){return new Date(t).toLocaleDateString('pt-BR')}
+  function venc(d){
+    if(!d.paid_until)return'Sem plano';
+    var n=Math.ceil((new Date(d.paid_until).getTime()-Date.now())/DAY);
+    return fmtD(d.paid_until)+(n>=0?' · faltam '+n+(n===1?' dia':' dias'):' · venceu há '+(-n)+(n===-1?' dia':' dias'));
+  }
+  function ago(t){var m=Math.round((Date.now()-new Date(t))/60000);if(m<1)return'agora';if(m<60)return'há '+m+' min';var h=Math.round(m/60);if(h<24)return'há '+h+' h';return'há '+Math.round(h/24)+' d'}
+  function fmtWa(w){w=(w||'').replace(/\D/g,'');return w.length===11?'('+w.slice(0,2)+') '+w.slice(2,7)+'-'+w.slice(7):w}
+
+  function show(logged){$('login').hidden=logged;$('app').hidden=!logged}
+  function fail(e){toast('Erro: '+(e&&e.message?e.message:e))}
+
+  async function load(){
+    var r=await sb.from('licenses').select('*').order('seen_at',{ascending:false});
+    if(r.error){fail(r.error);return}
+    db=r.data||[];render();
+  }
+  function render(){
+    var c={todos:db.length,ativo:0,vence:0,vencido:0,teste:0,expirado:0,bloqueado:0};
+    db.forEach(function(d){c[sit(d)]++});
+    var ativos=c.ativo+c.vence;
+    $('stats').innerHTML=
+      '<div class="stat"><b>'+c.todos+'</b><span>Aparelhos</span></div>'+
+      '<div class="stat"><b style="color:var(--ok)">'+ativos+'</b><span>Planos ativos</span></div>'+
+      '<div class="stat"><b style="color:var(--warn)">'+c.vence+'</b><span>Vencem em 7 dias</span></div>'+
+      '<div class="stat"><b style="color:var(--bad)">'+c.vencido+'</b><span>Vencidos</span></div>'+
+      '<div class="stat"><b style="color:var(--info)">'+c.teste+'</b><span>Em teste agora</span></div>';
+    var names={todos:'Todos',ativo:'Ativos',vence:'Vencem em 7 dias',vencido:'Vencidos',teste:'Em teste',expirado:'Teste expirado',bloqueado:'Desativados'};
+    $('chips').innerHTML=Object.keys(names).map(function(k){
+      return'<button class="chip" type="button" data-f="'+k+'" aria-pressed="'+(filter===k)+'">'+names[k]+' ('+c[k]+')</button>'}).join('');
+    var qq=q.trim().toLowerCase();
+    var rows=db.filter(function(d){
+      if(filter!=='todos'&&sit(d)!==filter)return false;
+      return!qq||((d.name||'')+' '+d.code+' '+(d.whatsapp||'')).toLowerCase().indexOf(qq)>=0;
+    });
+    if(!rows.length){$('list').innerHTML='<div class="empty">Nenhum aparelho nesta lista.</div>';return}
+    $('list').innerHTML=rows.map(function(d){
+      var s=sit(d),l=LAB[s],id=esc(d.code),acts='';
+      acts+='<button class="btn sm pri" data-a="m1" data-id="'+id+'">+1 mês</button><button class="btn sm" data-a="m3" data-id="'+id+'">+3 meses</button>';
+      acts+=s==='bloqueado'?'<button class="btn sm" data-a="unb" data-id="'+id+'">Reativar</button>':'<button class="btn sm" data-a="blk" data-id="'+id+'">Desativar</button>';
+      if(s==='teste'||s==='expirado')acts+='<button class="btn sm" data-a="test" data-id="'+id+'">Dar +1 teste de 1 hora</button>';
+      acts+=delId===d.code?'<button class="btn sm bad" data-a="del2" data-id="'+id+'">Confirmar exclusão</button><button class="btn sm" data-a="cancel">Cancelar</button>':'<button class="btn sm bad" data-a="del" data-id="'+id+'">Excluir</button>';
+      var vc=(s==='vencido'||s==='bloqueado')?'var(--bad)':s==='vence'?'var(--warn)':'var(--fg)';
+      return'<article class="dev"><div class="dev-h"><div class="who"><b>'+esc(d.name)+'</b><small>'+(d.whatsapp?esc(fmtWa(d.whatsapp)):'sem WhatsApp')+'</small></div>'+
+        '<span class="code">'+id+'</span><span class="pill '+l[1]+'">'+l[0]+'</span></div>'+
+        '<div class="meta"><span>Vencimento: <b style="color:'+vc+'">'+venc(d)+'</b></span>'+
+        (s==='teste'?'<span>Teste: <b>'+Math.max(0,Math.round((new Date(d.test_end)-Date.now())/60000))+' min restantes</b></span>':'<span>Testes usados: <b>'+d.tests+' de 2</b></span>')+
+        '<span>Última abertura: <b>'+ago(d.seen_at)+'</b></span></div>'+
+        '<div class="acts">'+acts+'</div></article>';
+    }).join('');
+  }
+  function addMonths(d,m){var x=new Date(d.getTime());var day=x.getDate();x.setMonth(x.getMonth()+m);if(x.getDate()<day)x.setDate(0);return x}
+  function renew(d,m){var base=d.paid_until&&new Date(d.paid_until)>new Date()?new Date(d.paid_until):new Date();return addMonths(base,m).toISOString()}
+
+  async function upd(code,patch,msg){
+    var r=await sb.from('licenses').update(patch).eq('code',code);
+    if(r.error){fail(r.error);return}
+    toast(msg);await load();
+  }
+  document.addEventListener('click',async function(e){
+    var ch=e.target.closest('[data-f]');if(ch){filter=ch.getAttribute('data-f');render();return}
+    var b=e.target.closest('[data-a]');if(!b)return;
+    var a=b.getAttribute('data-a'),id=b.getAttribute('data-id');
+    if(a==='cancel'){delId=null;render();return}
+    var d=db.filter(function(x){return x.code===id})[0];
+    if(a==='m1'||a==='m3'){var m=a==='m1'?1:3;await upd(id,{status:'ativado',paid_until:renew(d,m)},'Plano renovado por '+m+(m===1?' mês.':' meses.'))}
+    if(a==='blk')await upd(id,{status:'bloqueado'},'App desativado neste aparelho.');
+    if(a==='unb')await upd(id,{status:d&&d.paid_until&&new Date(d.paid_until)>new Date()?'ativado':'teste'},'App reativado.');
+    if(a==='test')await upd(id,{status:'teste',tests:Math.max(0,Math.min(d.tests-1,1)),test_end:null},'Mais 1 teste liberado. O cliente toca em "Testar grátis" de novo.');
+    if(a==='del'){delId=id;render()}
+    if(a==='del2'){
+      var r=await sb.from('licenses').delete().eq('code',id);delId=null;
+      if(r.error)fail(r.error);else{toast('Aparelho excluído.');await load()}
+    }
+  });
+  $('q').addEventListener('input',function(e){q=e.target.value;render()});
+  $('b-ref').addEventListener('click',load);
+  $('b-out').addEventListener('click',async function(){await sb.auth.signOut();show(false)});
+
+  $('f-add').addEventListener('submit',async function(e){
+    e.preventDefault();
+    var code=$('a-code').value.trim().toUpperCase(),name=$('a-name').value.trim(),wa=$('a-wa').value.trim(),err=$('a-err');err.textContent='';
+    if(!/^MC-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)){err.textContent='O código tem o formato MC-XXXX-XXXX. Peça para o cliente conferir a tela do app.';return}
+    var m=parseInt($('a-m').value,10)||1;var ex=db.filter(function(x){return x.code===code})[0];
+    var row={code:code,status:'ativado',paid_until:renew(ex||{},m)};if(name)row.name=name;if(wa)row.whatsapp=wa;
+    var r=await sb.from('licenses').upsert(row,{onConflict:'code'});
+    if(r.error){err.textContent=r.error.message;return}
+    $('f-add').reset();toast('Código '+code+' ativado por '+m+(m===1?' mês.':' meses.'));await load();
+  });
+
+  $('f-login').addEventListener('submit',async function(e){
+    e.preventDefault();$('l-err').textContent='';$('l-go').disabled=true;
+    var r=await sb.auth.signInWithPassword({email:ADMIN_EMAIL,password:$('l-pass').value});
+    $('l-go').disabled=false;
+    if(r.error){$('l-err').textContent='Senha incorreta.';return}
+    $('l-pass').value='';show(true);load();
+  });
+  setInterval(function(){if(!$('app').hidden&&!document.hidden)load()},30000);
+  sb.auth.getSession().then(function(r){if(r.data&&r.data.session){show(true);load()}});
+})();
+</script>
+</body>
+</html>

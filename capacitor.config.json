@@ -1,0 +1,8 @@
+{
+  "appId": "com.telaoplay.painel",
+  "appName": "Painel Licenças",
+  "webDir": "www",
+  "plugins": {
+    "CapacitorHttp": { "enabled": true }
+  }
+}

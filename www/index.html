@@ -3,91 +3,231 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0c1120">
+<meta name="theme-color" content="#0b0f1d">
 <title>Painel de Licenças</title>
 <style>
-:root{--bg:#0c1120;--surface:#151c31;--line:#263050;--fg:#e8ecf8;--mute:#93a0c2;--accent:#4da3ff;--accent-fg:#06101f;
---ok:#3ddc84;--okbg:#12301f;--warn:#ffb74d;--warnbg:#38290f;--bad:#ff6b70;--badbg:#3a1518;--info:#4da3ff;--infobg:#10294a;color-scheme:dark}
-@media (prefers-color-scheme:light){:root{--bg:#f3f5f9;--surface:#fff;--line:#dfe4ee;--fg:#141a2b;--mute:#5d6882;--accent:#0a7cff;--accent-fg:#fff;
---ok:#0f9d58;--okbg:#e3f6ec;--warn:#b36b00;--warnbg:#fff0d6;--bad:#d93036;--badbg:#fde7e8;--info:#0a7cff;--infobg:#e4f0ff;color-scheme:light}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:max(20px,env(safe-area-inset-top,0px)) 16px 48px}
-.wrap{max-width:980px;margin:0 auto;display:grid;gap:16px}
-h1,h2{margin:0}h1{font-size:24px}h2{font-size:17px;margin-bottom:10px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-.stat b{display:block;font-size:26px;font-variant-numeric:tabular-nums}.stat span{color:var(--mute);font-size:12px}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
-.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{min-width:0}
-input,button,select{font:inherit;color:var(--fg)}
-input,select{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-height:40px}
-input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.grow{flex:1 1 160px}
-.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 14px;min-height:40px;cursor:pointer;font-weight:600}
-.btn:hover{border-color:var(--accent)}.btn.pri{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
-.btn.bad{color:var(--bad)}.btn.sm{min-height:34px;padding:5px 11px;font-size:13px}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:13px}
-.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
-.list{display:grid;gap:10px}
-.dev{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:10px}
-.dev-h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
-.who{min-width:0}.who b{display:block;overflow-wrap:anywhere}.who small{color:var(--mute)}
-.code{font:500 15px ui-monospace,Consolas,monospace;letter-spacing:.04em;background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:3px 8px}
-.pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
-.pill.ok{background:var(--okbg);color:var(--ok)}.pill.warn{background:var(--warnbg);color:var(--warn)}
-.pill.bad{background:var(--badbg);color:var(--bad)}.pill.info{background:var(--infobg);color:var(--info)}
-.meta{display:flex;gap:16px;flex-wrap:wrap;color:var(--mute);font-size:12.5px}.meta b{color:var(--fg)}
-.acts{display:flex;gap:8px;flex-wrap:wrap}
-.empty{text-align:center;color:var(--mute);padding:22px}
-.err{color:var(--bad);font-size:13px;min-height:18px;margin-top:6px}
-.login{max-width:380px;margin:12vh auto 0}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:20}
+:root{
+  --bg:#0b0f1d;--ink:#eef1fb;--mute:#97a0c0;--line:rgba(255,255,255,.1);
+  --glass:rgba(30,36,62,.55);--glass2:rgba(22,27,48,.82);--hl:inset 0 1px 0 rgba(255,255,255,.08);
+  --acc:#8b5cf6;--acc2:#3b82f6;
+  --ok:#34d399;--warn:#fbbf24;--bad:#fb7185;--info:#60a5fa;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:radial-gradient(60% 38% at 12% 0%,rgba(110,90,255,.32),transparent 70%),radial-gradient(50% 36% at 100% 22%,rgba(255,90,170,.16),transparent 70%),radial-gradient(60% 40% at 0% 100%,rgba(40,190,170,.16),transparent 70%),var(--bg);background-attachment:fixed;color:var(--ink);font:400 15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;min-height:100vh}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--glass2);backdrop-filter:blur(20px)}
 [hidden]{display:none!important}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 14px) 16px calc(96px + env(safe-area-inset-bottom,0px))}
+
+/* cabeçalho */
+.hd{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.hd .lg{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(140deg,#a78bfa,#6d28d9 55%,#2563eb);box-shadow:0 0 28px -6px #8b5cf6,inset 0 1px 0 rgba(255,255,255,.35);flex:none}
+.hd h1{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.15}
+.hd p{margin:0;color:var(--mute);font-size:13px}
+.hd .grow{flex:1;min-width:0}
+.ib{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(16px);display:grid;place-items:center;box-shadow:var(--hl)}
+.ib:active{transform:scale(.94)}
+.ib.spin svg{animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* quatro blocos */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.tile{border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(18px);border-radius:18px;padding:10px 4px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:var(--hl)}
+.tile i{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 20%,transparent);color:var(--c);box-shadow:0 0 18px -6px var(--c)}
+.tile b{font-size:21px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile span{font-size:11px;color:var(--mute);text-align:center;line-height:1.2}
+.tile[aria-pressed="true"]{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 8px 24px -10px var(--c)}
+
+/* busca e filtros */
+.search{display:flex;gap:8px;margin-bottom:10px}
+.inp{width:100%;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(16px);border-radius:14px;padding:12px 14px;min-height:46px;box-shadow:var(--hl)}
+.inp::placeholder{color:var(--mute)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:650;color:var(--mute)}
+.chip[aria-pressed="true"]{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent;box-shadow:0 6px 18px -8px var(--acc)}
+
+/* cartões */
+.list{display:flex;flex-direction:column;gap:12px}
+.cd{--c:var(--info);position:relative;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(20px) saturate(160%);border-radius:22px;padding:14px;box-shadow:var(--hl),0 10px 30px -18px #000;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.cd::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--c);box-shadow:0 0 16px var(--c);opacity:.9}
+.cd.s-ativo{--c:var(--ok)}.cd.s-vence{--c:var(--warn)}.cd.s-vencido,.cd.s-bloqueado{--c:var(--bad)}.cd.s-teste{--c:var(--info)}.cd.s-expirado{--c:var(--warn)}
+.top{display:flex;align-items:center;gap:12px;cursor:pointer}
+.av{width:44px;height:44px;border-radius:15px;flex:none;display:grid;place-items:center;font-weight:800;font-size:16px;color:var(--c);background:color-mix(in srgb,var(--c) 18%,transparent);box-shadow:0 0 18px -6px var(--c)}
+.mid{flex:1;min-width:0}
+.nm{display:block;font-weight:750;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cdx{font:600 12.5px ui-monospace,Consolas,monospace;letter-spacing:.05em;color:var(--mute)}
+.pill{flex:none;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c);border:1px solid color-mix(in srgb,var(--c) 40%,transparent);white-space:nowrap}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.info div{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:8px 10px;min-width:0}
+.info small{display:block;color:var(--mute);font-size:11px;font-weight:650;letter-spacing:.03em;text-transform:uppercase}
+.info b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.info .em b{color:var(--c)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.b{flex:1 1 auto;min-height:44px;padding:0 14px;border-radius:14px;border:1px solid var(--line);background:var(--glass);font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:var(--hl)}
+.b:active{transform:scale(.97)}
+.b.pri{background:linear-gradient(135deg,#8b5cf6,#3b82f6);border-color:transparent;color:#fff;box-shadow:0 8px 22px -10px #6d5cff}
+.b.wa{background:linear-gradient(135deg,#22c55e,#15803d);border-color:transparent;color:#fff}
+.b.bad{color:var(--bad)}
+.b.sm{min-height:38px;font-size:13px}
+.more{display:flex;gap:8px;flex-wrap:wrap;padding-top:2px;border-top:1px dashed var(--line);padding-top:10px}
+.empty{text-align:center;color:var(--mute);padding:34px 10px}
+.empty svg{opacity:.6;margin-bottom:6px}
+
+/* formulário e ajustes */
+.card{border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(20px);border-radius:22px;padding:16px;box-shadow:var(--hl);display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+.card h2{margin:0;font-size:17px;display:flex;align-items:center;gap:10px}
+.card h2 i{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--c,var(--acc)) 20%,transparent);color:var(--c,var(--acc))}
+.card label{font-size:12.5px;font-weight:700;color:var(--mute);display:block;margin-bottom:5px}
+.card p{margin:0;color:var(--mute);font-size:13.5px}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;min-height:44px;border-radius:13px;border:1px solid var(--line);background:var(--glass);font-weight:750}
+.seg button[aria-pressed="true"]{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
+.err{min-height:18px;font-size:13px;font-weight:650;color:var(--bad)}
+.kv{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.kv span{color:var(--mute)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--mute);margin-right:6px}
+.dot.ok{background:var(--ok);box-shadow:0 0 10px var(--ok)}.dot.bad{background:var(--bad);box-shadow:0 0 10px var(--bad)}
+
+/* menu de baixo */
+.bn{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));pointer-events:none}
+.bn div{pointer-events:auto;display:flex;gap:2px;width:min(480px,100%);padding:6px;border-radius:24px;background:var(--glass2);border:1px solid var(--line);backdrop-filter:blur(26px) saturate(180%);box-shadow:0 14px 40px -10px #000,var(--hl)}
+.bn button{flex:1;border:0;background:transparent;border-radius:18px;padding:7px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mute);font-size:11px;font-weight:700;position:relative}
+.bn button svg{width:22px;height:22px}
+.bn button[aria-current="page"]{color:#fff;background:linear-gradient(135deg,rgba(139,92,246,.55),rgba(59,130,246,.45));box-shadow:0 6px 20px -8px var(--acc)}
+.bn .n{position:absolute;top:2px;right:calc(50% - 22px);min-width:17px;height:17px;border-radius:9px;background:var(--bad);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;padding:0 4px}
+
+/* páginas e transições */
+.page{animation:in .28s ease both}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.page{animation:none}}
+
+/* entrada */
+#login{min-height:100vh;display:grid;place-items:center;padding:24px}
+.lc{width:min(380px,100%);text-align:center;display:flex;flex-direction:column;gap:14px}
+.lc .lg{margin:0 auto;width:84px;height:84px;border-radius:27px;display:grid;place-items:center;background:linear-gradient(140deg,#a78bfa,#6d28d9 55%,#2563eb);box-shadow:0 0 56px -6px #8b5cf6,inset 0 1px 0 rgba(255,255,255,.35)}
+.lc h2{margin:6px 0 0;font-size:26px;letter-spacing:-.02em}
+.lc p{margin:0;color:var(--mute)}
+.pw{position:relative}.pw .inp{padding-right:52px;text-align:center;font-size:17px}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:transparent;color:var(--mute)}
+.btn-big{min-height:52px;border-radius:17px;border:0;font-weight:800;font-size:16px;background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff;box-shadow:0 12px 30px -12px #6d5cff}
+.btn-big:disabled{opacity:.6}
+
+/* atualização obrigatória e folha de edição */
+.ov{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;background:rgba(5,8,18,.88);backdrop-filter:blur(14px)}
+.ov .lc{background:var(--glass2);border:1px solid var(--line);border-radius:26px;padding:24px 20px;box-shadow:0 24px 70px -20px #000}
+.bar{height:10px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8b5cf6,#3b82f6);transition:width .3s}
+.sheet{align-items:flex-end;padding:0}
+.sheet .lc{width:min(520px,100%);border-radius:26px 26px 0 0;text-align:left;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px))}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:999px;font-weight:700;z-index:70;width:max-content;max-width:calc(100% - 32px);text-align:center;box-shadow:0 12px 30px -10px #000}
 </style>
 </head>
 <body>
 
-<div class="login panel" id="login">
-  <h1>Painel de Licenças</h1>
-  <p style="color:var(--mute);margin:6px 0 14px">Digite a senha do painel.</p>
-  <form id="f-login" class="row" style="flex-direction:column">
-    <input id="l-mail" type="text" value="admin@telaoplay.com" autocomplete="username" hidden>
-    <input id="l-pass" type="password" placeholder="Senha" autocomplete="current-password" required>
-    <button class="btn pri" type="submit" id="l-go">Entrar</button>
+<!-- entrada -->
+<div id="login">
+  <form class="lc" id="f-login">
+    <span class="lg"><svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="10" r="2"/><path d="M12 12v3"/></svg></span>
+    <h2>Painel de Licenças</h2>
+    <p>Digite a senha para entrar.</p>
+    <input type="text" id="l-mail" value="admin@telaoplay.com" autocomplete="username" hidden>
+    <div class="pw"><input class="inp" id="l-pass" type="password" placeholder="Senha" autocomplete="current-password" required><button type="button" id="l-eye" aria-label="Mostrar senha"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+    <div class="err" id="l-err" role="alert"></div>
+    <button class="btn-big" id="l-go" type="submit">Entrar</button>
   </form>
-  <div class="err" id="l-err" role="alert"></div>
 </div>
 
-<div class="wrap" id="app" hidden>
-  <header class="top">
-    <h1>Painel de Licenças</h1>
-    <div class="row"><button class="btn sm" id="b-ref" type="button">Atualizar</button><button class="btn sm" id="b-out" type="button">Sair</button></div>
-  </header>
-  <section class="stats" id="stats"></section>
+<!-- app -->
+<div id="app" hidden>
+  <div class="wrap">
+    <header class="hd">
+      <span class="lg"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="10" r="2"/><path d="M12 12v3"/></svg></span>
+      <div class="grow"><h1 id="hd-t">Aparelhos</h1><p id="hd-s">Telão Play · licenças</p></div>
+      <button class="ib" id="b-ref" aria-label="Atualizar lista"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
+    </header>
 
-  <section class="panel">
-    <h2>Ativar um aparelho</h2>
-    <form class="row" id="f-add">
-      <input class="grow" id="a-code" placeholder="Código (ex.: MC-7F3A-92KD)" autocomplete="off" style="text-transform:uppercase;font-family:ui-monospace,Consolas,monospace">
-      <input class="grow" id="a-name" placeholder="Nome do cliente" autocomplete="off">
-      <input class="grow" id="a-wa" placeholder="WhatsApp (opcional)" inputmode="tel" autocomplete="off">
-      <select id="a-m" aria-label="Meses de plano"><option value="1">1 mês</option><option value="3">3 meses</option><option value="6">6 meses</option><option value="12">12 meses</option></select>
-      <button class="btn pri" type="submit">Ativar plano</button>
-    </form>
-    <div class="err" id="a-err" role="alert"></div>
-  </section>
+    <section class="page" id="p-list">
+      <div class="tiles" id="tiles"></div>
+      <div class="search"><input class="inp" id="q" type="search" placeholder="Buscar nome, código ou WhatsApp" aria-label="Buscar"></div>
+      <div class="chips" id="chips"></div>
+      <div class="list" id="list"></div>
+    </section>
 
-  <section class="panel">
-    <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px">
-      <h2 style="margin:0">Aparelhos</h2>
-      <input class="grow" id="q" type="search" placeholder="Buscar por nome, código ou WhatsApp" style="max-width:340px">
-    </div>
-    <div class="chips" id="chips"></div>
-    <div class="list" id="list"><div class="empty">Carregando...</div></div>
-  </section>
+    <section class="page" id="p-venc" hidden>
+      <div class="card" style="--c:var(--warn)"><h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></i>Planos a renovar</h2><p>Vencidos e que vencem nos próximos 7 dias, do mais urgente para o menos.</p></div>
+      <div class="list" id="list-v"></div>
+    </section>
+
+    <section class="page" id="p-add" hidden>
+      <form class="card" id="f-add" style="--c:var(--ok)">
+        <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></i>Ativar um aparelho</h2>
+        <p>Cole o código que o cliente enviou. Ele aparece na tela do app e em Configurações.</p>
+        <div><label for="a-code">Código do aparelho</label><input class="inp" id="a-code" placeholder="MC-XXXX-XXXX" autocomplete="off" autocapitalize="characters" style="text-transform:uppercase;font-family:ui-monospace,Consolas,monospace;letter-spacing:.06em"></div>
+        <div><label for="a-name">Nome do cliente</label><input class="inp" id="a-name" placeholder="Ex.: Carlos Silva" autocomplete="off"></div>
+        <div><label for="a-wa">WhatsApp (opcional)</label><input class="inp" id="a-wa" placeholder="(44) 99999-9999" inputmode="tel" autocomplete="off"></div>
+        <div><label>Plano</label><div class="seg" id="a-seg"><button type="button" data-m="1" aria-pressed="true">1 mês</button><button type="button" data-m="3" aria-pressed="false">3 meses</button><button type="button" data-m="6" aria-pressed="false">6 meses</button><button type="button" data-m="12" aria-pressed="false">12 meses</button></div></div>
+        <div class="err" id="a-err" role="alert"></div>
+        <button class="btn-big" type="submit">Ativar plano</button>
+      </form>
+    </section>
+
+    <section class="page" id="p-cfg" hidden>
+      <div class="card" style="--c:var(--ok)">
+        <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></svg></i>Conexão</h2>
+        <div class="kv"><span>Servidor</span><b id="c-net"><i class="dot"></i>Verificando…</b></div>
+        <div class="kv"><span>Última atualização</span><b id="c-last">—</b></div>
+        <p>A lista se atualiza sozinha a cada 30 segundos.</p>
+      </div>
+      <div class="card" style="--c:var(--acc)">
+        <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></i>Atualização do painel</h2>
+        <div class="kv"><span>Versão instalada</span><b id="c-ver">—</b></div>
+        <p id="upd-msg">Quando houver versão nova, o painel avisa e pede para atualizar.</p>
+        <button class="b" id="upd-chk" type="button">Verificar atualização</button>
+      </div>
+      <div class="card" style="--c:var(--bad)">
+        <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></i>Conta</h2>
+        <p>Ao sair, a senha será pedida de novo na próxima vez.</p>
+        <button class="b bad" id="b-out" type="button">Sair do painel</button>
+      </div>
+    </section>
+  </div>
+
+  <nav class="bn" aria-label="Menu"><div>
+    <button data-t="list" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Aparelhos</button>
+    <button data-t="venc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Vencimentos<span class="n" id="n-venc" hidden></span></button>
+    <button data-t="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>Ativar</button>
+    <button data-t="cfg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Ajustes</button>
+  </div></nav>
 </div>
+
+<!-- editar -->
+<div class="ov sheet" id="sheet" hidden>
+  <form class="lc" id="f-edit">
+    <h2 style="font-size:20px">Editar cliente</h2>
+    <p id="e-code" style="font-family:ui-monospace,Consolas,monospace"></p>
+    <input class="inp" id="e-name" placeholder="Nome do cliente" autocomplete="off">
+    <input class="inp" id="e-wa" placeholder="WhatsApp" inputmode="tel" autocomplete="off">
+    <div class="acts"><button class="b" type="button" id="e-cancel">Cancelar</button><button class="b pri" type="submit">Salvar</button></div>
+  </form>
+</div>
+
+<!-- atualização obrigatória -->
+<div class="ov" id="updd" hidden role="dialog" aria-modal="true">
+  <div class="lc">
+    <span class="lg"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span>
+    <h2>Atualização necessária</h2>
+    <p id="updd-p">Há uma versão nova do painel. Atualize para continuar.</p>
+    <div class="bar" id="updd-bar" hidden><i id="updd-i"></i></div>
+    <div class="err" id="updd-e" role="alert"></div>
+    <button class="btn-big" id="updd-go" type="button">Atualizar agora</button>
+  </div>
+</div>
+
 <div class="toast" id="toast" hidden></div>
 
 <script src="supabase.js"></script>
@@ -96,12 +236,27 @@ input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid 
   var SB_URL='https://qtummrheznvefuifaxtb.supabase.co';
   var SB_KEY='sb_publishable_oL2BpyR4JhIhvqHOFOz_9g_CGYmyyGA';
   var ADMIN_EMAIL='admin@telaoplay.com';
+  var UPD_URL='https://github.com/gouzza968-jpg/Meusclientes/releases/download/painel-latest/update.json';
+  var CAP=window.Capacitor,NATIVE=!!(CAP&&CAP.isNativePlatform&&CAP.isNativePlatform());
+  function plug(n){return CAP&&CAP.Plugins&&CAP.Plugins[n]}
   var sb=supabase.createClient(SB_URL,SB_KEY);
-  var db=[],filter='todos',q='',delId=null;
+  var DAY=86400000,db=[],filter='todos',q='',tab='list',delId=null,openSet={},editCode=null,addM=1,logged=false;
   function $(i){return document.getElementById(i)}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function toast(m){var t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(function(){t.hidden=true},2600)}
-  var DAY=86400000;
+  function fail(e){toast('Erro: '+(e&&e.message?e.message:e))}
+  function fmtD(t){return new Date(t).toLocaleDateString('pt-BR')}
+  function fmtWa(w){w=(w||'').replace(/\D/g,'');return w.length===11?'('+w.slice(0,2)+') '+w.slice(2,7)+'-'+w.slice(7):w}
+  function ago(t){var m=Math.round((Date.now()-new Date(t))/60000);if(m<1)return'agora';if(m<60)return'há '+m+' min';var h=Math.round(m/60);if(h<24)return'há '+h+' h';return'há '+Math.round(h/24)+' d'}
+  var ICON={
+    ok:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    warn:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    bad:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>',
+    info:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+    wa:'<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.3-1-2.5s.6-1.8.9-2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>'
+  };
+
+  /* situação de cada aparelho */
   function sit(d){
     if(d.status==='bloqueado')return'bloqueado';
     if(d.status==='ativado'){
@@ -111,106 +266,203 @@ input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid 
     }
     return d.test_end&&new Date(d.test_end)>new Date()?'teste':'expirado';
   }
-  var LAB={ativo:['Plano ativo','ok'],vence:['Vence em breve','warn'],vencido:['Plano vencido','bad'],teste:['Em teste','info'],expirado:['Teste expirado','warn'],bloqueado:['Desativado','bad']};
-  function fmtD(t){return new Date(t).toLocaleDateString('pt-BR')}
-  function venc(d){
-    if(!d.paid_until)return'Sem plano';
-    var n=Math.ceil((new Date(d.paid_until).getTime()-Date.now())/DAY);
-    return fmtD(d.paid_until)+(n>=0?' · faltam '+n+(n===1?' dia':' dias'):' · venceu há '+(-n)+(n===-1?' dia':' dias'));
+  var LAB={ativo:'Plano ativo',vence:'Vence em breve',vencido:'Plano vencido',teste:'Em teste',expirado:'Teste expirado',bloqueado:'Desativado'};
+  function dias(d){return d.paid_until?Math.ceil((new Date(d.paid_until).getTime()-Date.now())/DAY):null}
+  function situText(d,s){
+    if(s==='teste')return Math.max(0,Math.round((new Date(d.test_end)-Date.now())/60000))+' min de teste';
+    var n=dias(d);if(n===null)return s==='bloqueado'?'Acesso desativado':'Sem plano';
+    if(s==='bloqueado')return 'Acesso desativado';
+    return n>=0?'faltam '+n+(n===1?' dia':' dias'):'venceu há '+(-n)+(n===-1?' dia':' dias');
   }
-  function ago(t){var m=Math.round((Date.now()-new Date(t))/60000);if(m<1)return'agora';if(m<60)return'há '+m+' min';var h=Math.round(m/60);if(h<24)return'há '+h+' h';return'há '+Math.round(h/24)+' d'}
-  function fmtWa(w){w=(w||'').replace(/\D/g,'');return w.length===11?'('+w.slice(0,2)+') '+w.slice(2,7)+'-'+w.slice(7):w}
-
-  function show(logged){$('login').hidden=logged;$('app').hidden=!logged}
-  function fail(e){toast('Erro: '+(e&&e.message?e.message:e))}
-
-  async function load(){
-    var r=await sb.from('licenses').select('*').order('seen_at',{ascending:false});
-    if(r.error){fail(r.error);return}
-    db=r.data||[];render();
+  function addMonths(d,m){var x=new Date(d.getTime()),day=x.getDate();x.setMonth(x.getMonth()+m);if(x.getDate()<day)x.setDate(0);return x}
+  function renew(d,m){var base=d&&d.paid_until&&new Date(d.paid_until)>new Date()?new Date(d.paid_until):new Date();return addMonths(base,m).toISOString()}
+  function waLink(d,s){
+    var w=(d.whatsapp||'').replace(/\D/g,'');if(!w)return'';
+    if(w.length<=11)w='55'+w;
+    var nome=(d.name&&d.name!=='Cliente novo')?d.name.split(' ')[0]:'';
+    var msg='Olá'+(nome?' '+nome:'')+'! '+(s==='vencido'?'Seu plano do Meus clientes venceu em '+fmtD(d.paid_until)+'.':d.paid_until?'Seu plano do Meus clientes vence em '+fmtD(d.paid_until)+'.':'Sobre o seu acesso ao Meus clientes.')+' Para renovar é só me chamar por aqui.';
+    return'https://wa.me/'+w+'?text='+encodeURIComponent(msg);
   }
+  function openUrl(u){var B=plug('Browser');if(NATIVE&&B){B.open({url:u}).catch(function(){window.open(u,'_blank')});return}window.open(u,'_blank','noopener')}
+
+  /* cartão */
+  function card(d){
+    var s=sit(d),id=esc(d.code),open=!!openSet[d.code],wl=waLink(d,s);
+    var ini=((d.name&&d.name!=='Cliente novo')?d.name:'?').trim().charAt(0).toUpperCase();
+    var more=open?'<div class="more">'+
+      (s==='bloqueado'?'<button class="b sm" data-a="unb" data-id="'+id+'">Reativar</button>':'<button class="b sm bad" data-a="blk" data-id="'+id+'">Desativar</button>')+
+      ((s==='teste'||s==='expirado')?'<button class="b sm" data-a="test" data-id="'+id+'">+1 teste de 1 hora</button>':'')+
+      '<button class="b sm" data-a="edit" data-id="'+id+'">Editar</button><button class="b sm" data-a="copy" data-id="'+id+'">Copiar código</button>'+
+      (delId===d.code?'<button class="b sm bad" data-a="del2" data-id="'+id+'">Confirmar exclusão</button><button class="b sm" data-a="cancel">Cancelar</button>':'<button class="b sm bad" data-a="del" data-id="'+id+'">Excluir</button>')+'</div>':'';
+    return'<article class="cd s-'+s+'"><div class="top" data-a="tog" data-id="'+id+'"><span class="av">'+esc(ini)+'</span><div class="mid"><b class="nm">'+esc(d.name)+'</b><span class="cdx">'+id+'</span></div><span class="pill">'+LAB[s]+'</span></div>'+
+      '<div class="info"><div class="em"><small>Vencimento</small><b>'+(d.paid_until?fmtD(d.paid_until):'—')+'</b></div><div class="em"><small>Situação</small><b>'+esc(situText(d,s))+'</b></div>'+
+      '<div><small>Testes usados</small><b>'+d.tests+' de 2</b></div><div><small>Última abertura</small><b>'+ago(d.seen_at)+'</b></div></div>'+
+      '<div class="acts"><button class="b pri" data-a="m1" data-id="'+id+'">+1 mês</button><button class="b" data-a="m3" data-id="'+id+'">+3 meses</button>'+
+      (wl?'<button class="b wa" data-a="wa" data-id="'+id+'">'+ICON.wa+'WhatsApp</button>':'')+'</div>'+more+'</article>';
+  }
+  function emptyHtml(t){return'<div class="empty"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><div>'+t+'</div></div>'}
+
   function render(){
     var c={todos:db.length,ativo:0,vence:0,vencido:0,teste:0,expirado:0,bloqueado:0};
     db.forEach(function(d){c[sit(d)]++});
-    var ativos=c.ativo+c.vence;
-    $('stats').innerHTML=
-      '<div class="stat"><b>'+c.todos+'</b><span>Aparelhos</span></div>'+
-      '<div class="stat"><b style="color:var(--ok)">'+ativos+'</b><span>Planos ativos</span></div>'+
-      '<div class="stat"><b style="color:var(--warn)">'+c.vence+'</b><span>Vencem em 7 dias</span></div>'+
-      '<div class="stat"><b style="color:var(--bad)">'+c.vencido+'</b><span>Vencidos</span></div>'+
-      '<div class="stat"><b style="color:var(--info)">'+c.teste+'</b><span>Em teste agora</span></div>';
+    var T=[['ativo','Ativos','ok','ativo'],['vence','Vencem 7d','warn','vence'],['vencido','Vencidos','bad','vencido'],['teste','Em teste','info','teste']];
+    $('tiles').innerHTML=T.map(function(t){
+      var col=t[2]==='ok'?'var(--ok)':t[2]==='warn'?'var(--warn)':t[2]==='bad'?'var(--bad)':'var(--info)';
+      return'<button class="tile" style="--c:'+col+'" data-f="'+t[3]+'" aria-pressed="'+(filter===t[3])+'"><i>'+ICON[t[2]]+'</i><b>'+c[t[0]]+'</b><span>'+t[1]+'</span></button>'}).join('');
     var names={todos:'Todos',ativo:'Ativos',vence:'Vencem em 7 dias',vencido:'Vencidos',teste:'Em teste',expirado:'Teste expirado',bloqueado:'Desativados'};
-    $('chips').innerHTML=Object.keys(names).map(function(k){
-      return'<button class="chip" type="button" data-f="'+k+'" aria-pressed="'+(filter===k)+'">'+names[k]+' ('+c[k]+')</button>'}).join('');
+    $('chips').innerHTML=Object.keys(names).map(function(k){return'<button class="chip" data-f="'+k+'" aria-pressed="'+(filter===k)+'">'+names[k]+' ('+c[k]+')</button>'}).join('');
     var qq=q.trim().toLowerCase();
     var rows=db.filter(function(d){
       if(filter!=='todos'&&sit(d)!==filter)return false;
       return!qq||((d.name||'')+' '+d.code+' '+(d.whatsapp||'')).toLowerCase().indexOf(qq)>=0;
     });
-    if(!rows.length){$('list').innerHTML='<div class="empty">Nenhum aparelho nesta lista.</div>';return}
-    $('list').innerHTML=rows.map(function(d){
-      var s=sit(d),l=LAB[s],id=esc(d.code),acts='';
-      acts+='<button class="btn sm pri" data-a="m1" data-id="'+id+'">+1 mês</button><button class="btn sm" data-a="m3" data-id="'+id+'">+3 meses</button>';
-      acts+=s==='bloqueado'?'<button class="btn sm" data-a="unb" data-id="'+id+'">Reativar</button>':'<button class="btn sm" data-a="blk" data-id="'+id+'">Desativar</button>';
-      if(s==='teste'||s==='expirado')acts+='<button class="btn sm" data-a="test" data-id="'+id+'">Dar +1 teste de 1 hora</button>';
-      acts+=delId===d.code?'<button class="btn sm bad" data-a="del2" data-id="'+id+'">Confirmar exclusão</button><button class="btn sm" data-a="cancel">Cancelar</button>':'<button class="btn sm bad" data-a="del" data-id="'+id+'">Excluir</button>';
-      var vc=(s==='vencido'||s==='bloqueado')?'var(--bad)':s==='vence'?'var(--warn)':'var(--fg)';
-      return'<article class="dev"><div class="dev-h"><div class="who"><b>'+esc(d.name)+'</b><small>'+(d.whatsapp?esc(fmtWa(d.whatsapp)):'sem WhatsApp')+'</small></div>'+
-        '<span class="code">'+id+'</span><span class="pill '+l[1]+'">'+l[0]+'</span></div>'+
-        '<div class="meta"><span>Vencimento: <b style="color:'+vc+'">'+venc(d)+'</b></span>'+
-        (s==='teste'?'<span>Teste: <b>'+Math.max(0,Math.round((new Date(d.test_end)-Date.now())/60000))+' min restantes</b></span>':'<span>Testes usados: <b>'+d.tests+' de 2</b></span>')+
-        '<span>Última abertura: <b>'+ago(d.seen_at)+'</b></span></div>'+
-        '<div class="acts">'+acts+'</div></article>';
-    }).join('');
+    $('list').innerHTML=rows.length?rows.map(card).join(''):emptyHtml(db.length?'Nenhum aparelho nesta lista.':'Nenhum aparelho ainda. Quando um cliente abrir o app, o código aparece aqui.');
+    var v=db.filter(function(d){var s=sit(d);return s==='vence'||s==='vencido'}).sort(function(a,b){return new Date(a.paid_until||0)-new Date(b.paid_until||0)});
+    $('list-v').innerHTML=v.length?v.map(card).join(''):emptyHtml('Nenhum plano para renovar agora.');
+    var nv=$('n-venc');nv.hidden=!v.length;nv.textContent=v.length;
   }
-  function addMonths(d,m){var x=new Date(d.getTime());var day=x.getDate();x.setMonth(x.getMonth()+m);if(x.getDate()<day)x.setDate(0);return x}
-  function renew(d,m){var base=d.paid_until&&new Date(d.paid_until)>new Date()?new Date(d.paid_until):new Date();return addMonths(base,m).toISOString()}
 
+  async function load(manual){
+    var b=$('b-ref');b.classList.add('spin');
+    var r=await sb.from('licenses').select('*').order('seen_at',{ascending:false});
+    b.classList.remove('spin');
+    if(r.error){setNet(false);if(manual)fail(r.error);return}
+    db=r.data||[];setNet(true);render();
+  }
+  function setNet(ok){
+    $('c-net').innerHTML='<i class="dot '+(ok?'ok':'bad')+'"></i>'+(ok?'Conectado':'Sem conexão');
+    if(ok)$('c-last').textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  }
   async function upd(code,patch,msg){
     var r=await sb.from('licenses').update(patch).eq('code',code);
     if(r.error){fail(r.error);return}
     toast(msg);await load();
   }
+  function copyTxt(t){
+    function ok(){toast('Código copiado.')}
+    function fb(){try{var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();ok()}catch(e){}}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb();
+  }
+
   document.addEventListener('click',async function(e){
-    var ch=e.target.closest('[data-f]');if(ch){filter=ch.getAttribute('data-f');render();return}
+    var f=e.target.closest('[data-f]');
+    if(f){var k=f.getAttribute('data-f');filter=(f.classList.contains('tile')&&filter===k)?'todos':k;render();return}
     var b=e.target.closest('[data-a]');if(!b)return;
-    var a=b.getAttribute('data-a'),id=b.getAttribute('data-id');
+    var a=b.getAttribute('data-a'),id=b.getAttribute('data-id'),d=db.filter(function(x){return x.code===id})[0];
     if(a==='cancel'){delId=null;render();return}
-    var d=db.filter(function(x){return x.code===id})[0];
+    if(a==='tog'){if(openSet[id])delete openSet[id];else openSet[id]=1;delId=null;render();return}
+    if(!d)return;
     if(a==='m1'||a==='m3'){var m=a==='m1'?1:3;await upd(id,{status:'ativado',paid_until:renew(d,m)},'Plano renovado por '+m+(m===1?' mês.':' meses.'))}
     if(a==='blk')await upd(id,{status:'bloqueado'},'App desativado neste aparelho.');
-    if(a==='unb')await upd(id,{status:d&&d.paid_until&&new Date(d.paid_until)>new Date()?'ativado':'teste'},'App reativado.');
+    if(a==='unb')await upd(id,{status:d.paid_until&&new Date(d.paid_until)>new Date()?'ativado':'teste'},'App reativado.');
     if(a==='test')await upd(id,{status:'teste',tests:Math.max(0,Math.min(d.tests-1,1)),test_end:null},'Mais 1 teste liberado. O cliente toca em "Testar grátis" de novo.');
+    if(a==='wa')openUrl(waLink(d,sit(d)));
+    if(a==='copy')copyTxt(id);
+    if(a==='edit'){editCode=id;$('e-code').textContent=id;$('e-name').value=d.name==='Cliente novo'?'':d.name;$('e-wa').value=d.whatsapp||'';$('sheet').hidden=false;setTimeout(function(){$('e-name').focus()},50)}
     if(a==='del'){delId=id;render()}
-    if(a==='del2'){
-      var r=await sb.from('licenses').delete().eq('code',id);delId=null;
-      if(r.error)fail(r.error);else{toast('Aparelho excluído.');await load()}
-    }
+    if(a==='del2'){var r=await sb.from('licenses').delete().eq('code',id);delId=null;if(r.error)fail(r.error);else{toast('Aparelho excluído.');await load()}}
   });
   $('q').addEventListener('input',function(e){q=e.target.value;render()});
-  $('b-ref').addEventListener('click',load);
+  $('b-ref').addEventListener('click',function(){load(true)});
   $('b-out').addEventListener('click',async function(){await sb.auth.signOut();show(false)});
-
+  $('e-cancel').onclick=function(){$('sheet').hidden=true};
+  $('f-edit').addEventListener('submit',async function(e){
+    e.preventDefault();var n=$('e-name').value.trim(),w=$('e-wa').value.trim();
+    $('sheet').hidden=true;await upd(editCode,{name:n||'Cliente novo',whatsapp:w},'Dados salvos.');
+  });
+  $('a-seg').addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;addM=parseInt(b.getAttribute('data-m'),10);
+    [].forEach.call($('a-seg').children,function(x){x.setAttribute('aria-pressed',x===b)});
+  });
   $('f-add').addEventListener('submit',async function(e){
     e.preventDefault();
     var code=$('a-code').value.trim().toUpperCase(),name=$('a-name').value.trim(),wa=$('a-wa').value.trim(),err=$('a-err');err.textContent='';
     if(!/^MC-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)){err.textContent='O código tem o formato MC-XXXX-XXXX. Peça para o cliente conferir a tela do app.';return}
-    var m=parseInt($('a-m').value,10)||1;var ex=db.filter(function(x){return x.code===code})[0];
-    var row={code:code,status:'ativado',paid_until:renew(ex||{},m)};if(name)row.name=name;if(wa)row.whatsapp=wa;
+    var ex=db.filter(function(x){return x.code===code})[0];
+    var row={code:code,status:'ativado',paid_until:renew(ex,addM)};if(name)row.name=name;if(wa)row.whatsapp=wa;
     var r=await sb.from('licenses').upsert(row,{onConflict:'code'});
     if(r.error){err.textContent=r.error.message;return}
-    $('f-add').reset();toast('Código '+code+' ativado por '+m+(m===1?' mês.':' meses.'));await load();
+    $('f-add').reset();toast('Código '+code+' ativado por '+addM+(addM===1?' mês.':' meses.'));await load();go('list');
   });
 
+  /* páginas */
+  var HD={list:['Aparelhos','Telão Play · licenças'],venc:['Vencimentos','Quem precisa renovar'],add:['Ativar aparelho','Libere um código novo'],cfg:['Ajustes','Conexão, versão e conta']};
+  function go(t){
+    tab=t;
+    ['list','venc','add','cfg'].forEach(function(k){
+      var p=$('p-'+k),on=k===t;
+      if(on&&p.hidden){p.hidden=false;p.style.animation='none';void p.offsetWidth;p.style.animation=''}
+      else p.hidden=!on;
+    });
+    [].forEach.call(document.querySelectorAll('.bn button'),function(b){if(b.getAttribute('data-t')===t)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+    $('hd-t').textContent=HD[t][0];$('hd-s').textContent=HD[t][1];
+    window.scrollTo(0,0);
+  }
+  document.querySelector('.bn').addEventListener('click',function(e){var b=e.target.closest('button');if(b)go(b.getAttribute('data-t'))});
+
+  /* entrada */
+  function show(on){logged=on;$('login').hidden=on;$('app').hidden=!on}
+  $('l-eye').onclick=function(){var i=$('l-pass');i.type=i.type==='password'?'text':'password'};
   $('f-login').addEventListener('submit',async function(e){
     e.preventDefault();$('l-err').textContent='';$('l-go').disabled=true;
     var r=await sb.auth.signInWithPassword({email:ADMIN_EMAIL,password:$('l-pass').value});
     $('l-go').disabled=false;
-    if(r.error){$('l-err').textContent='Senha incorreta.';return}
-    $('l-pass').value='';show(true);load();
+    if(r.error){$('l-err').textContent=/fetch|network/i.test(r.error.message)?'Sem conexão com a internet.':'Senha incorreta.';return}
+    $('l-pass').value='';show(true);go('list');load();
   });
-  setInterval(function(){if(!$('app').hidden&&!document.hidden)load()},30000);
+  setInterval(function(){if(logged&&!document.hidden&&$('sheet').hidden)load()},30000);
   sb.auth.getSession().then(function(r){if(r.data&&r.data.session){show(true);load()}});
+
+  /* atualização obrigatória por dentro do app */
+  var UNK='painel-upd-need',updInfo=null,updBusy=false,curVC=0;
+  function httpJson(u){
+    var H=NATIVE&&plug('CapacitorHttp');
+    if(H)return H.request({url:u+'?t='+Date.now(),method:'GET',connectTimeout:10000,readTimeout:10000}).then(function(r){if(r.status!==200)throw new Error('http '+r.status);return typeof r.data==='string'?JSON.parse(r.data):r.data});
+    return fetch(u+'?t='+Date.now()).then(function(r){if(!r.ok)throw new Error('http');return r.json()});
+  }
+  function updOpen(u){
+    updInfo=u;$('updd').hidden=false;
+    $('updd-p').textContent='A versão '+u.versionName+' do painel já está disponível. É necessário atualizar para continuar usando.';
+    $('updd-e').textContent='';
+  }
+  function updClear(){updInfo=null;$('updd').hidden=true;try{localStorage.removeItem(UNK)}catch(e){}}
+  function updCheck(manual){
+    var A=NATIVE&&plug('AppUpdate');
+    if(!A){if(manual)$('upd-msg').textContent='A atualização funciona só no aplicativo instalado.';return}
+    A.info().then(function(i){
+      curVC=i.versionCode;$('c-ver').textContent=i.versionName+' ('+i.versionCode+')';
+      return httpJson(UPD_URL)
+    }).then(function(u){
+      if(u&&u.versionCode>curVC){try{localStorage.setItem(UNK,JSON.stringify(u))}catch(e){}updOpen(u);$('upd-msg').textContent='Atualização disponível: versão '+u.versionName+'.'}
+      else{updClear();$('upd-msg').textContent='Você está com a versão mais recente.'}
+    }).catch(function(){if(updInfo&&updInfo.versionCode>curVC)updOpen(updInfo);if(manual)$('upd-msg').textContent='Não foi possível verificar agora. Confira a internet.'});
+  }
+  function updGo(){
+    if(updBusy||!updInfo)return;var A=plug('AppUpdate');if(!A)return;
+    var e=$('updd-e');e.textContent='';
+    A.canInstall().then(function(r){
+      if(!r.ok){e.textContent='Permita instalar apps desta fonte e volte para o painel.';A.openInstallSettings().catch(function(){});return}
+      updBusy=true;$('updd-bar').hidden=false;$('updd-go').disabled=true;$('updd-go').textContent='Baixando…';
+      A.download({url:updInfo.url}).then(function(){
+        var t=setInterval(function(){
+          A.status().then(function(s){
+            $('updd-i').style.width=(s.pct||0)+'%';
+            if(s.error){clearInterval(t);updBusy=false;$('updd-go').disabled=false;$('updd-go').textContent='Tentar de novo';e.textContent='Falha ao baixar: '+s.error}
+            else if(s.done){clearInterval(t);updBusy=false;$('updd-go').disabled=false;$('updd-go').textContent='Instalar agora';$('updd-i').style.width='100%';A.install().catch(function(x){e.textContent='Não foi possível abrir o instalador.'})}
+          })
+        },500);
+      }).catch(function(){updBusy=false;$('updd-go').disabled=false;$('updd-go').textContent='Tentar de novo';e.textContent='Falha ao iniciar o download.'});
+    });
+  }
+  $('updd-go').onclick=function(){
+    if($('updd-go').textContent==='Instalar agora'){var A=plug('AppUpdate');A&&A.install().catch(function(){});return}
+    updGo();
+  };
+  $('upd-chk').onclick=function(){$('upd-msg').textContent='Verificando…';updCheck(true)};
+  try{var st=JSON.parse(localStorage.getItem(UNK)||'null');if(st)updInfo=st}catch(e){}
+  updCheck(false);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)updCheck(false)});
+  setInterval(function(){updCheck(false)},20*60000);
 })();
 </script>
 </body>

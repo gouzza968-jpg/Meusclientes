@@ -32,11 +32,23 @@ jobs:
           npx cap add android
           npx cap sync android
 
-      - name: Versão
+      - name: Ícone, atualização por dentro e permissões
         run: |
+          cp -r native/res/. android/app/src/main/res/
+          D=android/app/src/main/java/com/telaoplay/painel
+          cp native/MainActivity.java native/AppUpdatePlugin.java "$D/"
+          M=android/app/src/main/AndroidManifest.xml
+          grep -q "android.permission.REQUEST_INSTALL_PACKAGES" $M || sed -i "s#<application#<uses-permission android:name=\"android.permission.REQUEST_INSTALL_PACKAGES\" />\n    <application#" $M
+
+      - name: Versão e assinatura fixa (permite atualizar por cima)
+        run: |
+          VC=$((100 + GITHUB_RUN_NUMBER))
+          VN="1.$GITHUB_RUN_NUMBER"
           G=android/app/build.gradle
-          sed -i "s/versionCode [0-9]*/versionCode $((100 + GITHUB_RUN_NUMBER))/; s/versionName \"[^\"]*\"/versionName \"1.$GITHUB_RUN_NUMBER\"/" $G
-          echo "VN=1.$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+          sed -i "s/versionCode [0-9]*/versionCode $VC/; s/versionName \"[^\"]*\"/versionName \"$VN\"/" $G
+          sed -i "0,/^android {/s//android {\n    signingConfigs {\n        debug {\n            storeFile rootProject.file('..\/native\/painel.keystore')\n            storePassword 'painel2026'\n            keyAlias 'painel'\n            keyPassword 'painel2026'\n        }\n    }/" $G
+          echo "VC=$VC" >> $GITHUB_ENV
+          echo "VN=$VN" >> $GITHUB_ENV
 
       - name: Compilar APK
         working-directory: android
@@ -48,9 +60,13 @@ jobs:
           done
           test $ok = 1
 
-      - name: Publicar APK
+      - name: Publicar APK e aviso de atualização
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           cp android/app/build/outputs/apk/debug/app-debug.apk painel-licencas.apk
-          gh release create "painel-v$VN" painel-licencas.apk --target "$GITHUB_SHA" --title "Painel Licenças $VN" --notes "APK do painel de licenças" --latest=false
+          U="https://github.com/$GITHUB_REPOSITORY/releases/download/painel-latest/painel-licencas.apk"
+          printf '{"versionCode":%s,"versionName":"%s","url":"%s","notes":"Atualização do painel"}' "$VC" "$VN" "$U" > update.json
+          cat update.json
+          gh release delete painel-latest --cleanup-tag -y || true
+          gh release create painel-latest painel-licencas.apk update.json --target "$GITHUB_SHA" --title "Painel Licenças $VN" --notes "APK do painel de licenças (versão $VN)" --latest=false

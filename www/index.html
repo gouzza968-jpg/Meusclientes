@@ -1836,10 +1836,23 @@ main{padding-bottom:128px}
       if(P&&P.code)P.code().then(function(r){if(r&&r.code){lic.dev=r.code;saveLic(true);res(lic.dev)}else fb()}).catch(fb);else fb()
     })
   }
+  var licErr="";
+  function sbCall(fn,code,bearer){
+    var H=NATIVE&&plug("CapacitorHttp"),u=SB_URL+"/rest/v1/rpc/"+fn,hd={"apikey":SB_KEY,"Content-Type":"application/json"};
+    if(bearer)hd["Authorization"]="Bearer "+SB_KEY;
+    function chk(st,d){
+      if(typeof d==="string"){try{d=JSON.parse(d)}catch(e){}}
+      if(st!==200){var m=d&&(d.message||d.hint||d.error)||"";var er=new Error("http "+st+(m?": "+m:""));er.st=st;throw er}
+      return d
+    }
+    if(H)return H.request({url:u,method:"POST",headers:hd,data:{p_code:code},connectTimeout:12000,readTimeout:12000}).then(function(r){return chk(r.status,r.data)});
+    return fetch(u,{method:"POST",headers:hd,body:JSON.stringify({p_code:code})}).then(function(r){return r.text().then(function(t){return chk(r.status,t)})})
+  }
   function sbRpc(fn,code){
-    var H=NATIVE&&plug("CapacitorHttp"),u=SB_URL+"/rest/v1/rpc/"+fn,hd={"apikey":SB_KEY,"Authorization":"Bearer "+SB_KEY,"Content-Type":"application/json"};
-    if(H)return H.request({url:u,method:"POST",headers:hd,data:{p_code:code},connectTimeout:10000,readTimeout:10000}).then(function(r){if(r.status!==200)throw new Error("http "+r.status);return typeof r.data==="string"?JSON.parse(r.data):r.data});
-    return fetch(u,{method:"POST",headers:hd,body:JSON.stringify({p_code:code})}).then(function(r){if(!r.ok)throw new Error("http");return r.json()})
+    return sbCall(fn,code,false).catch(function(e){
+      if(e&&(e.st===401||e.st===403))return sbCall(fn,code,true);
+      throw e
+    })
   }
   function applySv(r){
     var n=Date.now(),sn=Date.parse(r.now)||n;
@@ -1851,7 +1864,7 @@ main{padding-bottom:128px}
     if(licBusy)return Promise.reject(new Error("busy"));
     licBusy=true;
     return devCode().then(function(c){if(!c)throw new Error("code");return sbRpc(startT?"app_start_test":"app_status",c)})
-      .then(function(r){licBusy=false;licNet=1;applySv(r);licUI();return r},function(e){licBusy=false;licNet=0;licUI();throw e})
+      .then(function(r){licBusy=false;licNet=1;licErr="";applySv(r);licUI();return r},function(e){licBusy=false;licNet=0;licErr=String(e&&e.message||e);licUI();throw e})
   }
   function licState(){
     if(lic.act)return "act";
@@ -1872,7 +1885,7 @@ main{padding-bottom:128px}
   }
   function lockText(){
     var s=lic.sv,r={t:"Meus clientes",p:"",test:false};
-    if(!s){r.t=licNet===0?"Conecte à internet":"Verificando…";r.p=licNet===0?"Não foi possível verificar este aparelho. Conecte-se à internet para continuar.":"Verificando o aparelho…";return r}
+    if(!s){r.t=licNet===0?"Conecte à internet":"Verificando…";r.p=licNet===0?"Não foi possível verificar este aparelho. Confira a internet e tente de novo."+(licErr?" ("+licErr+")":""):"Verificando o aparelho…";return r}
     if(s.status==="bloqueado"){r.t="Acesso desativado";r.p="O acesso deste aparelho foi desativado. Fale com o suporte para regularizar.";return r}
     if(nowT()-s.at>STALE){r.t="Conecte à internet";r.p="Conecte-se à internet para validar o seu plano.";return r}
     if(s.status==="ativado"){r.t="Plano vencido";r.p=s.pe?"Seu plano venceu em "+fmtDate(s.pe)+". Fale com o suporte para renovar.":"Fale com o suporte para ativar o seu plano.";return r}

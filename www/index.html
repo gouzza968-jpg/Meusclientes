@@ -136,7 +136,7 @@ button{cursor:pointer}
     <h2>Painel de Licenças</h2>
     <p>Digite a senha para entrar.</p>
     <input type="text" id="l-mail" value="admin@telaoplay.com" autocomplete="username" hidden>
-    <div class="pw"><input class="inp" id="l-pass" type="password" placeholder="Senha" autocomplete="current-password" required><button type="button" id="l-eye" aria-label="Mostrar senha"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+    <div class="pw"><input class="inp" id="l-pass" type="password" placeholder="Senha" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" required><button type="button" id="l-eye" aria-label="Mostrar senha"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
     <div class="err" id="l-err" role="alert"></div>
     <button class="btn-big" id="l-go" type="submit">Entrar</button>
   </form>
@@ -407,7 +407,7 @@ button{cursor:pointer}
     e.preventDefault();$('l-err').textContent='';$('l-go').disabled=true;
     var r=await sb.auth.signInWithPassword({email:ADMIN_EMAIL,password:$('l-pass').value});
     $('l-go').disabled=false;
-    if(r.error){$('l-err').textContent=/fetch|network/i.test(r.error.message)?'Sem conexão com a internet.':'Senha incorreta.';return}
+    if(r.error){var m=String(r.error.message||r.error);$('l-err').textContent=/invalid login|credentials/i.test(m)?'Senha incorreta. Confira letras maiúsculas e o olho para ver o que digitou.':/fetch|network|failed/i.test(m)?'Sem conexão com o servidor. Confira a internet. ('+m+')':'Erro ao entrar: '+m;return}
     $('l-pass').value='';show(true);go('list');load();
   });
   setInterval(function(){if(logged&&!document.hidden&&$('sheet').hidden)load()},30000);

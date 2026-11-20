@@ -75,6 +75,10 @@ button{cursor:pointer}
 .b.bad{color:var(--bad)}
 .b.sm{min-height:38px;font-size:13px}
 .more{display:flex;gap:8px;flex-wrap:wrap;padding-top:2px;border-top:1px dashed var(--line);padding-top:10px}
+.lm{border:1px dashed var(--line);border-radius:14px;padding:8px 10px;font-size:13.5px;color:var(--ink);overflow-wrap:anywhere}.lm small{display:block;color:var(--mute);font-size:11px;font-weight:650;letter-spacing:.03em;text-transform:uppercase;margin-bottom:2px}
+.hist{display:flex;flex-direction:column;gap:6px;max-height:20vh;overflow:auto}.hist div{border:1px solid var(--line);border-radius:12px;padding:7px 10px;font-size:13px;overflow-wrap:anywhere}.hist small{display:block;color:var(--mute);font-size:11px}
+textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap:6px;flex-wrap:wrap}.tpl .chip{flex:1 1 auto;white-space:normal;font-size:12px;padding:7px 11px;text-align:left;line-height:1.3}
+.chk{display:flex;align-items:center;gap:10px;font-size:14px}.chk input{width:20px;height:20px;accent-color:#8b5cf6}
 .empty{text-align:center;color:var(--mute);padding:34px 10px}
 .empty svg{opacity:.6;margin-bottom:6px}
 
@@ -205,6 +209,32 @@ button{cursor:pointer}
   </div></nav>
 </div>
 
+<!-- vencimento -->
+<div class="ov sheet" id="sh-due" hidden>
+  <form class="lc" id="f-due">
+    <h2 style="font-size:20px">Definir vencimento</h2>
+    <p id="due-c" style="font-family:ui-monospace,Consolas,monospace"></p>
+    <label for="due-d" style="font-size:12.5px;font-weight:700;color:var(--mute)">Novo vencimento (vale até o fim desse dia)</label>
+    <input class="inp" id="due-d" type="date" required>
+    <div class="tpl" id="due-q"><button type="button" class="chip" data-q="7">+7 dias</button><button type="button" class="chip" data-q="15">+15 dias</button><button type="button" class="chip" data-q="30">+30 dias</button><button type="button" class="chip" data-q="90">+90 dias</button></div>
+    <div class="err" id="due-e" role="alert"></div>
+    <div class="acts"><button class="b" type="button" id="due-x">Cancelar</button><button class="b pri" type="submit">Salvar</button></div>
+    <button class="b bad sm" type="button" id="due-rm">Remover plano</button>
+  </form>
+</div>
+<!-- mensagem -->
+<div class="ov sheet" id="sh-msg" hidden>
+  <form class="lc" id="f-msg">
+    <h2 style="font-size:20px">Enviar mensagem</h2>
+    <p id="msg-c" style="font-family:ui-monospace,Consolas,monospace"></p>
+    <textarea class="inp" id="msg-t" maxlength="600" placeholder="Escreva a mensagem que o cliente vai ver no app" required></textarea>
+    <div class="tpl" id="msg-tpl"></div>
+    <label class="chk"><input type="checkbox" id="msg-all"><span id="msg-all-l">Enviar para todos os planos ativos</span></label>
+    <div class="hist" id="msg-h"></div>
+    <div class="err" id="msg-e" role="alert"></div>
+    <div class="acts"><button class="b" type="button" id="msg-x">Cancelar</button><button class="b pri" type="submit">Enviar</button></div>
+  </form>
+</div>
 <!-- editar -->
 <div class="ov sheet" id="sheet" hidden>
   <form class="lc" id="f-edit">
@@ -240,7 +270,7 @@ button{cursor:pointer}
   var CAP=window.Capacitor,NATIVE=!!(CAP&&CAP.isNativePlatform&&CAP.isNativePlatform());
   function plug(n){return CAP&&CAP.Plugins&&CAP.Plugins[n]}
   var sb=supabase.createClient(SB_URL,SB_KEY);
-  var DAY=86400000,db=[],filter='todos',q='',tab='list',delId=null,openSet={},editCode=null,addM=1,logged=false;
+  var DAY=86400000,msgsBy={},dueCode=null,msgCode=null,db=[],filter='todos',q='',tab='list',delId=null,openSet={},editCode=null,addM=1,logged=false;
   function $(i){return document.getElementById(i)}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function toast(m){var t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(function(){t.hidden=true},2600)}
@@ -292,12 +322,12 @@ button{cursor:pointer}
     var more=open?'<div class="more">'+
       (s==='bloqueado'?'<button class="b sm" data-a="unb" data-id="'+id+'">Reativar</button>':'<button class="b sm bad" data-a="blk" data-id="'+id+'">Desativar</button>')+
       ((s==='teste'||s==='expirado')?'<button class="b sm" data-a="test" data-id="'+id+'">+1 teste de 30 min</button>':'')+
-      '<button class="b sm" data-a="edit" data-id="'+id+'">Editar</button><button class="b sm" data-a="copy" data-id="'+id+'">Copiar código</button>'+
+      '<button class="b sm" data-a="due" data-id="'+id+'">Definir vencimento</button><button class="b sm" data-a="msg" data-id="'+id+'">Mensagem</button><button class="b sm" data-a="edit" data-id="'+id+'">Editar</button><button class="b sm" data-a="copy" data-id="'+id+'">Copiar código</button>'+
       (delId===d.code?'<button class="b sm bad" data-a="del2" data-id="'+id+'">Confirmar exclusão</button><button class="b sm" data-a="cancel">Cancelar</button>':'<button class="b sm bad" data-a="del" data-id="'+id+'">Excluir</button>')+'</div>':'';
     return'<article class="cd s-'+s+'"><div class="top" data-a="tog" data-id="'+id+'"><span class="av">'+esc(ini)+'</span><div class="mid"><b class="nm">'+esc(d.name)+'</b><span class="cdx">'+id+'</span></div><span class="pill">'+LAB[s]+'</span></div>'+
       '<div class="info"><div class="em"><small>Vencimento</small><b>'+(d.paid_until?fmtD(d.paid_until):'—')+'</b></div><div class="em"><small>Situação</small><b>'+esc(situText(d,s))+'</b></div>'+
       '<div><small>Testes usados</small><b>'+d.tests+' de 2</b></div><div><small>Última abertura</small><b>'+ago(d.seen_at)+'</b></div></div>'+
-      '<div class="acts"><button class="b pri" data-a="m1" data-id="'+id+'">+1 mês</button><button class="b" data-a="m3" data-id="'+id+'">+3 meses</button>'+
+      (msgsBy[d.code]&&msgsBy[d.code][0]?'<div class="lm"><small>Última mensagem enviada · '+new Date(msgsBy[d.code][0].created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(msgsBy[d.code][0].body)+'</div>':'')+'<div class="acts"><button class="b pri" data-a="m1" data-id="'+id+'">+1 mês</button><button class="b" data-a="m3" data-id="'+id+'">+3 meses</button>'+
       (wl?'<button class="b wa" data-a="wa" data-id="'+id+'">'+ICON.wa+'WhatsApp</button>':'')+'</div>'+more+'</article>';
   }
   function emptyHtml(t){return'<div class="empty"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><div>'+t+'</div></div>'}
@@ -327,7 +357,9 @@ button{cursor:pointer}
     var r=await sb.from('licenses').select('*').order('seen_at',{ascending:false});
     b.classList.remove('spin');
     if(r.error){setNet(false);if(manual)fail(r.error);return}
-    db=r.data||[];setNet(true);render();
+    db=r.data||[];setNet(true);
+    try{var m=await sb.from('license_msgs').select('*').order('created_at',{ascending:false}).limit(600);msgsBy={};(m.data||[]).forEach(function(x){(msgsBy[x.code]=msgsBy[x.code]||[]).push(x)})}catch(e){}
+    render();
   }
   function setNet(ok){
     $('c-net').innerHTML='<i class="dot '+(ok?'ok':'bad')+'"></i>'+(ok?'Conectado':'Sem conexão');
@@ -359,6 +391,11 @@ button{cursor:pointer}
     if(a==='wa')openUrl(waLink(d,sit(d)));
     if(a==='copy')copyTxt(id);
     if(a==='edit'){editCode=id;$('e-code').textContent=id;$('e-name').value=d.name==='Cliente novo'?'':d.name;$('e-wa').value=d.whatsapp||'';$('sheet').hidden=false;setTimeout(function(){$('e-name').focus()},50)}
+    if(a==='due'){dueCode=id;$('due-c').textContent=id+' · '+(d.name||'');$('due-d').value=isoDay(d.paid_until&&new Date(d.paid_until)>new Date()?new Date(d.paid_until):new Date(Date.now()+30*DAY));$('due-e').textContent='';$('sh-due').hidden=false}
+    if(a==='msg'){msgCode=id;$('msg-c').textContent=id+' · '+(d.name||'');$('msg-t').value='';$('msg-all').checked=false;$('msg-e').textContent='';
+      var na=db.filter(function(x){var z=sit(x);return z==='ativo'||z==='vence'}).length;$('msg-all-l').textContent='Enviar para todos os planos ativos ('+na+')';
+      $('msg-h').innerHTML=(msgsBy[id]||[]).slice(0,3).map(function(m){return'<div><small>'+new Date(m.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(m.body)+'</div>'}).join('');
+      $('sh-msg').hidden=false;setTimeout(function(){$('msg-t').focus()},60)}
     if(a==='del'){delId=id;render()}
     if(a==='del2'){var r=await sb.from('licenses').delete().eq('code',id);delId=null;if(r.error)fail(r.error);else{toast('Aparelho excluído.');await load()}}
   });
@@ -383,6 +420,35 @@ button{cursor:pointer}
     var r=await sb.from('licenses').upsert(row,{onConflict:'code'});
     if(r.error){err.textContent=r.error.message;return}
     $('f-add').reset();toast('Código '+code+' ativado por '+addM+(addM===1?' mês.':' meses.'));await load();go('list');
+  });
+
+  function isoDay(t){var x=new Date(t);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
+  $('due-x').onclick=function(){$('sh-due').hidden=true};
+  $('due-q').addEventListener('click',function(e){
+    var b=e.target.closest('[data-q]');if(!b)return;
+    var d=db.filter(function(x){return x.code===dueCode})[0];
+    var base=d&&d.paid_until&&new Date(d.paid_until)>new Date()?new Date(d.paid_until):new Date();
+    $('due-d').value=isoDay(base.getTime()+parseInt(b.getAttribute('data-q'),10)*DAY);
+  });
+  $('f-due').addEventListener('submit',async function(e){
+    e.preventDefault();var v=$('due-d').value,d=db.filter(function(x){return x.code===dueCode})[0];
+    if(!v||!d){$('due-e').textContent='Escolha uma data.';return}
+    var p=v.split('-').map(Number),dt=new Date(p[0],p[1]-1,p[2],23,59,59);
+    var patch={paid_until:dt.toISOString()};if(d.status!=='bloqueado')patch.status='ativado';
+    $('sh-due').hidden=true;await upd(dueCode,patch,'Vencimento definido para '+fmtD(dt)+'.');
+  });
+  $('due-rm').onclick=async function(){$('sh-due').hidden=true;await upd(dueCode,{paid_until:null,status:'teste'},'Plano removido.')};
+  var TPL=['Seu plano vence em breve. Para renovar, fale com o suporte.','Plano renovado com sucesso. Obrigado!','Bem-vindo! Qualquer dúvida, é só chamar o suporte.','Seu plano venceu. Renove para continuar usando o app.'];
+  $('msg-tpl').innerHTML=TPL.map(function(t,i){return'<button type="button" class="chip" data-t="'+i+'">'+esc(t)+'</button>'}).join('');
+  $('msg-tpl').addEventListener('click',function(e){var b=e.target.closest('[data-t]');if(b)$('msg-t').value=TPL[parseInt(b.getAttribute('data-t'),10)]});
+  $('msg-x').onclick=function(){$('sh-msg').hidden=true};
+  $('f-msg').addEventListener('submit',async function(e){
+    e.preventDefault();var t=$('msg-t').value.trim();if(!t){$('msg-e').textContent='Escreva a mensagem.';return}
+    var codes=$('msg-all').checked?db.filter(function(x){var z=sit(x);return z==='ativo'||z==='vence'}).map(function(x){return x.code}):[msgCode];
+    if(!codes.length){$('msg-e').textContent='Nenhum plano ativo para receber.';return}
+    var r=await sb.from('license_msgs').insert(codes.map(function(c){return{code:c,body:t}}));
+    if(r.error){$('msg-e').textContent=r.error.message;return}
+    $('sh-msg').hidden=true;toast(codes.length===1?'Mensagem enviada. O cliente vê ao abrir o app.':'Mensagem enviada para '+codes.length+' aparelhos.');await load();
   });
 
   /* páginas */

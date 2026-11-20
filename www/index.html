@@ -642,6 +642,8 @@ main{padding-bottom:128px}
 .msgl{display:flex;flex-direction:column;gap:10px;text-align:left;max-height:46vh;overflow:auto}
 .msg{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);border-radius:16px;padding:12px 14px;color:#e8ecf8;white-space:pre-wrap;overflow-wrap:anywhere}.msg small{display:block;color:#98a2c3;font-size:12px;margin-bottom:4px;font-weight:650}
 .smsg{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:10px 12px;margin-top:8px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14.5px}.smsg small{display:block;color:var(--mute);font-size:12px;margin-bottom:3px;font-weight:650}.smsg.new{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+#sup-msgs{max-height:320px;overflow:auto;padding-right:2px}.smsg.me{border-color:color-mix(in srgb,var(--acc) 45%,var(--line));background:color-mix(in srgb,var(--acc) 12%,var(--card));margin-left:22px}.smsg:not(.me){margin-right:22px}
+.chat-in{display:flex;gap:8px;align-items:flex-end;margin-top:10px}.chat-in textarea{flex:1;min-height:46px;max-height:120px;resize:none;border-radius:14px}.chat-in .btn{flex:none;height:46px;padding:0 16px;border-radius:14px}
 .sdata{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;border:1px solid var(--line);border-radius:14px}.sdata span{min-width:0;overflow-wrap:anywhere}.sdata small{display:block;color:var(--mute);font-size:12px}.sdata .btn{flex:none;height:38px;padding:0 14px;border-radius:12px;font-size:13px}
 .bnav button{position:relative}.bnav button.has::after{content:"";position:absolute;top:6px;left:calc(50% + 8px);width:10px;height:10px;border-radius:50%;background:#f43f5e;box-shadow:0 0 8px #f43f5e}
 .lc-dev{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap;padding:10px 12px;border-radius:14px;border:1px dashed color-mix(in srgb,currentColor 30%,transparent);margin:8px 0}.lc-dev small{width:100%;text-align:left;opacity:.7;font-size:12px;font-weight:650}.lc-dev b{font:700 17px ui-monospace,Consolas,monospace;letter-spacing:.05em}.lc-dev .btn{height:36px;padding:0 12px;border-radius:11px;font-size:13px}.lc .lc-dev b{color:#fff}
@@ -804,7 +806,8 @@ main{padding-bottom:128px}
     <p class="meta" style="margin:2px 0 0">Dúvidas, renovação do plano e problemas com o app. Atendimento pelo WhatsApp.</p>
     <div class="supp"><span><b>Suporte · Telão Play</b><small>WhatsApp (44) 99172-8175</small></span><button class="btn g-green" id="lic-wa"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.3-1-2.5s.6-1.8.9-2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>WhatsApp</button></div>
     <div class="sdata"><span><b id="sup-nm">—</b><small id="sup-wa">—</small></span><button class="btn" id="sup-edit" type="button">Editar meus dados</button></div>
-    <label style="margin-top:14px">Mensagens do suporte</label><div id="sup-msgs"><p class="meta">Nenhuma mensagem por enquanto.</p></div>
+    <label style="margin-top:14px">Conversa com o suporte</label><div id="sup-msgs"><p class="meta">Nenhuma mensagem por enquanto.</p></div>
+    <div class="chat-in"><textarea id="sup-in" rows="2" maxlength="600" placeholder="Escreva sua mensagem para o suporte"></textarea><button class="btn g-green" id="sup-send" type="button">Enviar</button></div>
   </section>
 <section class="cfg-card" id="sec-imp">
     <h3><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></i>Importar de planilha</h3>
@@ -1872,7 +1875,7 @@ main{padding-bottom:128px}
   function applySv(r){
     var n=Date.now(),sn=Date.parse(r.now)||n;
     if(n>lic.seen)lic.seen=n;
-    var ms=(r.msgs||[]).map(function(m){return{id:m.id,t:m.t,at:Date.parse(m.at)||0}});
+    var ms=(r.msgs||[]).map(function(m){return{id:m.id,t:m.t,at:Date.parse(m.at)||0,s:m.s||"admin"}});
     lic.sv={status:r.status,tests:r.tests|0,te:r.test_end?Date.parse(r.test_end):0,pe:r.plan_end?Date.parse(r.plan_end):0,off:sn-n,at:n,name:r.name||"",wa:r.wa||"",msgs:ms};
     if(r.name&&r.name!=="Cliente novo"&&r.wa)lic.prof=1;
     saveLic(true)
@@ -1925,6 +1928,7 @@ main{padding-bottom:128px}
     }else if(!lk.hidden)lk.hidden=true;
     var pill=$("lic-st"),left=$("lic-left");
     if(lic.act){pill.textContent="Ativado ✓";pill.className="lpill ok";left.textContent="Licença permanente ativa neste aparelho."}
+    else if(st==="act"&&s.pe>=Date.UTC(2090,0,1)){pill.textContent="Vitalício ✓";pill.className="lpill ok";left.textContent="Plano vitalício. Sem vencimento."}
     else if(st==="act"){var d=Math.ceil((s.pe-srvNow())/86400000);pill.textContent="Plano ativo";pill.className="lpill ok";left.textContent="Vence em "+fmtDate(s.pe)+" ("+d+(d===1?" dia":" dias")+")"}
     else if(st==="test"){pill.textContent="Versão teste";pill.className="lpill";left.textContent="Tempo restante do teste: "+fmtLeft(s.te-srvNow())}
     else{pill.textContent="Bloqueado";pill.className="lpill";left.textContent="Acesso bloqueado. Fale com o suporte."}
@@ -1932,7 +1936,7 @@ main{padding-bottom:128px}
   }
   var profEdit=false,profBusy=false,supKey="",msgShown=false;
   function profNeed(){var v=lic.sv;return !!v&&(profEdit||(!lic.prof&&!(v.name&&v.name!=="Cliente novo"&&v.wa)))}
-  function unread(){var v=lic.sv;return v&&v.msgs?v.msgs.filter(function(m){return m.id>(lic.msgSeen||0)}):[]}
+  function unread(){var v=lic.sv;return v&&v.msgs?v.msgs.filter(function(m){return m.s!=="user"&&m.id>(lic.msgSeen||0)}):[]}
   function fmtMsgDate(t){return new Date(t).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}
   function fmtPhone(w){w=String(w||"").replace(/\D/g,"");if(w.length>11)w=w.replace(/^55/,"");return w.length===11?"("+w.slice(0,2)+") "+w.slice(2,7)+"-"+w.slice(7):w.length===10?"("+w.slice(0,2)+") "+w.slice(2,6)+"-"+w.slice(6):w}
   function licExtra(){
@@ -1947,12 +1951,14 @@ main{padding-bottom:128px}
       $("msgd-l").innerHTML=un.map(function(m){return'<div class="msg"><small>'+fmtMsgDate(m.at)+'</small>'+esc(m.t)+'</div>'}).join("");
       md.hidden=false
     }
-    var key=JSON.stringify([v&&v.name,v&&v.wa,v&&v.msgs&&v.msgs.map(function(m){return m.id}),lic.msgSeen||0]);
+    var key=JSON.stringify([v&&v.name,v&&v.wa,v&&v.msgs&&v.msgs.map(function(m){return m.id+m.s}),lic.msgSeen||0]);
     if(key!==supKey){
       supKey=key;
       $("sup-nm").textContent=v&&v.name&&v.name!=="Cliente novo"?v.name:"Seus dados";
       $("sup-wa").textContent=v&&v.wa?fmtPhone(v.wa):"WhatsApp não informado";
-      $("sup-msgs").innerHTML=v&&v.msgs&&v.msgs.length?v.msgs.map(function(m){return'<div class="smsg'+(m.id>(lic.msgSeen||0)?" new":"")+'"><small>'+fmtMsgDate(m.at)+'</small>'+esc(m.t)+'</div>'}).join(""):'<p class="meta">Nenhuma mensagem por enquanto.</p>';
+      var ms=(v&&v.msgs||[]).slice().reverse(),el=$("sup-msgs");
+      el.innerHTML=ms.length?ms.map(function(m){var me=m.s==="user";return'<div class="smsg'+(me?" me":(m.id>(lic.msgSeen||0)?" new":""))+'"><small>'+(me?"Você":"Suporte")+" · "+fmtMsgDate(m.at)+'</small>'+esc(m.t)+'</div>'}).join(""):'<p class="meta">Nenhuma mensagem por enquanto. Escreva abaixo para falar com o suporte.</p>';
+      el.scrollTop=el.scrollHeight;
       var n=$("sup-n");n.hidden=!un.length;n.textContent=un.length+(un.length===1?" nova":" novas");
       var nb=document.querySelector('#bnav [data-p="cfg"]');if(nb)nb.classList.toggle("has",un.length>0)
     }
@@ -1964,6 +1970,14 @@ main{padding-bottom:128px}
     profBusy=true;e.textContent="Salvando…";$("pf-go").disabled=true;
     licProfile(nm,wa).then(function(){profEdit=false;profBusy=false;$("pf-go").disabled=false;$("prof").hidden=true;toast("Dados salvos!")}).catch(function(){profBusy=false;$("pf-go").disabled=false;e.textContent="Sem conexão. Confira a internet e tente de novo."})
   };
+  var supBusy=false;
+  function licSend(t){return devCode().then(function(c){if(!c)throw new Error("code");return sbRpc("app_send",c,{p_text:t})}).then(function(r){applySv(r);supKey="";licUI();return r})}
+  $("sup-send").onclick=function(){
+    var t=$("sup-in").value.trim();if(!t||supBusy)return;
+    if(!lic.sv){toast("Aguarde a conexão com o servidor.");return}
+    supBusy=true;$("sup-send").disabled=true;
+    licSend(t).then(function(){$("sup-in").value="";toast("Mensagem enviada ao suporte.")}).catch(function(e){toast(/limite/.test(String(e&&e.message))?"Muitas mensagens. Tente de novo em alguns minutos.":"Sem conexão. Tente de novo.")}).then(function(){supBusy=false;$("sup-send").disabled=false})
+  };
   $("pf-x").onclick=function(){profEdit=false;$("prof").hidden=true};
   $("sup-edit").onclick=function(){if(!lic.sv){toast("Aguarde a conexão com o servidor.");return}profEdit=true;licUI()};
   $("msgd-ok").onclick=function(){
@@ -1973,7 +1987,7 @@ main{padding-bottom:128px}
   function licLoop(){
     var n=nowT();if(n>lic.seen)lic.seen=n;
     licTick++;
-    if(licReady&&!licBusy&&licTick%(licState()==="lock"?15:600)===0)licSync().catch(function(){});
+    if(licReady&&!licBusy&&licTick%(licState()==="lock"?15:45)===0)licSync().catch(function(){});
     if(licTick%60===0)saveLic(true);
     licUI()
   }

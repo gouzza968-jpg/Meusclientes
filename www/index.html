@@ -76,7 +76,7 @@ button{cursor:pointer}
 .b.sm{min-height:38px;font-size:13px}
 .more{display:flex;gap:8px;flex-wrap:wrap;padding-top:2px;border-top:1px dashed var(--line);padding-top:10px}
 .lm{border:1px dashed var(--line);border-radius:14px;padding:8px 10px;font-size:13.5px;color:var(--ink);overflow-wrap:anywhere}.lm small{display:block;color:var(--mute);font-size:11px;font-weight:650;letter-spacing:.03em;text-transform:uppercase;margin-bottom:2px}
-.hist{display:flex;flex-direction:column;gap:6px;max-height:20vh;overflow:auto}.hist div{border:1px solid var(--line);border-radius:12px;padding:7px 10px;font-size:13px;overflow-wrap:anywhere}.hist small{display:block;color:var(--mute);font-size:11px}
+.hist{display:flex;flex-direction:column;gap:6px;max-height:26vh;overflow:auto}.hist div{border:1px solid var(--line);border-radius:12px;padding:7px 10px;font-size:13px;overflow-wrap:anywhere}.hist small{display:block;color:var(--mute);font-size:11px}
 textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap:6px;flex-wrap:wrap}.tpl .chip{flex:1 1 auto;white-space:normal;font-size:12px;padding:7px 11px;text-align:left;line-height:1.3}
 .chk{display:flex;align-items:center;gap:10px;font-size:14px}.chk input{width:20px;height:20px;accent-color:#8b5cf6}
 .empty{text-align:center;color:var(--mute);padding:34px 10px}
@@ -174,7 +174,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
         <div><label for="a-code">Código do aparelho</label><input class="inp" id="a-code" placeholder="MC-XXXX-XXXX" autocomplete="off" autocapitalize="characters" style="text-transform:uppercase;font-family:ui-monospace,Consolas,monospace;letter-spacing:.06em"></div>
         <div><label for="a-name">Nome do cliente</label><input class="inp" id="a-name" placeholder="Ex.: Carlos Silva" autocomplete="off"></div>
         <div><label for="a-wa">WhatsApp (opcional)</label><input class="inp" id="a-wa" placeholder="(44) 99999-9999" inputmode="tel" autocomplete="off"></div>
-        <div><label>Plano</label><div class="seg" id="a-seg"><button type="button" data-m="1" aria-pressed="true">1 mês</button><button type="button" data-m="3" aria-pressed="false">3 meses</button><button type="button" data-m="6" aria-pressed="false">6 meses</button><button type="button" data-m="12" aria-pressed="false">12 meses</button></div></div>
+        <div><label>Plano</label><div class="seg" id="a-seg"><button type="button" data-m="1" aria-pressed="true">1 mês</button><button type="button" data-m="3" aria-pressed="false">3 meses</button><button type="button" data-m="6" aria-pressed="false">6 meses</button><button type="button" data-m="12" aria-pressed="false">12 meses</button><button type="button" data-m="0" aria-pressed="false">Vitalício</button></div></div>
         <div class="err" id="a-err" role="alert"></div>
         <button class="btn-big" type="submit">Ativar plano</button>
       </form>
@@ -202,7 +202,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
   </div>
 
   <nav class="bn" aria-label="Menu"><div>
-    <button data-t="list" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Aparelhos</button>
+    <button data-t="list" aria-current="page"><span class="n" id="n-list" hidden></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Aparelhos</button>
     <button data-t="venc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Vencimentos<span class="n" id="n-venc" hidden></span></button>
     <button data-t="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>Ativar</button>
     <button data-t="cfg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Ajustes</button>
@@ -216,7 +216,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
     <p id="due-c" style="font-family:ui-monospace,Consolas,monospace"></p>
     <label for="due-d" style="font-size:12.5px;font-weight:700;color:var(--mute)">Novo vencimento (vale até o fim desse dia)</label>
     <input class="inp" id="due-d" type="date" required>
-    <div class="tpl" id="due-q"><button type="button" class="chip" data-q="7">+7 dias</button><button type="button" class="chip" data-q="15">+15 dias</button><button type="button" class="chip" data-q="30">+30 dias</button><button type="button" class="chip" data-q="90">+90 dias</button></div>
+    <div class="tpl" id="due-q"><button type="button" class="chip" data-q="7">+7 dias</button><button type="button" class="chip" data-q="15">+15 dias</button><button type="button" class="chip" data-q="30">+30 dias</button><button type="button" class="chip" data-q="90">+90 dias</button><button type="button" class="chip" data-q="life">Vitalício</button></div>
     <div class="err" id="due-e" role="alert"></div>
     <div class="acts"><button class="b" type="button" id="due-x">Cancelar</button><button class="b pri" type="submit">Salvar</button></div>
     <button class="b bad sm" type="button" id="due-rm">Remover plano</button>
@@ -225,12 +225,12 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
 <!-- mensagem -->
 <div class="ov sheet" id="sh-msg" hidden>
   <form class="lc" id="f-msg">
-    <h2 style="font-size:20px">Enviar mensagem</h2>
+    <h2 style="font-size:20px">Conversa com o cliente</h2>
     <p id="msg-c" style="font-family:ui-monospace,Consolas,monospace"></p>
+    <div class="hist" id="msg-h"></div>
     <textarea class="inp" id="msg-t" maxlength="600" placeholder="Escreva a mensagem que o cliente vai ver no app" required></textarea>
     <div class="tpl" id="msg-tpl"></div>
     <label class="chk"><input type="checkbox" id="msg-all"><span id="msg-all-l">Enviar para todos os planos ativos</span></label>
-    <div class="hist" id="msg-h"></div>
     <div class="err" id="msg-e" role="alert"></div>
     <div class="acts"><button class="b" type="button" id="msg-x">Cancelar</button><button class="b pri" type="submit">Enviar</button></div>
   </form>
@@ -300,12 +300,17 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
   function dias(d){return d.paid_until?Math.ceil((new Date(d.paid_until).getTime()-Date.now())/DAY):null}
   function situText(d,s){
     if(s==='teste')return Math.max(0,Math.round((new Date(d.test_end)-Date.now())/60000))+' min de teste';
+    if(isLife(d)&&s!=='bloqueado')return 'Sem vencimento';
     var n=dias(d);if(n===null)return s==='bloqueado'?'Acesso desativado':'Sem plano';
     if(s==='bloqueado')return 'Acesso desativado';
     return n>=0?'faltam '+n+(n===1?' dia':' dias'):'venceu há '+(-n)+(n===-1?' dia':' dias');
   }
+  var LIFE='2099-12-31T23:59:59.000Z';
+  function isLife(d){return !!(d&&d.paid_until&&new Date(d.paid_until).getFullYear()>=2090)}
+  function dueTxt(d){return isLife(d)?'Vitalício':(d.paid_until?fmtD(d.paid_until):'—')}
+  function unreadOf(d){var t=new Date(d.admin_read_at||0).getTime();return(msgsBy[d.code]||[]).filter(function(m){return m.sender==='user'&&new Date(m.created_at).getTime()>t}).length}
   function addMonths(d,m){var x=new Date(d.getTime()),day=x.getDate();x.setMonth(x.getMonth()+m);if(x.getDate()<day)x.setDate(0);return x}
-  function renew(d,m){var base=d&&d.paid_until&&new Date(d.paid_until)>new Date()?new Date(d.paid_until):new Date();return addMonths(base,m).toISOString()}
+  function renew(d,m){if(m===0)return LIFE;var base=d&&d.paid_until&&new Date(d.paid_until)>new Date()?new Date(d.paid_until):new Date();return addMonths(base,m).toISOString()}
   function waLink(d,s){
     var w=(d.whatsapp||'').replace(/\D/g,'');if(!w)return'';
     if(w.length<=11)w='55'+w;
@@ -322,34 +327,37 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
     var more=open?'<div class="more">'+
       (s==='bloqueado'?'<button class="b sm" data-a="unb" data-id="'+id+'">Reativar</button>':'<button class="b sm bad" data-a="blk" data-id="'+id+'">Desativar</button>')+
       ((s==='teste'||s==='expirado')?'<button class="b sm" data-a="test" data-id="'+id+'">+1 teste de 30 min</button>':'')+
-      '<button class="b sm" data-a="due" data-id="'+id+'">Definir vencimento</button><button class="b sm" data-a="msg" data-id="'+id+'">Mensagem</button><button class="b sm" data-a="edit" data-id="'+id+'">Editar</button><button class="b sm" data-a="copy" data-id="'+id+'">Copiar código</button>'+
+      '<button class="b sm" data-a="due" data-id="'+id+'">Definir vencimento</button><button class="b sm" data-a="life" data-id="'+id+'">Plano vitalício</button><button class="b sm" data-a="msg" data-id="'+id+'">Mensagem'+(unreadOf(d)?' ('+unreadOf(d)+')':'')+'</button><button class="b sm" data-a="edit" data-id="'+id+'">Editar</button><button class="b sm" data-a="copy" data-id="'+id+'">Copiar código</button>'+
       (delId===d.code?'<button class="b sm bad" data-a="del2" data-id="'+id+'">Confirmar exclusão</button><button class="b sm" data-a="cancel">Cancelar</button>':'<button class="b sm bad" data-a="del" data-id="'+id+'">Excluir</button>')+'</div>':'';
-    return'<article class="cd s-'+s+'"><div class="top" data-a="tog" data-id="'+id+'"><span class="av">'+esc(ini)+'</span><div class="mid"><b class="nm">'+esc(d.name)+'</b><span class="cdx">'+id+'</span></div><span class="pill">'+LAB[s]+'</span></div>'+
-      '<div class="info"><div class="em"><small>Vencimento</small><b>'+(d.paid_until?fmtD(d.paid_until):'—')+'</b></div><div class="em"><small>Situação</small><b>'+esc(situText(d,s))+'</b></div>'+
+    return'<article class="cd s-'+s+'"><div class="top" data-a="tog" data-id="'+id+'"><span class="av">'+esc(ini)+'</span><div class="mid"><b class="nm">'+esc(d.name)+'</b><span class="cdx">'+id+(unreadOf(d)?' · <b style="color:var(--warn)">'+unreadOf(d)+(unreadOf(d)===1?' nova':' novas')+'</b>':'')+'</span></div><span class="pill">'+(isLife(d)&&s==='ativo'?'Vitalício':LAB[s])+'</span></div>'+
+      '<div class="info"><div class="em"><small>Vencimento</small><b>'+dueTxt(d)+'</b></div><div class="em"><small>Situação</small><b>'+esc(situText(d,s))+'</b></div>'+
       '<div><small>Testes usados</small><b>'+d.tests+' de 2</b></div><div><small>Última abertura</small><b>'+ago(d.seen_at)+'</b></div></div>'+
-      (msgsBy[d.code]&&msgsBy[d.code][0]?'<div class="lm"><small>Última mensagem enviada · '+new Date(msgsBy[d.code][0].created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(msgsBy[d.code][0].body)+'</div>':'')+'<div class="acts"><button class="b pri" data-a="m1" data-id="'+id+'">+1 mês</button><button class="b" data-a="m3" data-id="'+id+'">+3 meses</button>'+
+      (msgsBy[d.code]&&msgsBy[d.code][0]?'<div class="lm"><small>'+(msgsBy[d.code][0].sender==='user'?'Cliente respondeu':'Última mensagem sua')+' · '+new Date(msgsBy[d.code][0].created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(msgsBy[d.code][0].body)+'</div>':'')+'<div class="acts"><button class="b pri" data-a="m1" data-id="'+id+'">+1 mês</button><button class="b" data-a="m3" data-id="'+id+'">+3 meses</button>'+
       (wl?'<button class="b wa" data-a="wa" data-id="'+id+'">'+ICON.wa+'WhatsApp</button>':'')+'</div>'+more+'</article>';
   }
   function emptyHtml(t){return'<div class="empty"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><div>'+t+'</div></div>'}
 
   function render(){
-    var c={todos:db.length,ativo:0,vence:0,vencido:0,teste:0,expirado:0,bloqueado:0};
-    db.forEach(function(d){c[sit(d)]++});
+    var c={todos:db.length,novas:0,ativo:0,vence:0,vencido:0,teste:0,expirado:0,bloqueado:0};
+    db.forEach(function(d){c[sit(d)]++;if(unreadOf(d))c.novas++});
     var T=[['ativo','Ativos','ok','ativo'],['vence','Vencem 7d','warn','vence'],['vencido','Vencidos','bad','vencido'],['teste','Em teste','info','teste']];
     $('tiles').innerHTML=T.map(function(t){
       var col=t[2]==='ok'?'var(--ok)':t[2]==='warn'?'var(--warn)':t[2]==='bad'?'var(--bad)':'var(--info)';
       return'<button class="tile" style="--c:'+col+'" data-f="'+t[3]+'" aria-pressed="'+(filter===t[3])+'"><i>'+ICON[t[2]]+'</i><b>'+c[t[0]]+'</b><span>'+t[1]+'</span></button>'}).join('');
-    var names={todos:'Todos',ativo:'Ativos',vence:'Vencem em 7 dias',vencido:'Vencidos',teste:'Em teste',expirado:'Teste expirado',bloqueado:'Desativados'};
+    var names={todos:'Todos',novas:'Mensagens novas',ativo:'Ativos',vence:'Vencem em 7 dias',vencido:'Vencidos',teste:'Em teste',expirado:'Teste expirado',bloqueado:'Desativados'};
     $('chips').innerHTML=Object.keys(names).map(function(k){return'<button class="chip" data-f="'+k+'" aria-pressed="'+(filter===k)+'">'+names[k]+' ('+c[k]+')</button>'}).join('');
     var qq=q.trim().toLowerCase();
     var rows=db.filter(function(d){
-      if(filter!=='todos'&&sit(d)!==filter)return false;
+      if(filter==='novas'){if(!unreadOf(d))return false}
+      else if(filter!=='todos'&&sit(d)!==filter)return false;
       return!qq||((d.name||'')+' '+d.code+' '+(d.whatsapp||'')).toLowerCase().indexOf(qq)>=0;
     });
     $('list').innerHTML=rows.length?rows.map(card).join(''):emptyHtml(db.length?'Nenhum aparelho nesta lista.':'Nenhum aparelho ainda. Quando um cliente abrir o app, o código aparece aqui.');
     var v=db.filter(function(d){var s=sit(d);return s==='vence'||s==='vencido'}).sort(function(a,b){return new Date(a.paid_until||0)-new Date(b.paid_until||0)});
     $('list-v').innerHTML=v.length?v.map(card).join(''):emptyHtml('Nenhum plano para renovar agora.');
     var nv=$('n-venc');nv.hidden=!v.length;nv.textContent=v.length;
+    var nl=$('n-list');nl.hidden=!c.novas;nl.textContent=c.novas;
+    if(c.novas>(render.prev||0)&&render.prev!==undefined)toast('Nova mensagem de cliente.');render.prev=c.novas;
   }
 
   async function load(manual){
@@ -394,8 +402,10 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
     if(a==='due'){dueCode=id;$('due-c').textContent=id+' · '+(d.name||'');$('due-d').value=isoDay(d.paid_until&&new Date(d.paid_until)>new Date()?new Date(d.paid_until):new Date(Date.now()+30*DAY));$('due-e').textContent='';$('sh-due').hidden=false}
     if(a==='msg'){msgCode=id;$('msg-c').textContent=id+' · '+(d.name||'');$('msg-t').value='';$('msg-all').checked=false;$('msg-e').textContent='';
       var na=db.filter(function(x){var z=sit(x);return z==='ativo'||z==='vence'}).length;$('msg-all-l').textContent='Enviar para todos os planos ativos ('+na+')';
-      $('msg-h').innerHTML=(msgsBy[id]||[]).slice(0,3).map(function(m){return'<div><small>'+new Date(m.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(m.body)+'</div>'}).join('');
+      $('msg-h').innerHTML=(msgsBy[id]||[]).slice(0,10).reverse().map(function(m){return'<div><small>'+(m.sender==='user'?'Cliente':'Você')+' · '+new Date(m.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(m.body)+'</div>'}).join('');
+      if(unreadOf(d)){d.admin_read_at=new Date().toISOString();sb.from('licenses').update({admin_read_at:d.admin_read_at}).eq('code',id);render()}
       $('sh-msg').hidden=false;setTimeout(function(){$('msg-t').focus()},60)}
+    if(a==='life')await upd(id,{status:'ativado',paid_until:LIFE},'Plano vitalício ativado.');
     if(a==='del'){delId=id;render()}
     if(a==='del2'){var r=await sb.from('licenses').delete().eq('code',id);delId=null;if(r.error)fail(r.error);else{toast('Aparelho excluído.');await load()}}
   });
@@ -419,7 +429,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
     var row={code:code,status:'ativado',paid_until:renew(ex,addM)};if(name)row.name=name;if(wa)row.whatsapp=wa;
     var r=await sb.from('licenses').upsert(row,{onConflict:'code'});
     if(r.error){err.textContent=r.error.message;return}
-    $('f-add').reset();toast('Código '+code+' ativado por '+addM+(addM===1?' mês.':' meses.'));await load();go('list');
+    $('f-add').reset();toast('Código '+code+(addM===0?' ativado: plano vitalício.':' ativado por '+addM+(addM===1?' mês.':' meses.')));await load();go('list');
   });
 
   function isoDay(t){var x=new Date(t);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
@@ -427,6 +437,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
   $('due-q').addEventListener('click',function(e){
     var b=e.target.closest('[data-q]');if(!b)return;
     var d=db.filter(function(x){return x.code===dueCode})[0];
+    if(b.getAttribute('data-q')==='life'){$('due-d').value='2099-12-31';return}
     var base=d&&d.paid_until&&new Date(d.paid_until)>new Date()?new Date(d.paid_until):new Date();
     $('due-d').value=isoDay(base.getTime()+parseInt(b.getAttribute('data-q'),10)*DAY);
   });

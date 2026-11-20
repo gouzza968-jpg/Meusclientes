@@ -739,6 +739,13 @@ main{padding-bottom:128px}
 .cd i{position:absolute;top:-5px;right:-3px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--cc);color:#fff;font-style:normal;font-size:11px;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px var(--bg)}
 .cal-l{display:flex;flex-wrap:wrap;gap:6px 12px;margin:10px 2px 0;font-size:11.5px;color:var(--mute);font-weight:650}
 .cal-l span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--cc);margin-right:5px;vertical-align:-1px}
+.calsw{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 2px;padding:10px 14px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-line);font-weight:750;font-size:14.5px;cursor:pointer}
+.calsw>span:first-child{display:flex;align-items:center;gap:9px}.calsw svg{color:var(--org)}
+.sw2{position:relative;width:46px;height:28px;flex:none}.sw2 input{position:absolute;inset:0;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;z-index:1}
+.sw2 i{position:absolute;inset:0;border-radius:999px;background:color-mix(in srgb,var(--ink) 18%,transparent);transition:background .25s}
+.sw2 i::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35);transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
+.sw2 input:checked+i{background:linear-gradient(135deg,#fbbf24,#f59e0b);box-shadow:0 0 14px -3px var(--org)}
+.sw2 input:checked+i::after{transform:translateX(18px)}
 </style>
 </head>
 <body>
@@ -766,6 +773,7 @@ main{padding-bottom:128px}
 </div>
 
 <div class="pg" id="v-venc">
+  <label class="calsw"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Mostrar calendário</span><span class="sw2"><input type="checkbox" id="cal-on" aria-label="Ativar ou desativar o calendário"><i></i></span></label>
   <div id="cal-out"></div>
   <div id="venc-list"></div>
 </div>
@@ -940,7 +948,7 @@ main{padding-bottom:128px}
   var $=function(i){return document.getElementById(i)};
   /* ---- configurações ---- */
   var DEF_UNITV="https://panel-web.resell.media/#/login";
-  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",nsound:"sino",appName:"",vals:{},sites:{IPTV:"",UNITV:""}};
+  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",nsound:"sino",appName:"",showCal:true,vals:{},sites:{IPTV:"",UNITV:""}};
   try{var c0=JSON.parse(localStorage.getItem(CKEY)||"null");if(c0){cfg=Object.assign(cfg,c0);cfg.sites=Object.assign({IPTV:"",UNITV:""},c0.sites||{})}}catch(e){}
   if(!cfg.sites.UNITV)cfg.sites.UNITV=DEF_UNITV;
   function saveCfg(){try{localStorage.setItem(CKEY,JSON.stringify(cfg))}catch(e){}}
@@ -1122,6 +1130,7 @@ main{padding-bottom:128px}
   var calM=null,calSel="";
   function pad2(n){return (n<10?"0":"")+n}
   function renderCal(){
+    $("cal-on").checked=cfg.showCal!==false;if(cfg.showCal===false){$("cal-out").innerHTML="";calSel="";return}
     var t=today();if(!calM)calM={y:t.getFullYear(),m:t.getMonth()};
     var y=calM.y,m=calM.m,first=new Date(y,m,1).getDay(),nd=new Date(y,m+1,0).getDate(),cnt={},tot=0,MN=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"],tk=iso(t);
     clients.forEach(function(c){if(c.due&&c.due.slice(0,7)===y+"-"+pad2(m+1)){cnt[c.due]=(cnt[c.due]||0)+1;tot++}});
@@ -1132,6 +1141,7 @@ main{padding-bottom:128px}
     }
     $("cal-out").innerHTML='<div class="calc cfg-card"><div class="cal-h"><button class="nv" data-nav="-1" aria-label="Mês anterior">‹</button><h3>'+MN[m]+' '+y+'<small>'+(tot?tot+(tot===1?" vencimento neste mês":" vencimentos neste mês"):"Nenhum vencimento neste mês")+'</small></h3><button class="nv" data-nav="1" aria-label="Próximo mês">›</button></div><div class="cal-w"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div><div class="cal-g">'+cells+'</div><div class="cal-l"><span style="--cc:#ef4444">Vencido</span><span style="--cc:#f59e0b">Até 7 dias</span><span style="--cc:#22c55e">Em dia</span></div></div>'
   }
+  $("cal-on").onchange=function(){cfg.showCal=this.checked;saveCfg();snd("tap");renderVenc()};
   $("cal-out").onclick=function(e){
     var nv=e.target.closest("[data-nav]");
     if(nv){var d=new Date(calM.y,calM.m+Number(nv.dataset.nav),1);calM={y:d.getFullYear(),m:d.getMonth()};calSel="";snd("tab");renderVenc();return}

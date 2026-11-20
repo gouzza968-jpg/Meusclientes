@@ -5,7 +5,7 @@ permissions:
 
 on:
   push:
-    branches: [main]
+    branches: [painel]
   workflow_dispatch:
 
 jobs:
@@ -53,4 +53,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cp android/app/build/outputs/apk/debug/app-debug.apk painel-licencas.apk
-          gh release create "v$VN" painel-licencas.apk --title "Painel Licenças $VN" --notes "APK do painel" --latest
+          gh release create "painel-v$VN" painel-licencas.apk --target "$GITHUB_SHA" --title "Painel Licenças $VN" --notes "APK do painel de licenças" --latest=false

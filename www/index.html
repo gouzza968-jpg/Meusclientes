@@ -804,8 +804,10 @@ body.ro #add{opacity:.45}
 /* configurações em 2 colunas */
 #v-cfg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:start;grid-auto-flow:row dense}
 #v-cfg>.cfg-card{margin:0;grid-column:span 2}
-#v-cfg>.cfg-card.fd:not(.open){grid-column:span 1;padding:11px 10px;border-radius:18px}
-#v-cfg>.cfg-card.fd:not(.open) h3{font-size:13px;line-height:1.2;gap:8px;margin:0;padding-right:16px;position:relative;flex-wrap:wrap}
+#v-cfg>.cfg-card.fd:not(.open){grid-column:span 1;padding:0 10px;border-radius:18px;height:68px;display:grid;align-content:center}
+#v-cfg>.cfg-card.fd:not(.open)>h3{flex:1;min-width:0;flex-wrap:nowrap}
+#v-cfg>.cfg-card.fd:not(.open)>h3 .lpill{display:none}
+#v-cfg>.cfg-card.fd:not(.open) h3{font-size:13px;line-height:1.2;gap:8px;margin:0;padding-right:16px;position:relative;flex-wrap:nowrap;align-items:center}
 #v-cfg>.cfg-card.fd:not(.open) h3 .ci{width:30px;height:30px;border-radius:10px}
 #v-cfg>.cfg-card.fd:not(.open) h3 .ci svg{width:16px;height:16px}
 #v-cfg>.cfg-card.fd:not(.open) h3::after{position:absolute;right:2px;top:50%;margin:-6px 0 0}
@@ -943,6 +945,13 @@ body.supo .supfab{opacity:0;pointer-events:none}
     <label class="sw"><span><b>Pular abertura do app</b><small>Vai direto para a lista de clientes</small></span><input type="checkbox" id="c-skip"><i></i></label>
     <div class="btns"><button class="btn big g-pink" id="c-t3"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4z"/></svg>Rever abertura</button></div>
   </section>
+  <section class="cfg-card" id="sec-sug">
+    <h3><i class="ci" style="--tc:#f59e0b"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2V17h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z"/></svg></i>Sugestões de melhorias</h3>
+    <p class="meta" style="margin:2px 0 0">Tem uma ideia para o app melhorar? Escreva aqui e envie. O suporte recebe e avalia cada sugestão.</p>
+    <textarea id="sg-in" rows="4" maxlength="600" placeholder="Ex.: gostaria de um relatório por servidor…" style="margin-top:10px;width:100%;resize:none;border-radius:14px"></textarea>
+    <div class="btns"><button class="btn big g-orange" id="sg-send" type="button">Enviar sugestão</button></div>
+    <p class="meta" id="sg-msg" role="status" style="min-height:18px"></p>
+  </section>
 <section class="cfg-card" id="sec-bkp">
     <h3><i class="ci" style="--tc:#3b82f6"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></i>Backup, exportação e importação</h3>
     <p class="meta" style="margin:2px 0 0">Os clientes ficam salvos só neste aparelho. “Baixar backup (.json + .csv)” gera dois arquivos: um .json completo e uma planilha .csv, que você pode abrir no Excel e importar de volta aqui. “Restaurar backup” aceita .json ou .csv.</p>
@@ -987,7 +996,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
 <div class="supov" id="sec-sup" role="dialog" aria-modal="true" aria-label="Suporte">
     <div class="sup-hd"><h3><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg></i>Suporte<span class="lpill" id="sup-n" hidden></span></h3><button class="btn" id="sup-close" type="button" aria-label="Fechar">Fechar</button></div>
     <p class="meta" style="margin:2px 0 0">Dúvidas, renovação do plano e problemas com o app. Atendimento pelo WhatsApp.</p>
-    <div class="supp"><span><b>Suporte · Telão Play</b><small>WhatsApp (44) 99172-8175</small></span><button class="btn g-green" id="lic-wa"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.3-1-2.5s.6-1.8.9-2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>WhatsApp</button></div>
+    <div class="supp" id="sup-box"><span><b>Suporte · Telão Play</b><small id="sup-ph">WhatsApp (44) 99172-8175</small></span><button class="btn g-green" id="lic-wa"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.3-1-2.5s.6-1.8.9-2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.5 1.9 1 .9 1.9 1.2 2.2 1.3.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>WhatsApp</button></div>
     <div class="sdata"><span><b id="sup-nm">—</b><small id="sup-wa">—</small></span><button class="btn" id="sup-edit" type="button">Editar meus dados</button></div>
     <label style="margin-top:14px">Conversa com o suporte</label><div id="sup-msgs"><p class="meta">Nenhuma mensagem por enquanto.</p></div>
     <div class="chat-in"><textarea id="sup-in" rows="2" maxlength="600" placeholder="Escreva sua mensagem para o suporte"></textarea><button class="btn g-green" id="sup-send" type="button">Enviar</button></div>
@@ -1092,7 +1101,8 @@ body.supo .supfab{opacity:0;pointer-events:none}
   function saveCfg(){try{localStorage.setItem(CKEY,JSON.stringify(cfg))}catch(e){}}
   var COLORS=["#8b5cf6","#3b82f6","#06b6d4","#22c55e","#f59e0b","#ef4444","#ec4899"];
   function applyColor(){var r=document.documentElement.style,c=cfg.color;if(!/^#[0-9a-f]{6}$/i.test(c||"")){["--vio","--acc","--ha"].forEach(function(k){r.removeProperty(k)});return}r.setProperty("--vio",c);r.setProperty("--acc",c);r.setProperty("--ha",c)}
-  function openCard(id){var c=$(id);if(c&&c.classList.contains("fd")){c.classList.add("open");var h=c.querySelector("h3");if(h)h.setAttribute("aria-expanded","true")}}
+  function closeCards(except){[].forEach.call(document.querySelectorAll("#v-cfg .cfg-card.fd.open"),function(c){if(c!==except){c.classList.remove("open");var h=c.querySelector("h3");if(h)h.setAttribute("aria-expanded","false")}})}
+  function openCard(id){var c=$(id);if(c&&c.classList.contains("fd")){closeCards(c);c.classList.add("open");var h=c.querySelector("h3");if(h)h.setAttribute("aria-expanded","true")}}
   function lum(h){return (0.299*parseInt(h.slice(1,3),16)+0.587*parseInt(h.slice(3,5),16)+0.114*parseInt(h.slice(5,7),16))/255}
   function applyBg(){var r=document.documentElement.style,b=cfg.bg,ks=["--bg","--card","--b1","--b2","--b3"];
     if(!/^#[0-9a-f]{6}$/i.test(b||"")){ks.forEach(function(k){r.removeProperty(k)});return}
@@ -1905,7 +1915,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     schedNotif();toast("Som da notificação: "+b.textContent)
   };
   nsRender();
-  (function(){var L=LN();if(L&&L.addListener)try{L.addListener("localNotificationActionPerformed",function(){setTimeout(function(){show("list");$("bell").click()},400)})}catch(e){}})();
+  (function(){var L=LN();if(L&&L.addListener)try{L.addListener("localNotificationActionPerformed",function(a){var ex=a&&a.notification&&a.notification.extra;if(ex&&ex.t==="chat"){setTimeout(function(){show("cfg");setTimeout(function(){$("supfab").click()},350)},300)}else setTimeout(function(){show("list");$("bell").click()},400)})}catch(e){}})();
   /* sino */
   $("bell").onclick=function(){
     var l=dueList(0).filter(function(x){return x.d>=-30});snd("open");
@@ -1957,11 +1967,11 @@ body.supo .supfab{opacity:0;pointer-events:none}
         if(!NATIVE||!P){toast("A troca de ícone funciona no aplicativo instalado");return}
         P.set({id:id}).then(function(){cfg.icon=id;saveCfg();rd(id);snd("tab");toast("Ícone alterado. Pode levar alguns segundos para atualizar.")}).catch(function(){toast("Não foi possível trocar o ícone")})}
     })();
-    ["sec-lic","sec-nome","sec-bkp","sec-cor","sec-not","sec-ico","sec-int","sec-sites"].forEach(function(id){var sec=$(id);if(!sec||sec.classList.contains("fd"))return;var h=sec.querySelector("h3");if(!h)return;
+    ["sec-lic","sec-nome","sec-sug","sec-bkp","sec-cor","sec-not","sec-ico","sec-int","sec-sites"].forEach(function(id){var sec=$(id);if(!sec||sec.classList.contains("fd"))return;var h=sec.querySelector("h3");if(!h)return;
       var body=document.createElement("div"),inn=document.createElement("div");body.className="cbody";inn.className="cin";body.appendChild(inn);
       while(h.nextSibling)inn.appendChild(h.nextSibling);sec.appendChild(body);sec.classList.add("fd");
       h.tabIndex=0;h.setAttribute("role","button");h.setAttribute("aria-expanded","false");
-      function tg(){var o=sec.classList.toggle("open");h.setAttribute("aria-expanded",String(o));snd("tab")}
+      function tg(){var o=!sec.classList.contains("open");closeCards(o?sec:null);sec.classList.toggle("open",o);h.setAttribute("aria-expanded",String(o));snd("tab");if(o)setTimeout(function(){var r=sec.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight-90)window.scrollTo({top:Math.max(0,window.scrollY+r.top-80),behavior:"smooth"})},420)}
       h.onclick=tg;h.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();tg()}}})
     $("c-theme").onclick=function(e){var b=e.target.closest("button[data-t]");if(!b)return;cfg.theme=b.dataset.t;cfg.bg="";saveCfg();applyTheme();applyBg();th();bgmk();snd("tab")};
     var BGD=[["#000000","Preto"],["#0a1128","Azul-noite"],["#06150f","Verde-escuro"],["#1a0a14","Vinho"],["#15161a","Grafite"]],BGL=[["#ffffff","Branco"],["#fbf6ec","Creme"],["#eaf3ff","Azul claro"],["#fdeff5","Rosa claro"],["#eceef2","Cinza"]];
@@ -2068,11 +2078,21 @@ body.supo .supfab{opacity:0;pointer-events:none}
       throw e
     })
   }
+  function notifyChat(nw){
+    var L=LN();if(!L)return;var last=nw[nw.length-1],body=nw.length>1?nw.length+" novas mensagens. Última: "+last.t:last.t;
+    notifPerm(true).then(function(st){
+      if(st!=="granted")return;if(!document.hidden&&$("sec-sup").classList.contains("open"))return;
+      return L.schedule({notifications:[{id:2000+(last.id%900),title:"Suporte · Telão Play",body:body.slice(0,160),largeBody:body,schedule:{at:new Date(Date.now()+700)},channelId:"venc_sys",smallIcon:NTI,iconColor:"#8B5CF6",autoCancel:true,extra:{t:"chat"}}]})
+    }).catch(function(){})
+  }
   function applySv(r){
     var n=Date.now(),sn=Date.parse(r.now)||n;
     if(n>lic.seen)lic.seen=n;
     var ms=(r.msgs||[]).map(function(m){return{id:m.id,t:m.t,at:Date.parse(m.at)||0,s:m.s||"admin"}});
-    lic.sv={status:r.status,tests:r.tests|0,te:r.test_end?Date.parse(r.test_end):0,pe:r.plan_end?Date.parse(r.plan_end):0,off:sn-n,at:n,name:r.name||"",wa:r.wa||"",msgs:ms};
+    lic.sv={status:r.status,tests:r.tests|0,te:r.test_end?Date.parse(r.test_end):0,pe:r.plan_end?Date.parse(r.plan_end):0,off:sn-n,at:n,name:r.name||"",wa:r.wa||"",msgs:ms,sp:r.sup_phone||"",ss:r.sup_show!==false};
+    var mx=0;ms.forEach(function(m){if(m.id>mx)mx=m.id});
+    if(lic.nSeen==null)lic.nSeen=mx;
+    else{var nw=ms.filter(function(m){return m.s!=="user"&&m.id>lic.nSeen}).sort(function(a,b){return a.id-b.id});if(mx>lic.nSeen)lic.nSeen=mx;if(nw.length)notifyChat(nw)}
     if(r.name&&r.name!=="Cliente novo"&&r.wa)lic.prof=1;
     saveLic(true)
   }
@@ -2095,7 +2115,8 @@ body.supo .supfab{opacity:0;pointer-events:none}
   }
   function fmtLeft(ms){var t=Math.max(0,Math.ceil(ms/1000)),m=Math.floor(t/60),s=t%60;return m+":"+String(s).padStart(2,"0")}
   function fmtLicDate(t){return new Date(t).toLocaleDateString("pt-BR")}
-  function openSup(){var u="https://wa.me/"+SUP+"?text="+encodeURIComponent("Olá! Meu código do aparelho é "+(lic.dev||"")+". Quero ativar o Meus clientes.");openExternal(u)}
+  function supPhone(){var p=String(lic.sv&&lic.sv.sp||"").replace(/\D/g,"");return p.length>=10?p:SUP}
+  function openSup(){var u="https://wa.me/"+supPhone()+"?text="+encodeURIComponent("Olá! Meu código do aparelho é "+(lic.dev||"")+". Quero ativar o Meus clientes.");openExternal(u)}
   function copyCode(b){
     var t=lic.dev||"";if(!t)return;
     function ok(){var o=b.dataset.l||b.textContent;b.dataset.l=o;b.textContent="Copiado ✓";setTimeout(function(){b.textContent=o},1500)}
@@ -2147,9 +2168,10 @@ body.supo .supfab{opacity:0;pointer-events:none}
       $("msgd-l").innerHTML=un.map(function(m){return'<div class="msg"><small>'+fmtMsgDate(m.at)+'</small>'+esc(m.t)+'</div>'}).join("");
       md.hidden=false
     }
-    var key=JSON.stringify([v&&v.name,v&&v.wa,v&&v.msgs&&v.msgs.map(function(m){return m.id+m.s}),lic.msgSeen||0]);
+    var key=JSON.stringify([v&&v.sp,v&&v.ss,v&&v.name,v&&v.wa,v&&v.msgs&&v.msgs.map(function(m){return m.id+m.s}),lic.msgSeen||0]);
     if(key!==supKey){
       supKey=key;
+      $("sup-box").hidden=!(v&&v.ss===false?false:true);$("sup-ph").textContent="WhatsApp "+fmtPhone(supPhone());
       $("sup-nm").textContent=v&&v.name&&v.name!=="Cliente novo"?v.name:"Seus dados";
       $("sup-wa").textContent=v&&v.wa?fmtPhone(v.wa):"WhatsApp não informado";
       var ms=(v&&v.msgs||[]).slice().reverse(),el=$("sup-msgs");
@@ -2165,6 +2187,12 @@ body.supo .supfab{opacity:0;pointer-events:none}
     if(wa.length<10||wa.length>13){e.textContent="Digite o WhatsApp com DDD. Ex.: 44 99999-9999";return}
     profBusy=true;e.textContent="Salvando…";$("pf-go").disabled=true;
     licProfile(nm,wa).then(function(){profEdit=false;profBusy=false;$("pf-go").disabled=false;$("prof").hidden=true;toast("Dados salvos!")}).catch(function(){profBusy=false;$("pf-go").disabled=false;e.textContent="Sem conexão. Confira a internet e tente de novo."})
+  };
+  var sgBusy=false;
+  $("sg-send").onclick=function(){
+    var t=$("sg-in").value.trim(),m=$("sg-msg");if(t.length<3){m.textContent="Escreva sua sugestão (mínimo 3 letras).";return}
+    if(sgBusy)return;sgBusy=true;$("sg-send").disabled=true;m.textContent="Enviando…";
+    devCode().then(function(c){if(!c)throw new Error("code");return sbRpc("app_suggest",c,{p_text:t})}).then(function(r){applySv(r);$("sg-in").value="";m.textContent="Obrigado! Sua sugestão foi enviada.";toast("Sugestão enviada. Obrigado!")}).catch(function(e){m.textContent=/limite/.test(String(e&&(e.message||e.msg)||e))?"Você já enviou 5 sugestões hoje. Tente amanhã.":"Não foi possível enviar. Confira a internet e tente de novo."}).then(function(){sgBusy=false;$("sg-send").disabled=false})
   };
   var supBusy=false;
   (function(){var ov=$("sec-sup"),fb=$("supfab");

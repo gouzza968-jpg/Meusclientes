@@ -172,6 +172,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
 .hist>div.sel::after{content:"✓";position:absolute;right:10px;top:8px;width:20px;height:20px;border-radius:50%;background:var(--bad);color:#fff;font-size:12px;display:grid;place-items:center;font-weight:800}
 .mdel{display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 10px;border-radius:14px;border:1px solid color-mix(in srgb,var(--bad) 40%,transparent);background:color-mix(in srgb,var(--bad) 9%,transparent);font-size:12.5px;font-weight:700}
 .mdel span{flex:1;min-width:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 /* lista minimizada */
 .cd.cm{padding:10px 12px;gap:8px}
 .cd.cm .top{min-width:0}
@@ -287,6 +288,17 @@ body.chato .chatfab{opacity:0;pointer-events:none}
       <div class="list" id="list-v"></div>
     </section>
 
+    <section class="page" id="p-ref" hidden>
+      <div class="card" style="--c:var(--ok)"><h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg></i>Programa de indicações</h2>
+        <label class="swrow" for="r-on"><span><b>Indicações ativas</b><small>Desligado: o cartão Indicações some do app Meus clientes</small></span><span class="ios"><input type="checkbox" id="r-on"><i></i></span></label>
+        <div class="two"><div><label for="r-a">Dias para quem indica</label><input class="inp" id="r-a" inputmode="numeric" maxlength="3" placeholder="30"></div><div><label for="r-b">Dias para o indicado</label><input class="inp" id="r-b" inputmode="numeric" maxlength="3" placeholder="15"></div></div>
+        <button class="b pri" id="r-save" type="button">Salvar prêmios</button>
+        <small style="color:var(--mute)">Automático: quando o indicado recebe o primeiro plano pago, os dois ganham os dias na hora. Limite de 12 prêmios por ano para cada usuário.</small>
+      </div>
+      <div class="tiles" id="r-stats" style="grid-template-columns:repeat(2,1fr)"></div>
+      <div class="list" id="r-list"></div>
+    </section>
+
     <section class="page" id="p-cfg" hidden>
       <section class="card fd" id="cc-net" style="--c:var(--ok)"><h2 tabindex="0" role="button" aria-expanded="false"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></svg></i><span class="tt"><b>Conexão</b><small id="c-sub">Status do servidor</small></span></h2><div class="cbody"><div class="cin">
         <div class="kv"><span>Servidor</span><b id="c-net"><i class="dot"></i>Verificando…</b></div>
@@ -320,6 +332,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
   <nav class="bn" aria-label="Menu"><div>
     <button data-t="list" aria-current="page"><span class="n" id="n-list" hidden></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Aparelhos</button>
     <button data-t="venc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Vencimentos<span class="n" id="n-venc" hidden></span></button>
+    <button data-t="ref"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>Indicações<span class="n" id="n-ref" hidden></span></button>
     <button data-t="cfg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Ajustes</button>
   </div></nav>
 </div>
@@ -396,7 +409,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
   var CAP=window.Capacitor,NATIVE=!!(CAP&&CAP.isNativePlatform&&CAP.isNativePlatform());
   function plug(n){return CAP&&CAP.Plugins&&CAP.Plugins[n]}
   var sb=supabase.createClient(SB_URL,SB_KEY);
-  var DAY=86400000,msgsBy={},dueCode=null,msgCode=null,db=[],filter='todos',q='',tab='list',delId=null,openSet={},editCode=null,addM=1,logged=false,sugs=[],sugF='nova',sugDel=null,settings=null;
+  var DAY=86400000,msgsBy={},dueCode=null,msgCode=null,db=[],filter='todos',q='',tab='list',delId=null,openSet={},editCode=null,addM=1,logged=false,sugs=[],refs=[],sugF='nova',sugDel=null,settings=null;
   function $(i){return document.getElementById(i)}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function toast(m){var t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(function(){t.hidden=true},2600)}
@@ -518,10 +531,11 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     db=r.data||[];setNet(true);
     try{var m=await sb.from('license_msgs').select('*').order('created_at',{ascending:false}).limit(600);msgsBy={};(m.data||[]).forEach(function(x){(msgsBy[x.code]=msgsBy[x.code]||[]).push(x)})}catch(e){}
     try{var g=await sb.from('suggestions').select('*').order('created_at',{ascending:false}).limit(300);if(!g.error)sugs=g.data||[]}catch(e){}
+    try{var rr=await sb.from('referrals').select('*').order('created_at',{ascending:false}).limit(500);if(!rr.error)refs=rr.data||[]}catch(e){}
     try{var st=await sb.from('app_settings').select('*').eq('id',1).maybeSingle();if(st&&st.data){settings=st.data;fillSettings()}}catch(e){}
-    var sig=JSON.stringify([db,sugs,settings,Object.keys(msgsBy).map(function(k){return k+msgsBy[k].length+(msgsBy[k][0]&&msgsBy[k][0].id)})])+Math.floor(Date.now()/60000);
+    var sig=JSON.stringify([db,sugs,refs,settings,Object.keys(msgsBy).map(function(k){return k+msgsBy[k].length+(msgsBy[k][0]&&msgsBy[k][0].id)})])+Math.floor(Date.now()/60000);
     checkNew();if(sig===load.sig&&!manual)return;load.sig=sig;
-    render();renderChat();
+    render();renderChat();renderRef();
   }
   function setNet(ok){
     $('c-net').innerHTML='<i class="dot '+(ok?'ok':'bad')+'"></i>'+(ok?'Conectado':'Sem conexão');
@@ -636,6 +650,9 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     if(!settings)return;
     if(document.activeElement!==$('s-phone'))$('s-phone').value=fmtWa(String(settings.sup_phone||'').replace(/^55(?=\d{10,11}$)/,''));
     $('s-show').checked=settings.sup_show!==false;
+    $('r-on').checked=settings.ref_on!==false;
+    if(document.activeElement!==$('r-a'))$('r-a').value=settings.ref_days_referrer!=null?settings.ref_days_referrer:30;
+    if(document.activeElement!==$('r-b'))$('r-b').value=settings.ref_days_referred!=null?settings.ref_days_referred:15;
   }
   $('s-show').addEventListener('change',async function(){
     var v=this.checked,r=await sb.from('app_settings').update({sup_show:v}).eq('id',1);
@@ -648,7 +665,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     if(d.length<=11)d='55'+d;
     var r=await sb.from('app_settings').upsert({id:1,sup_phone:d,sup_show:$('s-show').checked},{onConflict:'id'});
     if(r.error){fail(r.error);return}
-    settings={id:1,sup_phone:d,sup_show:$('s-show').checked};toast('Telefone do suporte salvo.');
+    settings=Object.assign(settings||{},{id:1,sup_phone:d,sup_show:$('s-show').checked});toast('Telefone do suporte salvo.');
   });
 
   function nameOf(code){var d=db.filter(function(x){return x.code===code})[0];return d&&d.name&&d.name!=='Cliente novo'?d.name:code}
@@ -669,6 +686,55 @@ body.chato .chatfab{opacity:0;pointer-events:none}
   chatFab.addEventListener('click',chatOpen);$('chat-x').addEventListener('click',chatClose);
   $('chat-q').addEventListener('input',renderChat);
   $('chat-list').addEventListener('click',function(e){var b=e.target.closest('[data-chat]');if(b)openMsg(b.getAttribute('data-chat'))});
+
+
+  /* indicações */
+  function dTxt(n){n=Number(n)||0;return n&&n%30===0?(n/30)+(n/30===1?' mês':' meses'):n+(n===1?' dia':' dias')}
+  function rName(c){var d=db.filter(function(x){return x.code===c})[0];return d&&d.name&&d.name!=='Cliente novo'?d.name:c}
+  function renderRef(){
+    var rows=db.filter(function(d){return d.referred_by}),ok=rows.filter(function(d){return d.ref_rewarded}),dias=0;
+    refs.forEach(function(r){dias+=Number(r.days_referrer||0)+Number(r.days_referred||0)});
+    var wait=rows.filter(function(d){return !d.ref_rewarded&&!d.paid_until}),pend=rows.filter(function(d){return !d.ref_rewarded&&d.paid_until});
+    $('r-stats').innerHTML=[['Indicações',rows.length,'var(--info)'],['Premiadas',ok.length,'var(--ok)'],['Aguardando 1º plano',wait.length,'var(--warn)'],['Dias concedidos',dias,'var(--acc)']].map(function(x){return'<div class="tile" style="--c:'+x[2]+'"><b>'+x[1]+'</b><span>'+x[0]+'</span></div>'}).join('');
+    var n=wait.length+pend.length;$('n-ref').hidden=!pend.length;$('n-ref').textContent=pend.length;
+    rows.sort(function(a,b){var ra=a.ref_rewarded?2:a.paid_until?0:1,rb=b.ref_rewarded?2:b.paid_until?0:1;return ra-rb});
+    $('r-list').innerHTML=rows.length?rows.map(function(d){
+      var st=d.ref_rewarded?'ok':d.paid_until?'bad':'warn',lb=d.ref_rewarded?'Premiada':d.paid_until?'Pago, sem prêmio':'Aguardando 1º plano';
+      var rw=refs.filter(function(r){return r.referred===d.code})[0];
+      return'<article class="cd cm s-'+(st==='ok'?'ativo':st==='bad'?'vencido':'vence')+'"><div class="top"><span class="av">'+esc(rName(d.referred_by).charAt(0).toUpperCase())+'</span><div class="mid"><b class="nm">'+esc(rName(d.referred_by))+' <span style="color:var(--mute)">→</span> '+esc(rName(d.code))+'</b><span class="cdx">'+esc(d.referred_by)+' → '+esc(d.code)+'</span></div><span class="pill">'+lb+'</span></div>'+
+        (rw?'<div class="chips2"><span class="chp em">+'+dTxt(rw.days_referrer||30)+' para quem indicou</span><span class="chp em">+'+dTxt(rw.days_referred||15)+' para o indicado</span><span class="chp">'+new Date(rw.created_at).toLocaleDateString('pt-BR')+'</span></div>':'')+
+        (d.ref_rewarded?'':'<div class="acts">'+(d.paid_until?'<button class="b pri sm" data-r="pay" data-id="'+esc(d.code)+'">Premiar agora</button>':'')+'<button class="b sm bad" data-r="cancel" data-id="'+esc(d.code)+'">Cancelar indicação</button></div>')+'</article>'}).join(''):emptyHtml('Nenhuma indicação ainda. Elas aparecem aqui quando um usuário informa o código de quem o indicou.');
+  }
+  $('r-on').addEventListener('change',async function(){
+    var v=this.checked,r=await sb.from('app_settings').upsert({id:1,ref_on:v},{onConflict:'id'});
+    if(r.error){this.checked=!v;fail(r.error);return}
+    settings=Object.assign(settings||{id:1},{ref_on:v});toast(v?'Indicações ativadas. O cartão aparece no app.':'Indicações desativadas. O cartão sumiu do app.');
+  });
+  $('r-save').addEventListener('click',async function(){
+    var a=parseInt($('r-a').value,10),b=parseInt($('r-b').value,10);
+    if(!(a>=0&&a<=365&&b>=0&&b<=365)){toast('Use de 0 a 365 dias.');return}
+    var r=await sb.from('app_settings').upsert({id:1,ref_days_referrer:a,ref_days_referred:b},{onConflict:'id'});
+    if(r.error){fail(r.error);return}
+    settings=Object.assign(settings||{id:1},{ref_days_referrer:a,ref_days_referred:b});toast('Prêmios salvos: '+dTxt(a)+' para quem indica e '+dTxt(b)+' para o indicado.');
+  });
+  $('r-list').addEventListener('click',async function(e){
+    var bt=e.target.closest('[data-r]');if(!bt)return;
+    var id=bt.getAttribute('data-id'),d=db.filter(function(x){return x.code===id})[0];if(!d)return;
+    if(bt.getAttribute('data-r')==='cancel'){
+      var r=await sb.from('licenses').update({referred_by:null}).eq('code',id);if(r.error){fail(r.error);return}
+      d.referred_by=null;toast('Indicação cancelada.');renderRef();render();return
+    }
+    var A=(settings&&settings.ref_days_referrer!=null)?settings.ref_days_referrer:30,B=(settings&&settings.ref_days_referred!=null)?settings.ref_days_referred:15;
+    var ref=db.filter(function(x){return x.code===d.referred_by})[0];if(!ref){toast('Quem indicou não foi encontrado.');return}
+    var LIFE=Date.UTC(2090,0,1),now=Date.now();
+    var rp=ref.paid_until?new Date(ref.paid_until).getTime():0;
+    var up1=rp>=LIFE?{}:{paid_until:new Date(Math.max(rp,now)+A*DAY).toISOString(),status:'ativado'};
+    var dp=new Date(d.paid_until).getTime(),up2={ref_rewarded:true};if(dp<LIFE)up2.paid_until=new Date(dp+B*DAY).toISOString();
+    var r1=Object.keys(up1).length?await sb.from('licenses').update(up1).eq('code',ref.code):{};if(r1.error){fail(r1.error);return}
+    var r2=await sb.from('licenses').update(up2).eq('code',id);if(r2.error){fail(r2.error);return}
+    await sb.from('referrals').insert({referrer:ref.code,referred:id,months:Math.max(1,Math.floor(A/30)),days_referrer:A,days_referred:B});
+    toast('Prêmio concedido aos dois.');load(true)
+  });
 
   /* notificações no celular */
   var LNP=NATIVE&&plug('LocalNotifications');
@@ -745,10 +811,10 @@ body.chato .chatfab{opacity:0;pointer-events:none}
   cfgP.addEventListener('click',function(e){var h=e.target.closest('.fd>h2');if(h)cfgTog(h)});
   cfgP.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.matches('.fd>h2')){e.preventDefault();cfgTog(e.target)}});
   /* páginas */
-  var HD={sug:['Sugestões','Ideias dos clientes'],list:['Aparelhos','Telão Play · licenças'],venc:['Vencimentos','Quem precisa renovar'],add:['Ativar aparelho','Libere um código novo'],cfg:['Ajustes','Conexão, versão e conta']};
+  var HD={sug:['Sugestões','Ideias dos clientes'],list:['Aparelhos','Telão Play · licenças'],venc:['Vencimentos','Quem precisa renovar'],ref:['Indicações','Controle dos prêmios'],add:['Ativar aparelho','Libere um código novo'],cfg:['Ajustes','Conexão, versão e conta']};
   function go(t){
     tab=t;
-    ['list','venc','cfg'].forEach(function(k){
+    ['list','venc','ref','cfg'].forEach(function(k){
       var p=$('p-'+k),on=k===t;
       if(on&&p.hidden){p.hidden=false;p.style.animation='none';void p.offsetWidth;p.style.animation=''}
       else p.hidden=!on;
@@ -757,7 +823,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     $('hd-t').textContent=HD[t][0];$('hd-s').textContent=HD[t][1];
     window.scrollTo(0,0);
   }
-  var TABS=['list','venc','cfg'],sx0=0,sy0=0,sOk=false;
+  var TABS=['list','venc','ref','cfg'],sx0=0,sy0=0,sOk=false;
   document.addEventListener('touchstart',function(e){var t=e.touches[0];sx0=t.clientX;sy0=t.clientY;sOk=!e.target.closest('.chips,.hist,textarea,input,.seg,.ov,.chatov,.swg')&&e.touches.length===1&&logged},{passive:true});
   document.addEventListener('touchend',function(e){
     if(!sOk)return;sOk=false;var t=e.changedTouches[0],dx=t.clientX-sx0,dy=t.clientY-sy0;

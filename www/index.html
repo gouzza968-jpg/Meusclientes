@@ -167,6 +167,28 @@ body.chato .chatfab{opacity:0;pointer-events:none}
 .sg .acts{display:flex;gap:8px;flex-wrap:wrap}
 .bn button span:not(.n){font-size:11px}
 
+/* lista minimizada */
+.cd.cm{padding:10px 12px;gap:8px}
+.cd.cm .top{min-width:0}
+.cd .chev{flex:none;width:8px;height:8px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:translateY(-2px) rotate(45deg);transition:transform .3s}
+.cd.open .chev{transform:translateY(2px) rotate(-135deg)}
+.chips2{display:flex;flex-wrap:wrap;gap:5px}
+.chp{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--mute)}
+.chp svg{width:12px;height:12px;color:var(--c)}
+.chp.em{color:color-mix(in srgb,var(--c) 70%,var(--ink));background:color-mix(in srgb,var(--c) 15%,transparent)}
+.chp.warn{color:var(--warn);background:color-mix(in srgb,var(--warn) 16%,transparent)}
+.cbd{display:flex;flex-direction:column;gap:9px;animation:cbin .3s ease both}
+@keyframes cbin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.fat{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:8px}
+.fat>div{border:1px solid var(--line);border-radius:14px;padding:8px 10px;background:color-mix(in srgb,var(--c) 8%,transparent)}
+.fat small{display:block;color:var(--mute);font-size:11px;font-weight:650}
+.fat b{font-size:17px;font-variant-numeric:tabular-nums}
+.fat .fs{grid-column:1/-1;border:0;background:none;padding:0}
+.fat.off{display:block;border:1px dashed var(--line);border-radius:14px;padding:8px 10px}
+.ideas{display:flex;flex-direction:column;gap:6px}
+.ideas>small{color:var(--mute);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.idea{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;border:1px solid var(--line);border-left:3px solid var(--info);border-radius:12px;padding:8px 10px;font-size:13.5px}
+.idea span{overflow-wrap:anywhere;white-space:pre-wrap}.idea time{flex:none;color:var(--mute);font-size:11px}
 /* v2: tema, cartões recolhíveis, destaque e grupos */
 :root[data-theme="light"]{--bg:#eef1f9;--ink:#141a33;--mute:#5a6385;--line:rgba(20,30,70,.13);--glass:rgba(255,255,255,.78);--glass2:rgba(255,255,255,.94);--hl:inset 0 1px 0 rgba(255,255,255,.95);--ok:#059669;--warn:#d97706;--bad:#e11d48;--info:#2563eb;color-scheme:light}
 :root[data-theme="light"] .cd{background:linear-gradient(135deg,color-mix(in srgb,var(--c) 11%,#fff),#fff 70%);border-color:color-mix(in srgb,var(--c) 30%,rgba(20,30,70,.08))}
@@ -186,6 +208,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
 .hero small{color:var(--mute);font-weight:700;font-size:12.5px}
 .hero b{font-size:32px;line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .hero .hs{color:var(--mute);font-size:12px}
+.hero .hs b{font-size:inherit;color:var(--ink);letter-spacing:0}
 .hero .hn{font-size:12px;font-weight:750;color:var(--warn)}
 .donut{flex:none;width:92px;height:92px;border-radius:50%;background:var(--g);display:grid;place-content:center;text-align:center;position:relative;z-index:1}
 .donut::before{content:"";position:absolute;inset:11px;border-radius:50%;background:var(--bg)}
@@ -259,24 +282,6 @@ body.chato .chatfab{opacity:0;pointer-events:none}
       <div class="list" id="list-v"></div>
     </section>
 
-    <section class="page" id="p-add" hidden>
-      <form class="card" id="f-add" style="--c:var(--ok)">
-        <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></i>Ativar um aparelho</h2>
-        <p>Cole o código que o cliente enviou. Ele aparece na tela do app e em Configurações.</p>
-        <div><label for="a-code">Código do aparelho</label><input class="inp" id="a-code" placeholder="MC-XXXX-XXXX" autocomplete="off" autocapitalize="characters" style="text-transform:uppercase;font-family:ui-monospace,Consolas,monospace;letter-spacing:.06em"></div>
-        <div><label for="a-name">Nome do cliente</label><input class="inp" id="a-name" placeholder="Ex.: Carlos Silva" autocomplete="off"></div>
-        <div><label for="a-wa">WhatsApp (opcional)</label><input class="inp" id="a-wa" placeholder="(44) 99999-9999" inputmode="tel" autocomplete="off"></div>
-        <div><label>Plano</label><div class="seg" id="a-seg"><button type="button" data-m="1" aria-pressed="true">1 mês</button><button type="button" data-m="3" aria-pressed="false">3 meses</button><button type="button" data-m="6" aria-pressed="false">6 meses</button><button type="button" data-m="12" aria-pressed="false">12 meses</button><button type="button" data-m="0" aria-pressed="false">Vitalício</button></div></div>
-        <div class="err" id="a-err" role="alert"></div>
-        <button class="btn-big" type="submit">Ativar plano</button>
-      </form>
-    </section>
-
-    <section class="page" id="p-sug" hidden>
-      <div class="chips" id="sug-chips"></div>
-      <div class="list" id="sug-list"></div>
-    </section>
-
     <section class="page" id="p-cfg" hidden>
       <section class="card fd" id="cc-net" style="--c:var(--ok)"><h2 tabindex="0" role="button" aria-expanded="false"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></svg></i><span class="tt"><b>Conexão</b><small id="c-sub">Status do servidor</small></span></h2><div class="cbody"><div class="cin">
         <div class="kv"><span>Servidor</span><b id="c-net"><i class="dot"></i>Verificando…</b></div>
@@ -310,8 +315,6 @@ body.chato .chatfab{opacity:0;pointer-events:none}
   <nav class="bn" aria-label="Menu"><div>
     <button data-t="list" aria-current="page"><span class="n" id="n-list" hidden></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Aparelhos</button>
     <button data-t="venc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Vencimentos<span class="n" id="n-venc" hidden></span></button>
-    <button data-t="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>Ativar</button>
-    <button data-t="sug"><span class="n" id="n-sug" hidden></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2V17h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z"/></svg><span>Ideias</span></button>
     <button data-t="cfg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Ajustes</button>
   </div></nav>
 </div>
@@ -416,7 +419,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
   var LAB={ativo:'Plano ativo',vence:'Vence em breve',vencido:'Plano vencido',teste:'Em teste',expirado:'Teste expirado',bloqueado:'Desativado'};
   function dias(d){return d.paid_until?Math.ceil((new Date(d.paid_until).getTime()-Date.now())/DAY):null}
   function situText(d,s){
-    if(s==='teste')return Math.max(0,Math.round((new Date(d.test_end)-Date.now())/60000))+' min de teste';
+    if(s==='teste'){var mm=Math.max(0,Math.round((new Date(d.test_end)-Date.now())/60000)),dd=Math.floor(mm/1440),hh=Math.floor(mm%1440/60);return(dd>=1?dd+(dd===1?' dia':' dias')+(hh?' e '+hh+' h':''):mm>=60?hh+' h':mm+' min')+' de teste'}
     if(isLife(d)&&s!=='bloqueado')return 'Sem vencimento';
     var n=dias(d);if(n===null)return s==='bloqueado'?'Acesso desativado':'Sem plano';
     if(s==='bloqueado')return 'Acesso desativado';
@@ -439,27 +442,34 @@ body.chato .chatfab{opacity:0;pointer-events:none}
 
   /* cartão */
   var IC={cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',clk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'};
+  function brl(v){return'R$ '+Number(v||0).toFixed(2).replace('.',',')}
+  function repOf(d){return d.rep_at?{n:d.rep_clients|0,a:d.rep_active|0,l:d.rep_late|0,r:Number(d.rep_rev||0),c:Number(d.rep_cost||0)}:null}
   function card(d){
-    var s=sit(d),id=esc(d.code),open=!!openSet[d.code],wl=waLink(d,s),un=unreadOf(d);
+    var s=sit(d),id=esc(d.code),open=!!openSet[d.code],wl=waLink(d,s),un=unreadOf(d),rp=repOf(d),ideas=sugs.filter(function(x){return x.code===d.code});
     var ini=((d.name&&d.name!=='Cliente novo')?d.name:'?').trim().charAt(0).toUpperCase();
-    var more=open?'<div class="more">'+
-      (s==='bloqueado'?'<button class="b sm" data-a="unb" data-id="'+id+'">Reativar</button>':'<button class="b sm bad" data-a="blk" data-id="'+id+'">Desativar</button>')+
-      ((s==='teste'||s==='expirado')?'<button class="b sm" data-a="test" data-id="'+id+'">+1 teste de 30 min</button>':'')+
-      '<button class="b sm" data-a="due" data-id="'+id+'">Definir vencimento</button><button class="b sm" data-a="life" data-id="'+id+'">Plano vitalício</button><button class="b sm'+(un?' pri':'')+'" data-a="msg" data-id="'+id+'">Mensagem'+(un?' ('+un+')':'')+'</button>'+
-      '<button class="b sm" data-a="edit" data-id="'+id+'">Editar</button><button class="b sm" data-a="copy" data-id="'+id+'">Copiar código</button>'+
-      (delId===d.code?'<button class="b sm bad" data-a="del2" data-id="'+id+'">Confirmar exclusão</button><button class="b sm" data-a="cancel">Cancelar</button>':'<button class="b sm bad" data-a="del" data-id="'+id+'">Excluir</button>')+'</div>':'';
-    var lm=msgsBy[d.code]&&msgsBy[d.code][0];
-    return'<article class="cd s-'+s+'"><div class="top" data-a="tog" data-id="'+id+'"><span class="av">'+esc(ini)+'</span><div class="mid"><b class="nm">'+esc(d.name)+'</b><span class="cdx">'+id+(un?' · <b style="color:var(--warn)">'+un+(un===1?' nova':' novas')+'</b>':'')+'</span></div><span class="pill">'+(isLife(d)&&s==='ativo'?'Vitalício':LAB[s])+'</span></div>'+
-      '<div class="line"><span>'+IC.cal+'<b>'+dueTxt(d)+'</b></span><span class="em">'+IC.clk+'<b>'+esc(situText(d,s))+'</b></span></div>'+
-      '<div class="sub">Testes '+d.tests+'/2 · visto '+ago(d.seen_at)+(d.whatsapp?' · '+esc(fmtWa(d.whatsapp)):'')+'</div>'+
-      (lm?'<div class="lm"><small>'+(lm.sender==='user'?'Cliente respondeu':'Última mensagem sua')+' · '+new Date(lm.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(lm.body)+'</div>':'')+
-      '<div class="acts"><button class="b pri" data-a="m1" data-id="'+id+'">+1 mês</button><button class="b" data-a="m3" data-id="'+id+'">+3 meses</button>'+
-      (wl?'<button class="b wa" data-a="wa" data-id="'+id+'" aria-label="WhatsApp">'+ICON.wa+'</button>':'')+
-      '<button class="b ic" data-a="tog" data-id="'+id+'" aria-label="Mais opções">'+(open?'▴':'⋯')+'</button></div>'+more+'</article>';
+    var chips='<span class="chp">'+IC.cal+dueTxt(d)+'</span><span class="chp em">'+esc(situText(d,s))+'</span>'+(rp?'<span class="chp">👥 '+rp.a+(rp.a===1?' ativo':' ativos')+'</span><span class="chp">'+brl(rp.r)+'/mês</span>':'')+(ideas.length?'<span class="chp">💡 '+ideas.length+'</span>':'')+(un?'<span class="chp warn">💬 '+un+'</span>':'');
+    var body='';
+    if(open){
+      var lm=msgsBy[d.code]&&msgsBy[d.code][0];
+      body='<div class="cbd">'+
+        '<div class="sub">Testes '+d.tests+'/1 · visto '+ago(d.seen_at)+(d.whatsapp?' · '+esc(fmtWa(d.whatsapp)):'')+'</div>'+
+        (rp?'<div class="fat"><div><small>Clientes ativos</small><b>'+rp.a+'</b></div><div><small>Faturamento/mês</small><b>'+brl(rp.r)+'</b></div><div><small>Vencidos</small><b>'+rp.l+'</b></div><div class="fs"><small>Total cadastrado: '+rp.n+(rp.c>0?' · lucro '+brl(rp.r-rp.c)+'/mês':'')+' · atualizado '+ago(d.rep_at)+'</small></div></div>':'<div class="fat off"><small>Sem dados de faturamento ainda. Aparecem quando o cliente abre o app atualizado.</small></div>')+
+        (ideas.length?'<div class="ideas"><small>Ideias do cliente</small>'+ideas.map(function(x){return'<div class="idea"><span>'+esc(x.body)+'</span><time>'+new Date(x.created_at).toLocaleDateString('pt-BR')+'</time></div>'}).join('')+'</div>':'')+
+        (lm?'<div class="lm"><small>'+(lm.sender==='user'?'Cliente respondeu':'Última mensagem sua')+' · '+new Date(lm.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(lm.body)+'</div>':'')+
+        '<div class="acts"><button class="b pri" data-a="m1" data-id="'+id+'">+1 mês</button><button class="b" data-a="m3" data-id="'+id+'">+3 meses</button>'+(wl?'<button class="b wa" data-a="wa" data-id="'+id+'" aria-label="WhatsApp">'+ICON.wa+'</button>':'')+'</div>'+
+        '<div class="more">'+
+        (s==='bloqueado'?'<button class="b sm" data-a="unb" data-id="'+id+'">Reativar</button>':'<button class="b sm bad" data-a="blk" data-id="'+id+'">Desativar</button>')+
+        ((s==='teste'||s==='expirado')?'<button class="b sm" data-a="test" data-id="'+id+'">+1 teste de 3 dias</button>':'')+
+        '<button class="b sm" data-a="due" data-id="'+id+'">Definir vencimento</button><button class="b sm" data-a="life" data-id="'+id+'">Plano vitalício</button><button class="b sm'+(un?' pri':'')+'" data-a="msg" data-id="'+id+'">Mensagem'+(un?' ('+un+')':'')+'</button>'+
+        '<button class="b sm" data-a="edit" data-id="'+id+'">Editar</button><button class="b sm" data-a="copy" data-id="'+id+'">Copiar código</button>'+
+        (delId===d.code?'<button class="b sm bad" data-a="del2" data-id="'+id+'">Confirmar exclusão</button><button class="b sm" data-a="cancel">Cancelar</button>':'<button class="b sm bad" data-a="del" data-id="'+id+'">Excluir</button>')+'</div></div>';
+    }
+    return'<article class="cd cm s-'+s+(open?' open':'')+'" data-code="'+id+'"><div class="top" data-a="tog" data-id="'+id+'" role="button" tabindex="0" aria-expanded="'+open+'"><span class="av">'+esc(ini)+'</span><div class="mid"><b class="nm">'+esc(d.name)+'</b><span class="cdx">'+id+'</span></div><span class="pill">'+(isLife(d)&&s==='ativo'?'Vitalício':LAB[s])+'</span><i class="chev"></i></div><div class="chips2">'+chips+'</div>'+body+'</article>';
   }
   function emptyHtml(t){return'<div class="empty"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><div>'+t+'</div></div>'}
 
   function render(){if(document.hidden){doRender();return}if(render.q)return;render.q=requestAnimationFrame(function(){render.q=0;doRender()})}
+  function focusCard(code){var d=db.filter(function(x){return x.code===code})[0];if(!d)return;openSet={};openSet[code]=1;gSel=sit(d);filter='todos';q='';$('q').value='';go('list');render();setTimeout(function(){var el=document.querySelector('.cd[data-code="'+code+'"]');if(el)el.scrollIntoView({block:'center',behavior:'smooth'})},120)}
   var gSel=null,GR=[['vencido','Vencidos','#fb7185','bad'],['vence','Vencem em 7 dias','#fbbf24','warn'],['teste','Em teste','#60a5fa','info'],['expirado','Teste expirado','#f59e0b','warn'],['ativo','Ativos','#34d399','ok'],['bloqueado','Desativados','#97a0c0','bad']];
   function doRender(){
     var c={todos:db.length,novas:0,ativo:0,vence:0,vencido:0,teste:0,expirado:0,bloqueado:0};
@@ -483,9 +493,9 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     var sel=gSel===null?(gs.length?gs[0].g[0]:''):gSel;
     $('list').innerHTML=gs.length?gs.map(function(x){var g=x.g,op=!!qq||sel===g[0];
       return'<section class="gsec'+(op?' open':'')+'" data-g="'+g[0]+'" style="--gc:'+g[2]+'"><h3 tabindex="0" role="button" aria-expanded="'+op+'"><i class="gi">'+ICON[g[3]]+'</i><span class="tt"><b>'+g[1]+'</b><small>'+x.l.length+(x.l.length===1?' aparelho':' aparelhos')+'</small></span><em class="gn">'+x.l.length+'</em></h3><div class="cbody"><div class="cin"><div class="list">'+x.l.map(card).join('')+'</div></div></div></section>'}).join(''):emptyHtml(db.length?'Nenhum aparelho nesta lista.':'Nenhum aparelho ainda. Quando um cliente abrir o app, o código aparece aqui.');
-    var ac=c.ativo+c.vence,pc=db.length?Math.round(ac/db.length*100):0,aa=0,st=[];
+    var tFat=0,tAct=0;db.forEach(function(d){var r=repOf(d);if(r){tFat+=r.r;tAct+=r.a}});var ac=c.ativo+c.vence,pc=db.length?Math.round(ac/db.length*100):0,aa=0,st=[];
     [['ativo','#34d399'],['vence','#fbbf24'],['vencido','#fb7185'],['teste','#60a5fa'],['expirado','#f59e0b'],['bloqueado','#97a0c0']].forEach(function(x){if(!c[x[0]])return;var b=aa+c[x[0]]/db.length*100;st.push(x[1]+' '+aa+'% '+b+'%');aa=b});
-    $('hero').innerHTML='<div class="hl"><small>Licenças ativas</small><b>'+ac+'<span style="font-size:16px;color:var(--mute);font-weight:700"> de '+db.length+'</span></b><span class="hs">'+c.teste+(c.teste===1?' em teste':' em teste')+' · '+c.expirado+' expirados · '+c.bloqueado+' desativados</span>'+(c.vence||c.vencido||c.novas?'<span class="hn">'+[c.vencido?c.vencido+(c.vencido===1?' vencido':' vencidos'):'',c.vence?c.vence+' vence em 7 dias':'',c.novas?c.novas+(c.novas===1?' mensagem nova':' mensagens novas'):''].filter(Boolean).join(' · ')+'</span>':'')+'</div><div class="donut" style="--g:'+(st.length?'conic-gradient('+st.join(',')+')':'conic-gradient(rgba(128,128,150,.3) 0 100%)')+'"><b>'+pc+'%</b><small>ativos</small></div>';
+    $('hero').innerHTML='<div class="hl"><small>Licenças ativas</small><b>'+ac+'<span style="font-size:16px;color:var(--mute);font-weight:700"> de '+db.length+'</span></b><span class="hs">'+c.teste+(c.teste===1?' em teste':' em teste')+' · '+c.expirado+' expirados · '+c.bloqueado+' desativados</span><span class="hs">Clientes dos usuários: <b>'+tAct+'</b> ativos · <b>'+brl(tFat)+'</b>/mês</span>'+(c.vence||c.vencido||c.novas?'<span class="hn">'+[c.vencido?c.vencido+(c.vencido===1?' vencido':' vencidos'):'',c.vence?c.vence+' vence em 7 dias':'',c.novas?c.novas+(c.novas===1?' mensagem nova':' mensagens novas'):''].filter(Boolean).join(' · ')+'</span>':'')+'</div><div class="donut" style="--g:'+(st.length?'conic-gradient('+st.join(',')+')':'conic-gradient(rgba(128,128,150,.3) 0 100%)')+'"><b>'+pc+'%</b><small>ativos</small></div>';
     var v=db.filter(function(d){var s=sit(d);return s==='vence'||s==='vencido'}).sort(function(a,b){return new Date(a.paid_until||0)-new Date(b.paid_until||0)});
     $('list-v').innerHTML=v.length?v.map(card).join(''):emptyHtml('Nenhum plano para renovar agora.');
     var nv=$('n-venc');nv.hidden=!v.length;nv.textContent=v.length;
@@ -504,7 +514,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     try{var st=await sb.from('app_settings').select('*').eq('id',1).maybeSingle();if(st&&st.data){settings=st.data;fillSettings()}}catch(e){}
     var sig=JSON.stringify([db,sugs,settings,Object.keys(msgsBy).map(function(k){return k+msgsBy[k].length+(msgsBy[k][0]&&msgsBy[k][0].id)})])+Math.floor(Date.now()/60000);
     checkNew();if(sig===load.sig&&!manual)return;load.sig=sig;
-    render();renderSug();renderChat();
+    render();renderChat();
   }
   function setNet(ok){
     $('c-net').innerHTML='<i class="dot '+(ok?'ok':'bad')+'"></i>'+(ok?'Conectado':'Sem conexão');
@@ -565,21 +575,6 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     e.preventDefault();var n=$('e-name').value.trim(),w=$('e-wa').value.trim();
     $('sheet').hidden=true;await upd(editCode,{name:n||'Cliente novo',whatsapp:w},'Dados salvos.');
   });
-  $('a-seg').addEventListener('click',function(e){
-    var b=e.target.closest('button');if(!b)return;addM=parseInt(b.getAttribute('data-m'),10);
-    [].forEach.call($('a-seg').children,function(x){x.setAttribute('aria-pressed',x===b)});
-  });
-  $('f-add').addEventListener('submit',async function(e){
-    e.preventDefault();
-    var code=$('a-code').value.trim().toUpperCase(),name=$('a-name').value.trim(),wa=$('a-wa').value.trim(),err=$('a-err');err.textContent='';
-    if(!/^MC-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)){err.textContent='O código tem o formato MC-XXXX-XXXX. Peça para o cliente conferir a tela do app.';return}
-    var ex=db.filter(function(x){return x.code===code})[0];
-    var row={code:code,status:'ativado',paid_until:renew(ex,addM)};if(name)row.name=name;if(wa)row.whatsapp=wa;
-    var r=await sb.from('licenses').upsert(row,{onConflict:'code'});
-    if(r.error){err.textContent=r.error.message;return}
-    $('f-add').reset();toast('Código '+code+(addM===0?' ativado: plano vitalício.':' ativado por '+addM+(addM===1?' mês.':' meses.')));await load();go('list');
-  });
-
   function isoDay(t){var x=new Date(t);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
   $('due-x').onclick=function(){$('sh-due').hidden=true};
   $('due-q').addEventListener('click',function(e){
@@ -631,36 +626,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     settings={id:1,sup_phone:d,sup_show:$('s-show').checked};toast('Telefone do suporte salvo.');
   });
 
-  /* sugestões */
   function nameOf(code){var d=db.filter(function(x){return x.code===code})[0];return d&&d.name&&d.name!=='Cliente novo'?d.name:code}
-  var SGL={nova:'Nova',util:'Útil',nao_util:'Não útil'};
-  function renderSug(){
-    var c={nova:0,util:0,nao_util:0,todas:sugs.length};sugs.forEach(function(x){c[x.status]=(c[x.status]||0)+1});
-    var nb=$('n-sug');nb.hidden=!c.nova;nb.textContent=c.nova;
-    var names=[['nova','Novas'],['util','Úteis'],['nao_util','Não úteis'],['todas','Todas']];
-    $('sug-chips').innerHTML=names.map(function(n){return'<button class="chip" data-sf="'+n[0]+'" aria-pressed="'+(sugF===n[0])+'">'+n[1]+' ('+c[n[0]]+')</button>'}).join('');
-    var rows=sugs.filter(function(x){return sugF==='todas'||x.status===sugF});
-    $('sug-list').innerHTML=rows.length?rows.map(function(x){
-      var id=x.id;
-      return'<article class="sg s-'+x.status+'"><div class="sgh"><b>'+esc(nameOf(x.code))+'</b><span class="st">'+SGL[x.status]+'</span><small>'+esc(x.code)+' · '+new Date(x.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small></div>'+
-        '<p class="sgb">'+esc(x.body)+'</p><div class="acts">'+
-        '<button class="b sm'+(x.status==='util'?' pri':'')+'" data-s="util" data-id="'+id+'">👍 Útil</button>'+
-        '<button class="b sm'+(x.status==='nao_util'?' pri':'')+'" data-s="nao_util" data-id="'+id+'">👎 Não útil</button>'+
-        (sugDel===id?'<button class="b sm bad" data-s="del2" data-id="'+id+'">Confirmar</button><button class="b sm" data-s="cancel" data-id="'+id+'">Cancelar</button>':'<button class="b sm bad" data-s="del" data-id="'+id+'">Apagar</button>')+'</div></article>'}).join(''):emptyHtml(sugs.length?'Nenhuma sugestão nesta lista.':'Nenhuma sugestão ainda. Elas aparecem aqui quando um cliente enviar pelo app.');
-  }
-  document.addEventListener('click',async function(e){
-    var f=e.target.closest('[data-sf]');if(f){sugF=f.getAttribute('data-sf');renderSug();return}
-    var b=e.target.closest('[data-s]');if(!b)return;
-    var a=b.getAttribute('data-s'),id=Number(b.getAttribute('data-id'));
-    if(a==='del'){sugDel=id;renderSug();return}
-    if(a==='cancel'){sugDel=null;renderSug();return}
-    if(a==='del2'){var r=await sb.from('suggestions').delete().eq('id',id);sugDel=null;if(r.error){fail(r.error);return}sugs=sugs.filter(function(x){return x.id!==id});renderSug();toast('Sugestão apagada.');return}
-    var cur=sugs.filter(function(x){return x.id===id})[0];if(!cur)return;
-    var nv=cur.status===a?'nova':a;
-    var r2=await sb.from('suggestions').update({status:nv}).eq('id',id);
-    if(r2.error){fail(r2.error);return}
-    cur.status=nv;renderSug();toast(nv==='util'?'Marcada como útil.':nv==='nao_util'?'Marcada como não útil.':'Voltou para novas.');
-  });
 
   /* conversas (balão) */
   function renderChat(){
@@ -691,7 +657,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
       var ex=a&&a.notification&&a.notification.extra||{};
       if(!logged)return;
       if(ex.t==='chat'&&ex.code)setTimeout(function(){openMsg(ex.code)},300);
-      else if(ex.t==='sug')go('sug');
+      else if(ex.t==='sug'&&ex.code)setTimeout(function(){focusCard(ex.code)},300);
     })}catch(e){}
   }
   function notify(id,title,body,extra){
@@ -719,7 +685,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     else{
       var ns=sugs.filter(function(x){return x.id>Number(ss)}).sort(function(a,b){return a.id-b.id});
       if(sx>Number(ss))lsSet('painel-sid',sx);
-      ns.slice(-3).forEach(function(x){notify(4000+(x.id%900),'Nova sugestão · '+nameOf(x.code),x.body,{t:'sug'})});
+      ns.slice(-3).forEach(function(x){notify(4000+(x.id%900),'Nova ideia · '+nameOf(x.code),x.body,{t:'sug',code:x.code})});
     }
   }
 
@@ -757,7 +723,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
   var HD={sug:['Sugestões','Ideias dos clientes'],list:['Aparelhos','Telão Play · licenças'],venc:['Vencimentos','Quem precisa renovar'],add:['Ativar aparelho','Libere um código novo'],cfg:['Ajustes','Conexão, versão e conta']};
   function go(t){
     tab=t;
-    ['list','venc','add','sug','cfg'].forEach(function(k){
+    ['list','venc','cfg'].forEach(function(k){
       var p=$('p-'+k),on=k===t;
       if(on&&p.hidden){p.hidden=false;p.style.animation='none';void p.offsetWidth;p.style.animation=''}
       else p.hidden=!on;
@@ -766,7 +732,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     $('hd-t').textContent=HD[t][0];$('hd-s').textContent=HD[t][1];
     window.scrollTo(0,0);
   }
-  var TABS=['list','venc','add','sug','cfg'],sx0=0,sy0=0,sOk=false;
+  var TABS=['list','venc','cfg'],sx0=0,sy0=0,sOk=false;
   document.addEventListener('touchstart',function(e){var t=e.touches[0];sx0=t.clientX;sy0=t.clientY;sOk=!e.target.closest('.chips,.hist,textarea,input,.seg,.ov,.chatov,.swg')&&e.touches.length===1&&logged},{passive:true});
   document.addEventListener('touchend',function(e){
     if(!sOk)return;sOk=false;var t=e.changedTouches[0],dx=t.clientX-sx0,dy=t.clientY-sy0;

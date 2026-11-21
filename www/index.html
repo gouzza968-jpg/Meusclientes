@@ -972,10 +972,11 @@ body.supo .supfab{opacity:0;pointer-events:none}
 <section class="cfg-card" id="sec-ind">
     <h3><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg></i>Indicações</h3>
     <p class="meta" id="ind-txt" style="margin:2px 0 0"></p>
-    <div class="lc-dev"><small>Seu código de indicação</small><b id="ind-code">…</b><button class="btn" id="ind-copy" type="button">Copiar</button></div>
+    <p class="meta" id="ind-lock" style="margin:8px 0 0" hidden>🔒 Só quem tem um <b>plano ativo</b> pode indicar. Ative o seu plano para liberar o seu código de indicação.</p>
+    <div id="ind-mine"><div class="lc-dev"><small>Seu código de indicação</small><b id="ind-code">…</b><button class="btn" id="ind-copy" type="button">Copiar</button></div>
     <button class="btn big g-green" id="ind-share" type="button" style="margin-top:10px">Compartilhar no WhatsApp</button>
     <div class="ind-st"><div><b id="ind-n">0</b><small>Indicados</small></div><div><b id="ind-ok">0</b><small>Premiadas</small></div></div>
-    <p class="meta" style="margin:2px 0 0">Seu amigo informa o seu código ao falar com o suporte para contratar. Vale a partir do primeiro plano pago dele.</p>
+    <p class="meta" style="margin:2px 0 0">Seu amigo informa o seu código aqui no app dele e, ao contratar o primeiro plano, vocês dois ganham.</p></div>
     <div id="ind-by-box"><div class="sub-t">Alguém indicou você?</div>
       <div class="vrow"><input id="ind-in" maxlength="14" autocomplete="off" autocapitalize="characters" placeholder="MC-XXXX-XXXX" aria-label="Código de quem indicou"><button class="btn g-violet" id="ind-save" type="button">Salvar</button></div>
       <p class="meta" id="ind-msg" style="margin:4px 0 0"></p></div>
@@ -2305,6 +2306,8 @@ body.supo .supfab{opacity:0;pointer-events:none}
     var on=v.rf!==false;$("sec-ind").hidden=!on;if(!on)return;
     function dt(n){return n&&n%30===0?(n/30)+(n/30===1?" mês":" meses"):n+(n===1?" dia":" dias")}
     $("ind-txt").innerHTML="Indique o Meus clientes para um amigo. Quando ele contratar o primeiro plano, <b>você ganha "+dt(v.fa)+" de acesso</b> e <b>seu amigo ganha "+dt(v.fb)+"</b>, automaticamente.";
+    var act=licState()==="act"||!!lic.act;
+    $("ind-mine").hidden=!act;$("ind-lock").hidden=act;
     $("ind-code").textContent=lic.dev||"…";$("ind-n").textContent=v.rn;$("ind-ok").textContent=v.ro;
     $("ind-by-box").hidden=false;
     if(v.rb){$("ind-in").value=v.rb;$("ind-in").disabled=true;$("ind-save").hidden=true;$("ind-msg").textContent="Você foi indicado por "+v.rb+". Obrigado!"}
@@ -2321,7 +2324,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     if(!/^MC-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(c)){m.textContent="Código inválido. Use o formato MC-XXXX-XXXX.";return}
     m.textContent="Salvando…";$("ind-save").disabled=true;
     devCode().then(function(d){if(!d)throw new Error("code");return sbRpc("app_refer",d,{p_ref:c})}).then(function(r){applySv(r);licUI();toast("Indicação registrada!");snd("save")})
-    .catch(function(e){var t=String(e&&(e.message||e.msg)||"");m.textContent=/proprio/.test(t)?"Esse é o seu próprio código.":/encontrado/.test(t)?"Código não encontrado. Confira com quem indicou.":/indispon/.test(t)?"Não é mais possível informar uma indicação neste aparelho.":"Não foi possível agora. Confira a internet."})
+    .catch(function(e){var t=String(e&&(e.message||e.msg)||"");m.textContent=/proprio/.test(t)?"Esse é o seu próprio código.":/encontrado/.test(t)?"Código não encontrado. Confira com quem indicou.":/sem plano/.test(t)?"Quem indicou precisa ter um plano ativo.":/indispon/.test(t)?"Não é mais possível informar uma indicação neste aparelho.":"Não foi possível agora. Confira a internet."})
     .then(function(){$("ind-save").disabled=false})
   };
   var profEdit=false,profBusy=false,supKey="",msgShown=false;

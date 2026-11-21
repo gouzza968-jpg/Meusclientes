@@ -802,6 +802,9 @@ main{padding-bottom:128px}
 body.ro{padding-top:42px}
 body.ro #add{opacity:.45}
 #cal-day{margin-bottom:12px}
+.vrow .cvh{flex:1;font-size:11.5px;color:var(--mute);line-height:1.25}
+.c-l{color:#22c55e;font-weight:750}
+.lc{color:#22c55e!important;font-weight:750}
 /* início v2 */
 .rhero.big{position:relative;overflow:hidden;padding:18px 16px;margin-bottom:12px}
 .rhero.big::after{content:"";position:absolute;right:-40px;top:-60px;width:170px;height:170px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,#22c55e 35%,transparent),transparent);pointer-events:none}
@@ -937,10 +940,6 @@ body.supo .supfab{opacity:0;pointer-events:none}
   <div class="list" id="list"></div>
 </div>
 
-<div class="pg" id="v-venc">
-  <div id="venc-list"></div>
-</div>
-
 <div class="pg" id="v-rel">
   <label class="calsw"><span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Mostrar calendário</span><span class="sw2"><input type="checkbox" id="cal-on" aria-label="Ativar ou desativar o calendário"><i></i></span></label>
   <div id="cal-out"></div>
@@ -1051,7 +1050,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
   </div>
 <button class="supfab" id="supfab" type="button" aria-label="Suporte"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/></svg><i></i></button>
 <div class="toast" id="toast" role="status"></div>
-<nav class="bnav" id="bnav" aria-label="Navegação"><button data-p="list" class="on"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span>Início</span></button><button data-p="venc"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Vencimentos</span></button><button data-p="rel"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>Relatórios</span></button><button data-p="cfg"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Configurações</span></button></nav>
+<nav class="bnav" id="bnav" aria-label="Navegação"><button data-p="list" class="on"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span>Início</span></button><button data-p="rel"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>Relatórios</span></button><button data-p="cfg"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Configurações</span></button></nav>
 <button class="fab" id="add" aria-label="Novo cliente"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
 <div class="kb" id="kb" hidden></div>
 <dialog id="belld" aria-labelledby="bd-t"><h2 id="bd-t" style="margin:0 0 4px">Notificações</h2><p class="meta" id="bd-s" style="margin:0 0 8px"></p><div id="bd-l"></div><div class="acts" style="margin-top:14px"><button class="btn g-violet" id="bd-cfg"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Configurar horário</button><button class="btn" id="bd-x">Fechar</button></div></dialog>
@@ -1143,7 +1142,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
   var $=function(i){return document.getElementById(i)};
   /* ---- configurações ---- */
   var DEF_UNITV="https://panel-web.resell.media/#/login";
-  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",nsound:"sino",appName:"",showCal:true,vals:{},sites:{IPTV:"",UNITV:""}};
+  var CKEY="clientes-cfg-v1",cfg={soundStart:false,soundChg:false,skipIntro:false,theme:"dark",notify:true,ntime:"09:00",nsound:"sino",appName:"",showCal:true,vals:{},costs:{},sites:{IPTV:"",UNITV:""}};
   try{var c0=JSON.parse(localStorage.getItem(CKEY)||"null");if(c0){cfg=Object.assign(cfg,c0);cfg.sites=Object.assign({IPTV:"",UNITV:""},c0.sites||{})}}catch(e){}
   if(!cfg.sites.UNITV)cfg.sites.UNITV=DEF_UNITV;
   function saveCfg(){try{localStorage.setItem(CKEY,JSON.stringify(cfg))}catch(e){}}
@@ -1168,7 +1167,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     var st=$("srvcss");if(!st){st=document.createElement("style");st.id="srvcss";document.head.appendChild(st)}st.textContent=css
   }
   function sitesUI(){
-    $("c-sites").innerHTML=srvNames().map(function(n){return '<div class="srow"><label class="u"><span class="srv" data-s="'+esc(n)+'">'+esc(n)+'</span></label><div class="urlrow"><input type="url" inputmode="url" autocomplete="off" autocapitalize="off" data-sv="'+esc(n)+'" value="'+esc(cfg.sites[n]||"")+'" placeholder="https://painel…"><button class="btn g-green" data-open="'+esc(n)+'">Abrir</button>'+(BUILT[n]?'':'<button class="btn x" data-del="'+esc(n)+'" aria-label="Remover">'+IC.trash+'</button>')+'</div><div class="vrow"><span>Valor por cliente</span><input data-vv="'+esc(n)+'" inputmode="decimal" placeholder="R$ 0,00" value="'+(cfg.vals[n]!=null?String(cfg.vals[n]).replace(".",","):"")+'" aria-label="Valor dos clientes de '+esc(n)+'"><button class="btn g-violet" data-apply="'+esc(n)+'">Aplicar a todos ('+clients.filter(function(c){return c.server===n}).length+')</button></div></div>'}).join("");
+    $("c-sites").innerHTML=srvNames().map(function(n){return '<div class="srow"><label class="u"><span class="srv" data-s="'+esc(n)+'">'+esc(n)+'</span></label><div class="urlrow"><input type="url" inputmode="url" autocomplete="off" autocapitalize="off" data-sv="'+esc(n)+'" value="'+esc(cfg.sites[n]||"")+'" placeholder="https://painel…"><button class="btn g-green" data-open="'+esc(n)+'">Abrir</button>'+(BUILT[n]?'':'<button class="btn x" data-del="'+esc(n)+'" aria-label="Remover">'+IC.trash+'</button>')+'</div><div class="vrow"><span>Valor por cliente</span><input data-vv="'+esc(n)+'" inputmode="decimal" placeholder="R$ 0,00" value="'+(cfg.vals[n]!=null?String(cfg.vals[n]).replace(".",","):"")+'" aria-label="Valor dos clientes de '+esc(n)+'"><button class="btn g-violet" data-apply="'+esc(n)+'">Aplicar a todos ('+clients.filter(function(c){return c.server===n}).length+')</button></div><div class="vrow"><span>Custo por crédito</span><input data-cv="'+esc(n)+'" inputmode="decimal" placeholder="R$ 0,00" value="'+(cfg.costs&&cfg.costs[n]!=null?String(cfg.costs[n]).replace(".",","):"")+'" aria-label="Custo por crédito do servidor '+esc(n)+'"><small class="cvh">1 crédito = 1 mês de um cliente. Usado para calcular o lucro.</small></div></div>'}).join("");
     fillServers()
   }
   function siteUrl(sv){var u=String(cfg.sites[sv]||"").trim();if(!u)return "";if(!/^https?:\/\//i.test(u))u="https://"+u;return u}
@@ -1310,6 +1309,9 @@ body.supo .supfab{opacity:0;pointer-events:none}
 
   var TI={all:["users","#8b5cf6"],ok:["check","#22c55e"],warn:["clock","#f59e0b"],bad:["alert","#ef4444"]};
   var PLN={1:"Mensal",3:"Trimestral",6:"Semestral",12:"Anual"};
+  function costOf(c){var v=cfg.costs&&cfg.costs[c.server];return v>0?Number(v):0}
+  function hasCost(){var k=cfg.costs||{};return Object.keys(k).some(function(x){return k[x]>0})}
+  function profM(c){return Number(c.val||0)/Number(c.plan||1)-costOf(c)}
   function card(c,i){
     var s=status(c),link=wa(c),d=days(c),p=pctFor(d,c),P=PLN[c.plan]||"";
     var chips=(c.user?'<span class="c-u">'+IC.user+esc(c.user)+'</span>':'')+(c.pass?'<span class="c-k">'+IC.key+esc(c.pass)+'</span>':'')+(P?'<span class="c-p">'+IC.clock+P+'</span>':'')+'<span class="val">'+brl(c.val)+'</span>'+(c.tel?'<span class="c-t">'+IC.phone+esc(c.tel)+'</span>':'');
@@ -1324,7 +1326,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
   var GD=[["bad","Vencidos","#ef4444","alert"],["warn","Vencem logo","#f59e0b","clock"],["ok","Em dia","#22c55e","check"]];
   function crow(c,i){
     var s=status(c),d=days(c),p=pctFor(d,c),P=PLN[c.plan]||"",op=cOpen===c.id,link=wa(c);
-    var chips=(c.user?'<span class="c-u">'+IC.user+esc(c.user)+'</span>':'')+(c.pass?'<span class="c-k">'+IC.key+esc(c.pass)+'</span>':'')+(P?'<span class="c-p">'+IC.clock+P+'</span>':'')+'<span class="val">'+brl(c.val)+'</span>'+(c.tel?'<span class="c-t">'+IC.phone+esc(c.tel)+'</span>':'');
+    var chips=(c.user?'<span class="c-u">'+IC.user+esc(c.user)+'</span>':'')+(c.pass?'<span class="c-k">'+IC.key+esc(c.pass)+'</span>':'')+(P?'<span class="c-p">'+IC.clock+P+'</span>':'')+'<span class="val">'+brl(c.val)+'</span>'+(c.tel?'<span class="c-t">'+IC.phone+esc(c.tel)+'</span>':'')+(costOf(c)?'<span class="c-l">Lucro '+brl(profM(c))+'/mês</span>':'');
     return '<div class="row cl crow s-'+s+(op?' open':'')+'" style="--h:'+hueFor(d)+';--p:'+p+'%;--i:'+i+'"><div class="chd" data-cid="'+c.id+'" tabindex="0" role="button" aria-expanded="'+op+'"><span class="avw"><span class="av" style="background-color:'+avc(c.name)+'">'+ini(c.name)+'</span><b class="dbg">'+(d<0?"!":d>99?"99+":d)+'</b></span><div class="mid"><div class="nm"><p class="name">'+esc(c.name)+'</p>'+(c.server?'<b class="srv" data-s="'+esc(c.server)+'">'+esc(c.server)+'</b>':'')+'</div><span class="tag '+s+'">'+label(c)+'</span></div><span class="cdue">'+fmtDate(c.due)+'</span><i class="chev"></i></div>'+
     '<div class="cbody"><div class="cin"><div class="meta2">'+chips+'</div><div class="foot2"><span class="due">'+IC.cal+fmtDate(c.due)+(c.note?' · '+esc(c.note):'')+'</span><div class="acts2"><button class="btn pri sm" data-a="renew" data-id="'+c.id+'">'+IC.renew+'Renovar</button>'+
     (link?'<button class="btn wpp ib" data-a="wa" data-id="'+c.id+'" aria-label="Abrir WhatsApp Business">'+WICON+'</button>':'')+
@@ -1337,9 +1339,9 @@ body.supo .supfab{opacity:0;pointer-events:none}
     base.forEach(function(c){var s=status(c),pm=Number(c.val||0)/Number(c.plan||1);cnt[s]++;vs[s]+=pm;vs.all+=pm;if(s!=="bad")rev+=pm;else revB+=pm});
     var defs=[["all","Todos"],["ok","Em dia"],["warn","Vencem logo"],["bad","Vencidos"]];
     $("sum").innerHTML=defs.map(function(d){var t=TI[d[0]];return '<button data-f="'+d[0]+'" aria-pressed="'+(filter===d[0])+'" style="--tc:'+t[1]+'"><i class="ti">'+IC[t[0]]+'</i><b>'+cnt[d[0]]+'</b><span>'+d[1]+'</span><small>'+brl(vs[d[0]])+'</small></button>'}).join("");
-    var act=cnt.ok+cnt.warn,tk=act?rev/act:0,okP=cnt.all?Math.round(act/cnt.all*100):0,a=0,pts=[["ok","#22c55e"],["warn","#f59e0b"],["bad","#ef4444"]],stp=[];
+    var cost=0;base.forEach(function(c){if(status(c)!=="bad")cost+=costOf(c)});var act=cnt.ok+cnt.warn,tk=act?rev/act:0,okP=cnt.all?Math.round(act/cnt.all*100):0,a=0,pts=[["ok","#22c55e"],["warn","#f59e0b"],["bad","#ef4444"]],stp=[];
     pts.forEach(function(x){if(!cnt[x[0]])return;var b=a+cnt[x[0]]/cnt.all*100;stp.push(x[1]+" "+a+"% "+b+"%");a=b});
-    $("money").innerHTML='<div class="rh-l"><small>Receita estimada'+(srvf?' · '+esc(srvf):'')+'</small><b>'+brl(rev)+'</b><span>'+brl(rev*12)+' por ano · ticket '+brl(tk)+'</span>'+(revB?'<em>'+brl(revB)+' parados em vencidos</em>':'')+'</div><div class="donut" style="--g:'+(stp.length?'conic-gradient('+stp.join(",")+')':'conic-gradient(color-mix(in srgb,var(--ink) 14%,transparent) 0 100%)')+'"><b>'+okP+'%</b><small>em dia</small></div>';
+    $("money").innerHTML='<div class="rh-l"><small>Receita estimada'+(srvf?' · '+esc(srvf):'')+'</small><b>'+brl(rev)+'</b><span>'+brl(rev*12)+' por ano · ticket '+brl(tk)+'</span>'+(hasCost()?'<span class="lc">Lucro '+brl(rev-cost)+'/mês · margem '+(rev?Math.round((rev-cost)/rev*100):0)+'%</span>':'')+(revB?'<em>'+brl(revB)+' parados em vencidos</em>':'')+'</div><div class="donut" style="--g:'+(stp.length?'conic-gradient('+stp.join(",")+')':'conic-gradient(color-mix(in srgb,var(--ink) 14%,transparent) 0 100%)')+'"><b>'+okP+'%</b><small>em dia</small></div>';
     $("clr-d").hidden=!(filter!=="all"||srvf||sortBy!=="due"||q);greet(cnt);
     var rows=base.filter(function(c){return !q||(c.name+" "+c.tel+" "+c.user).toLowerCase().indexOf(q)>-1});
     var srt=function(a,b){if(sortBy==="name")return a.name.localeCompare(b.name,"pt-BR");if(sortBy==="val")return Number(b.val||0)-Number(a.val||0)||(a.due<b.due?-1:1);return a.due<b.due?-1:1};
@@ -1350,7 +1352,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
       var g=x.g,op=!!q||sel===g[0],v=0;x.l.forEach(function(c){v+=Number(c.val||0)/Number(c.plan||1)});
       return '<section class="cfg-card fd gsec s-'+g[0]+(op?' open':'')+'" data-g="'+g[0]+'" style="--gc:'+g[2]+'"><h3 tabindex="0" role="button" aria-expanded="'+op+'"><i class="ci" style="--tc:'+g[2]+'">'+IC[g[3]]+'</i><span class="tt"><b>'+g[1]+'</b><small>'+x.l.length+(x.l.length===1?' cliente':' clientes')+' · '+brl(v)+'/mês</small></span><em class="gn">'+x.l.length+'</em></h3><div class="cbody"><div class="cin"><div class="glist">'+x.l.map(crow).join("")+'</div></div></div></section>'
     }).join(""):'<div class="empty">'+(clients.length?"Nenhum cliente nesse filtro.":"Nenhum cliente ainda. Toque em + para cadastrar o primeiro ou use Importar clientes.")+'</div>';
-    renderVenc();renderCalAll();renderRel();bellUpd()
+    renderCalAll();renderRel();bellUpd()
   }
   var calM=null,calSel="";
   function pad2(n){return (n<10?"0":"")+n}
@@ -1382,32 +1384,23 @@ body.supo .supfab{opacity:0;pointer-events:none}
     $("cal-day").innerHTML=h
   }
   $("cal-day").onclick=onCard;
-  function renderVenc(){
-    var G=[["bad","Vencidos","#ef4444",function(d){return d<0}],["hoje","Vencem hoje","#f97316",function(d){return d===0}],["sem","Próximos 7 dias","#f59e0b",function(d){return d>0&&d<=7}],["mes","Próximos 30 dias","#22c55e",function(d){return d>7&&d<=30}]],h="",n=0;
-    G.forEach(function(g){
-      var l=clients.filter(function(c){return g[3](days(c))}).sort(function(a,b){return a.due<b.due?-1:a.due>b.due?1:a.name.localeCompare(b.name,"pt-BR")});
-      if(!l.length)return;n+=l.length;
-      h+='<div class="grp" style="--gc:'+g[2]+'"><i></i>'+g[1]+'<em>'+l.length+'</em></div><div class="list" style="margin-top:0">'+l.map(card).join("")+'</div>'
-    });
-    $("venc-list").innerHTML=n?h:'<div class="empty">Nenhum vencimento nos próximos 30 dias. 🎉</div>'
-  }
   var relOpen="";
   function pct(n,t){return t?Math.round(n/t*100):0}
   function relRow(dot,l,r,sub){return '<div class="rrow">'+(dot?'<i class="rd" style="--c:'+dot+'"></i>':'')+'<span class="rl">'+l+(sub?'<small>'+sub+'</small>':'')+'</span><b>'+r+'</b></div>'}
   function renderRel(){
     var tot=clients.length,nw=new Date(),MN=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
-    var rev=0,revBad=0,nOk=0,nWarn=0,nBad=0,vOk=0,vWarn=0,vBad=0,bk={bad:0,hoje:0,d7:0,d15:0,d30:0},srv={},pl={},mon=[],act=[],late=[],i;
+    var rev=0,revBad=0,nOk=0,nWarn=0,nBad=0,vOk=0,vWarn=0,vBad=0,bk={bad:0,hoje:0,d7:0,d15:0,d30:0},srv={},pl={},mon=[],act=[],late=[],cst=0,i;
     for(i=0;i<6;i++)mon.push({n:0,v:0});
     clients.forEach(function(c){
       var d=days(c),v=Number(c.val||0),pm=v/Number(c.plan||1);
       if(d<0){nBad++;vBad+=pm;revBad+=pm;bk.bad+=v;late.push({c:c,d:d,v:v})}
-      else{rev+=pm;act.push({c:c,pm:pm});if(d<=7){nWarn++;vWarn+=pm}else{nOk++;vOk+=pm}
+      else{rev+=pm;cst+=costOf(c);act.push({c:c,pm:pm,pf:pm-costOf(c)});if(d<=7){nWarn++;vWarn+=pm}else{nOk++;vOk+=pm}
         if(d===0)bk.hoje+=v;else if(d<=7)bk.d7+=v;else if(d<=15)bk.d15+=v;else if(d<=30)bk.d30+=v;
         var pa=parse(c.due),mi=(pa.getFullYear()-nw.getFullYear())*12+pa.getMonth()-nw.getMonth();if(mi>=0&&mi<=5){mon[mi].n++;mon[mi].v+=v}}
-      var sk=c.server||"Sem servidor";srv[sk]=srv[sk]||{n:0,r:0,b:0};srv[sk].n++;if(d>=0)srv[sk].r+=pm;else srv[sk].b++;
+      var sk=c.server||"Sem servidor";srv[sk]=srv[sk]||{n:0,r:0,b:0,c:0};srv[sk].n++;if(d>=0){srv[sk].r+=pm;srv[sk].c+=costOf(c)}else srv[sk].b++;
       var pk=PLN[c.plan]||"Mensal";pl[pk]=pl[pk]||{n:0,r:0};pl[pk].n++;if(d>=0)pl[pk].r+=pm
     });
-    var activeN=nOk+nWarn,ticket=activeN?rev/activeN:0,okP=pct(activeN,tot);
+    var lucro=rev-cst,marg=rev?Math.round(lucro/rev*100):0,hc=hasCost(),activeN=nOk+nWarn,ticket=activeN?rev/activeN:0,okP=pct(activeN,tot);
     function donut(parts){var a=0,st=[],sum=parts.reduce(function(x,p){return x+p.v},0);if(!sum)return "conic-gradient(color-mix(in srgb,var(--ink) 14%,transparent) 0 100%)";parts.forEach(function(p){if(!p.v)return;var b=a+p.v/sum*100;st.push(p.c+" "+a+"% "+b+"%");a=b});return "conic-gradient("+st.join(",")+")"}
     function st(c,ic,l,v,sm){return '<div class="stat" style="--tc:'+c+'"><i class="ti">'+IC[ic]+'</i><b>'+v+'</b><small>'+l+(sm?' · '+sm:'')+'</small></div>'}
     function rc(id,col,ic,title,sub,body){return '<section class="cfg-card fd'+(relOpen===id?' open':'')+'" data-rc="'+id+'"><h3 tabindex="0" role="button" aria-expanded="'+(relOpen===id)+'"><i class="ci" style="--tc:'+col+'">'+IC[ic]+'</i><span class="tt"><b>'+title+'</b><small>'+sub+'</small></span></h3><div class="cbody"><div class="cin">'+body+'</div></div></section>'}
@@ -1417,22 +1410,26 @@ body.supo .supfab{opacity:0;pointer-events:none}
     var cSit='<div class="dn-row"><div class="donut sm" style="--g:'+donut([{v:nOk,c:"#22c55e"},{v:nWarn,c:"#f59e0b"},{v:nBad,c:"#ef4444"}])+'"><b>'+tot+'</b><small>clientes</small></div><div class="dn-l">'+
       relRow("#22c55e","Em dia",nOk+" · "+pct(nOk,tot)+"%",brl(vOk)+"/mês")+relRow("#f59e0b","Vencem em 7 dias",nWarn+" · "+pct(nWarn,tot)+"%",brl(vWarn)+"/mês")+relRow("#ef4444","Vencidos",nBad+" · "+pct(nBad,tot)+"%",brl(vBad)+"/mês parado")+'</div></div>';
     var cRev=relRow("#22c55e","Receita mensal estimada",brl(rev),"clientes em dia e a vencer")+relRow("#3b82f6","Projeção anual",brl(rev*12),"se todos renovarem")+relRow("#8b5cf6","Ticket médio",brl(ticket),"por cliente ativo")+relRow("#ef4444","Receita parada",brl(revBad),nBad+(nBad===1?" cliente vencido":" clientes vencidos"))+relRow("#f59e0b","Potencial total",brl(rev+revBad),"se recuperar os vencidos");
+    var cLuc=hc?relRow("#22c55e","Faturamento mensal",brl(rev),"clientes em dia e a vencer")+relRow("#ef4444","Custo de créditos",brl(cst),activeN+(activeN===1?" crédito/mês":" créditos/mês"))+relRow("#14b8a6","Lucro mensal",brl(lucro),"margem de "+marg+"%")+relRow("#3b82f6","Lucro anual",brl(lucro*12),"se todos renovarem")+relRow("#8b5cf6","Lucro por cliente",brl(activeN?lucro/activeN:0),"média dos ativos")+
+      '<div class="sub-t">Lucro por servidor</div>'+Object.keys(srv).map(function(k){var x=srv[k],l=x.r-x.c;return relRow(l<0?"#ef4444":"#22c55e",esc(k),brl(l)+"/mês",brl(x.r)+" − "+brl(x.c)+" de custo")}).join("")+
+      (act.length?'<div class="sub-t">Mais lucrativos</div>'+act.slice().sort(function(a,b){return b.pf-a.pf}).slice(0,3).map(function(x,k){return relRow("",(k+1)+". "+esc(x.c.name),brl(x.pf),x.c.server?esc(x.c.server):"")}).join("")+'<div class="sub-t">Menos lucrativos</div>'+act.slice().sort(function(a,b){return a.pf-b.pf}).slice(0,3).map(function(x,k){return relRow(x.pf<0?"#ef4444":"",(k+1)+". "+esc(x.c.name),brl(x.pf),x.c.server?esc(x.c.server):"")}).join(""):""):'<p class="meta" style="margin:8px 0 0">Informe o custo por crédito de cada servidor em Configurações › Sites de gerenciamento para ver o lucro.</p>';
     var cCash=[["Atrasados","#ef4444",bk.bad],["Vencem hoje","#f97316",bk.hoje],["Em 1 a 7 dias","#f59e0b",bk.d7],["Em 8 a 15 dias","#22c55e",bk.d15],["Em 16 a 30 dias","#3b82f6",bk.d30]],cm=Math.max.apply(null,cCash.map(function(x){return x[2]}).concat([1])),ct=0;cCash.forEach(function(x){ct+=x[2]});
     var cashB=cCash.map(function(x){return '<div class="hbar" style="--bc:'+x[1]+'"><span>'+x[0]+'</span><span class="tr"><i style="--w:'+Math.round(x[2]/cm*100)+'%"></i></span><b>'+brl(x[2])+'</b></div>'}).join("")+'<p class="meta" style="margin:8px 0 0">Valor das renovações no preço de cada plano. Total previsto: <b>'+brl(ct)+'</b>.</p>';
     var mx=Math.max.apply(null,mon.map(function(m){return m.n}).concat([1]));
     var chart='<div class="mchart">'+mon.map(function(m,x){var lb=MN[(nw.getMonth()+x)%12];return '<div class="mc"><b>'+m.n+'</b><i style="--hh:'+Math.round(m.n/mx*100)+'%;animation-delay:'+(x*70)+'ms"></i><span>'+lb+'</span></div>'}).join("")+'</div>'+
       mon.map(function(m,x){var d=new Date(nw.getFullYear(),nw.getMonth()+x,1);return m.n?relRow("#8b5cf6",MN[d.getMonth()]+"/"+String(d.getFullYear()).slice(2),m.n+(m.n===1?" cliente":" clientes"),brl(m.v)):""}).join("");
     var nSrv=Object.keys(srv).length,nPl=Object.keys(pl).length;
-    var cSrv=nSrv?bars(srv,["#8b5cf6","#3b82f6","#14b8a6","#64748b"],function(x){return x.n},function(x){return x.n+" · "+brl(x.r)})+Object.keys(srv).map(function(k){return srv[k].b?relRow("#ef4444",esc(k),srv[k].b+(srv[k].b===1?" vencido":" vencidos")):""}).join(""):none;
+    var cSrv=nSrv?bars(srv,["#8b5cf6","#3b82f6","#14b8a6","#64748b"],function(x){return x.n},function(x){return x.n+" · "+brl(x.r)+(hc?" · lucro "+brl(x.r-x.c):"")})+Object.keys(srv).map(function(k){return srv[k].b?relRow("#ef4444",esc(k),srv[k].b+(srv[k].b===1?" vencido":" vencidos")):""}).join(""):none;
     var cPl=nPl?bars(pl,["#14b8a6","#f59e0b","#ec4899","#3b82f6"],function(x){return x.n},function(x){return x.n+" · "+brl(x.r)+"/mês"}):none;
     act.sort(function(a,b){return b.pm-a.pm});late.sort(function(a,b){return a.d-b.d});
     var cRank='<div class="sub-t" style="margin-top:4px">Maiores mensalidades</div>'+(act.length?act.slice(0,5).map(function(x,k){return relRow("",(k+1)+". "+esc(x.c.name),brl(x.pm),x.c.server?esc(x.c.server):"")}).join(""):none)+
       '<div class="sub-t">Maiores atrasos</div>'+(late.length?late.slice(0,5).map(function(x,k){return relRow("#ef4444",(k+1)+". "+esc(x.c.name),(-x.d)+(x.d===-1?" dia":" dias"),brl(x.v))}).join(""):'<p class="meta" style="margin:6px 0 0">Nenhum cliente vencido. 🎉</p>');
     $("rel-out").innerHTML='<p class="meta" style="margin:0 2px 10px">Toque em um item para ver os detalhes.</p>'+
-      '<div class="rhero"><div class="rh-l"><small>Receita mensal estimada</small><b>'+brl(rev)+'</b><span>'+brl(rev*12)+' por ano · ticket '+brl(ticket)+'</span></div><div class="donut" style="--g:'+donut([{v:nOk,c:"#22c55e"},{v:nWarn,c:"#f59e0b"},{v:nBad,c:"#ef4444"}])+'"><b>'+okP+'%</b><small>em dia</small></div></div>'+
+      '<div class="rhero"><div class="rh-l"><small>Receita mensal estimada</small><b>'+brl(rev)+'</b><span>'+brl(rev*12)+' por ano · ticket '+brl(ticket)+'</span>'+(hc?'<span class="lc">Lucro '+brl(lucro)+'/mês · margem '+marg+'%</span>':'')+'</div><div class="donut" style="--g:'+donut([{v:nOk,c:"#22c55e"},{v:nWarn,c:"#f59e0b"},{v:nBad,c:"#ef4444"}])+'"><b>'+okP+'%</b><small>em dia</small></div></div>'+
       '<div class="stats">'+st("#8b5cf6","users","Clientes",tot)+st("#22c55e","check","Ativos",activeN,brl(rev))+st("#f59e0b","clock","A vencer (7d)",nWarn,brl(vWarn))+st("#ef4444","alert","Vencidos",nBad,brl(vBad))+'</div>'+
       '<div class="cgrid">'+
       rc("rev","#22c55e","wallet","Receita",brl(rev)+"/mês",cRev)+
+      rc("luc","#10b981","wallet","Lucro",hc?brl(lucro)+"/mês":"defina o custo",cLuc)+
       rc("sit","#f59e0b","users","Situação",nBad?nBad+(nBad===1?" vencido":" vencidos"):"Tudo em dia",cSit)+
       rc("cash","#3b82f6","cal","Previsão de caixa","próximos 30 dias",cashB)+
       rc("mon","#8b5cf6","bars","Vencimentos por mês","próximos 6 meses",chart)+
@@ -1480,7 +1477,6 @@ body.supo .supfab{opacity:0;pointer-events:none}
     if(b.dataset.a==="renew")openRenew(c);
     if(b.dataset.a==="more")showKb(b,c)
   }
-  $("venc-list").onclick=onCard;
   $("list").onclick=function(e){
     var h=e.target.closest(".gsec>h3");
     if(h){var sc=h.parentNode,g=sc.dataset.g,was=sc.classList.contains("open");if($("q").value.trim())return;gSel=was?"":g;cOpen="";snd("tab");render();
@@ -1591,7 +1587,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     if(b.dataset.act==="renew"){this.close();openRenew(c)}
     if(b.dataset.act==="del"){this.close();askDel(c)}
   };
-  $("list").onkeydown=$("venc-list").onkeydown=function(e){if(e.key!=="Enter"&&e.key!==" ")return;var w=e.target.closest(".who[data-id]");if(w){e.preventDefault();openInfo(w.dataset.id)}};
+  $("list").addEventListener("keydown",function(e){if(e.key!=="Enter"&&e.key!==" ")return;var w=e.target.closest(".who[data-id]");if(w){e.preventDefault();openInfo(w.dataset.id)}});
   $("cfm").onclick=function(e){if(e.target===this)this.close()};
   var _m=function(){
     var a=prompt("Mensagem para quem vai vencer (use {nome}, {data} e {plano}; \\n = nova linha):",tpl.soon.replace(/\n/g,"\\n"));if(a===null)return;a=a.replace(/\\n/g,"\n");
@@ -1661,8 +1657,8 @@ body.supo .supfab{opacity:0;pointer-events:none}
   /* ---- Importação de planilha ---- */
   var pending=[];
   function pad(n){return String(n).padStart(2,"0")}
-  var TABS=["list","venc","rel","cfg"],curTab=0;
-  var HD={list:["home","Início",""],venc:["cal","Vencimentos","Quem precisa de atenção"],rel:["bars","Relatórios","Resumo da carteira"],cfg:["gear","Configurações","Atualizado por dentro do app ✓"]};
+  var TABS=["list","rel","cfg"],curTab=0;
+  var HD={list:["home","Início",""],rel:["bars","Relatórios","Resumo da carteira"],cfg:["gear","Configurações","Atualizado por dentro do app ✓"]};
   function go(i){
     var pg=$("pages");if(i!==curTab)snd("tab");curTab=i;
     pg.classList.add("moving");pg.style.setProperty("--i",i);
@@ -1670,7 +1666,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     [].forEach.call($("bnav").children,function(b){b.classList.toggle("on",b.dataset.p===TABS[i])});
     var h=HD[TABS[i]];document.body.dataset.p=TABS[i];$("hd-ic").innerHTML=IC[h[0]];$("hd-h").textContent=h[1];$("greet").textContent=i===0?gtxt:h[2];
     $("hd-ic").classList.remove("pop");void $("hd-ic").offsetWidth;$("hd-ic").classList.add("pop");
-    if(i===1)renderVenc();if(i===2)renderRel();if(i===3)nstat();
+    if(i===1)renderRel();if(i===2)nstat();
     $("add").hidden=i!==0;$("kb").hidden=true;
     clearTimeout(go.t);go.t=setTimeout(function(){pg.classList.remove("moving","drag")},700);
     window.scrollTo(0,0)
@@ -1907,14 +1903,14 @@ body.supo .supfab{opacity:0;pointer-events:none}
       if(lock===null){if(Math.abs(mx)<8&&Math.abs(my)<8)return;lock=Math.abs(mx)>Math.abs(my)*1.3?"x":"y";if(lock==="x"){clearTimeout(go.t);pg.classList.add("moving","drag");pg.style.transition="none";}}
       if(lock!=="x")return;
       var w=pg.offsetWidth+16;dx=mx;
-      if((curTab===0&&dx>0)||(curTab===3&&dx<0))dx*=.22;
+      if((curTab===0&&dx>0)||(curTab===2&&dx<0))dx*=.22;
       pg.style.transform="translateX("+(-curTab*w+dx)+"px)";
     },{passive:true});
     function end(){
       if(!on)return;on=false;if(lock!=="x")return;
       pg.style.transition="";pg.style.transform="";pg.classList.remove("drag");
       var w=pg.offsetWidth,v=Math.abs(dx)/Math.max(1,Date.now()-t0),next=dx<0?curTab+1:curTab-1;
-      if(next>=0&&next<=3&&(Math.abs(dx)>w*.25||(v>.45&&Math.abs(dx)>36)))go(next);
+      if(next>=0&&next<=2&&(Math.abs(dx)>w*.25||(v>.45&&Math.abs(dx)>36)))go(next);
       else{clearTimeout(go.t);go.t=setTimeout(function(){pg.classList.remove("moving","drag")},700)}
     }
     vp.addEventListener("touchend",end);vp.addEventListener("touchcancel",end)
@@ -2102,6 +2098,11 @@ body.supo .supfab{opacity:0;pointer-events:none}
       toast(k?"R$ "+v.toFixed(2).replace(".",",")+" aplicado a "+k+(k===1?" cliente":" clientes"):"Valor salvo (nenhum cliente neste servidor ainda)",k?function(){clients.forEach(function(c){if(old[c.id]!==undefined)c.val=old[c.id]});persist();render();sitesUI()}:null)
     }
     $("c-sites").addEventListener("change",function(e){
+      var ci=e.target.closest("input[data-cv]");
+      if(ci){var cn=ci.dataset.cv,ct=ci.value.trim();cfg.costs=cfg.costs||{};
+        if(!ct){delete cfg.costs[cn];saveCfg();render();toast("Custo removido");return}
+        var cv=parseV(ct);if(isNaN(cv)){toast("Valor inválido");return}
+        cfg.costs[cn]=cv;saveCfg();ci.value=cv.toFixed(2).replace(".",",");render();toast("Custo do "+cn+": R$ "+cv.toFixed(2).replace(".",",")+" por crédito");snd("save");return}
       var vi=e.target.closest("input[data-vv]");
       if(vi){var n=vi.dataset.vv,t=vi.value.trim();
         if(!t){delete cfg.vals[n];saveCfg();toast("Valor padrão removido");return}
@@ -2116,7 +2117,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
       if(ap){var an=ap.dataset.apply,vv=document.querySelector('input[data-vv="'+an.replace(/"/g,'\\"')+'"]'),v2=parseV(vv.value);if(isNaN(v2)){toast("Digite o valor primeiro");vv.focus();return}cfg.vals[an]=v2;saveCfg();applyVal(an,v2);return}
       var o=e.target.closest("button[data-open]"),d=e.target.closest("button[data-del]");
       if(o){var n=o.dataset.open,inp=document.querySelector('input[data-sv="'+n.replace(/"/g,'\\"')+'"]');cfg.sites[n]=inp.value.trim();saveCfg();var u=siteUrl(n);if(!u){toast("Cadastre o endereço primeiro");return}openSite(u,{title:"Painel "+n})}
-      if(d){var n2=d.dataset.del;askBulk("Remover o site "+n2+"?","Os clientes desse servidor continuam cadastrados; só o endereço do painel é removido.",function(){delete cfg.sites[n2];delete cfg.vals[n2];saveCfg();sitesUI();toast("Site removido")})}
+      if(d){var n2=d.dataset.del;askBulk("Remover o site "+n2+"?","Os clientes desse servidor continuam cadastrados; só o endereço do painel é removido.",function(){delete cfg.sites[n2];delete cfg.vals[n2];if(cfg.costs)delete cfg.costs[n2];saveCfg();sitesUI();toast("Site removido")})}
     };
     $("c-addb").onclick=function(){
       var n=$("c-addn").value.trim().toUpperCase().slice(0,20),u=$("c-addu").value.trim();

@@ -822,7 +822,7 @@ body.ro #add{opacity:.45}
 #sec-ind .vrow{display:flex;gap:8px}#sec-ind .vrow input{flex:1;min-width:150px}#sec-ind .vrow .btn{flex:none;padding-inline:18px}
 .privd{margin-top:10px;font-size:12px;color:var(--mute)}.privd summary{cursor:pointer;font-weight:650;list-style:none}.privd summary::-webkit-details-marker{display:none}
 .termos{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.5;color:var(--ink);max-height:60vh;overflow:auto}
-.dlc{border:1px solid var(--b1);border-radius:16px;padding:12px;margin-bottom:10px;display:flex;flex-direction:column;gap:8px;background:color-mix(in srgb,#06b6d4 6%,transparent)}.dlc>b{font-size:15px}.dlr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.dlr small{flex-basis:100%;color:var(--mute);font-weight:650;font-size:11.5px}.dlv{flex:1;min-width:0;font-family:ui-monospace,monospace;font-size:14px;font-weight:700;overflow-wrap:anywhere}.dlu{font-size:12px;font-weight:600}
+.dlc{border:1px solid var(--b1);border-radius:16px;padding:12px;margin-bottom:10px;display:flex;flex-direction:column;gap:8px;background:color-mix(in srgb,#06b6d4 6%,transparent)}.dlimg{width:100%;max-height:180px;object-fit:cover;border-radius:12px}.dlc>b{font-size:15px}.dlr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.dlr small{flex-basis:100%;color:var(--mute);font-weight:650;font-size:11.5px}.dlv{flex:1;min-width:0;font-family:ui-monospace,monospace;font-size:14px;font-weight:700;overflow-wrap:anywhere}.dlu{font-size:12px;font-weight:600}
 /* início v2 */
 .rhero.big{position:relative;overflow:hidden;padding:18px 16px;margin-bottom:12px}
 .rhero.big::after{content:"";position:absolute;right:-40px;top:-60px;width:170px;height:170px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,#22c55e 35%,transparent),transparent);pointer-events:none}
@@ -2318,7 +2318,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     var l=(lic.sv&&lic.sv.dl)||[],h="";
     if(!l.length){$("dl-list").innerHTML='<p class="meta">Nenhum download disponível por enquanto.</p>';return}
     $("dl-list").innerHTML=l.map(function(x,i){
-      return '<div class="dlc"><b>'+esc(x.n)+'</b>'+(x.c?'<div class="dlr"><small>Código do Downloader</small><span class="dlv">'+esc(x.c)+'</span><button class="btn" data-dl="c" data-i="'+i+'" type="button">Copiar</button></div>':'')+(x.u?'<div class="dlr"><small>Link direto</small><span class="dlv dlu">'+esc(x.u)+'</span><button class="btn" data-dl="u" data-i="'+i+'" type="button">Copiar</button></div><button class="btn g-blue" data-dl="o" data-i="'+i+'" type="button">Abrir link</button>':'')+'</div>'
+      return '<div class="dlc">'+(x.i&&/^data:image\//.test(x.i)?'<img class="dlimg" alt="" src="'+x.i+'">':'')+'<b>'+esc(x.n)+'</b>'+(x.c?'<div class="dlr"><small>Código do Downloader</small><span class="dlv">'+esc(x.c)+'</span><button class="btn" data-dl="c" data-i="'+i+'" type="button">Copiar</button></div>':'')+(x.u?'<div class="dlr"><small>Link direto</small><span class="dlv dlu">'+esc(x.u)+'</span><button class="btn" data-dl="u" data-i="'+i+'" type="button">Copiar</button></div><button class="btn g-blue" data-dl="o" data-i="'+i+'" type="button">Abrir link</button>':'')+'</div>'
     }).join("")
   }
   $("dl-list").onclick=function(e){

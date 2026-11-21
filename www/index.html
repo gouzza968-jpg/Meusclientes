@@ -167,6 +167,11 @@ body.chato .chatfab{opacity:0;pointer-events:none}
 .sg .acts{display:flex;gap:8px;flex-wrap:wrap}
 .bn button span:not(.n){font-size:11px}
 
+.hist>div[data-mid]{cursor:pointer;position:relative;transition:background .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}
+.hist>div.sel{box-shadow:0 0 0 2px var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.hist>div.sel::after{content:"✓";position:absolute;right:10px;top:8px;width:20px;height:20px;border-radius:50%;background:var(--bad);color:#fff;font-size:12px;display:grid;place-items:center;font-weight:800}
+.mdel{display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 10px;border-radius:14px;border:1px solid color-mix(in srgb,var(--bad) 40%,transparent);background:color-mix(in srgb,var(--bad) 9%,transparent);font-size:12.5px;font-weight:700}
+.mdel span{flex:1;min-width:0}
 /* lista minimizada */
 .cd.cm{padding:10px 12px;gap:8px}
 .cd.cm .top{min-width:0}
@@ -338,6 +343,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     <h2 style="font-size:20px">Conversa com o cliente</h2>
     <p id="msg-c" style="font-family:ui-monospace,Consolas,monospace"></p>
     <div class="hist" id="msg-h"></div>
+    <div class="mdel" id="msg-del" hidden><span id="msg-dn"></span><button type="button" class="b sm" id="msg-dc">Cancelar</button><button type="button" class="b sm bad" id="msg-dgo">Apagar</button></div>
     <textarea class="inp" id="msg-t" maxlength="600" placeholder="Escreva a mensagem que o cliente vai ver no app" required></textarea>
     <div class="tpl" id="msg-tpl"></div>
     <label class="chk"><input type="checkbox" id="msg-all"><span id="msg-all-l">Enviar para todos os planos ativos</span></label>
@@ -532,11 +538,29 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb();
   }
 
+  var msgSel={},msgAsk=false;
+  function renderHist(){
+    var ms=(msgsBy[msgCode]||[]).slice(0,30).reverse(),n=Object.keys(msgSel).length;
+    $('msg-h').innerHTML=ms.length?ms.map(function(m){return'<div class="'+(msgSel[m.id]?'sel':'')+'" data-mid="'+m.id+'" role="button" tabindex="0" aria-pressed="'+!!msgSel[m.id]+'"><small>'+(m.sender==='user'?'Cliente':'Você')+' · '+new Date(m.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(m.body)+'</div>'}).join(''):'';
+    $('msg-del').hidden=!n;$('msg-dn').textContent=n+(n===1?' selecionada':' selecionadas');
+    $('msg-dgo').textContent=msgAsk?'Confirmar exclusão':'Apagar'
+  }
+  $('msg-h').addEventListener('click',function(e){var el=e.target.closest('[data-mid]');if(!el)return;var id=el.getAttribute('data-mid');if(msgSel[id])delete msgSel[id];else msgSel[id]=1;msgAsk=false;renderHist()});
+  $('msg-h').addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-mid]')){e.preventDefault();e.target.click()}});
+  $('msg-dc').addEventListener('click',function(){msgSel={};msgAsk=false;renderHist()});
+  $('msg-dgo').addEventListener('click',async function(){
+    if(!msgAsk){msgAsk=true;renderHist();return}
+    var ids=Object.keys(msgSel).map(Number);if(!ids.length)return;
+    var r=await sb.from('license_msgs').delete().in('id',ids);
+    if(r.error){fail(r.error);return}
+    msgsBy[msgCode]=(msgsBy[msgCode]||[]).filter(function(m){return ids.indexOf(m.id)<0});
+    msgSel={};msgAsk=false;renderHist();render();renderChat();toast(ids.length===1?'Mensagem apagada.':ids.length+' mensagens apagadas.')
+  });
   function openMsg(id){
     var d=db.filter(function(x){return x.code===id})[0];if(!d)return;
     msgCode=id;$('msg-c').textContent=id+' · '+(d.name||'');$('msg-t').value='';$('msg-all').checked=false;$('msg-e').textContent='';
     var na=db.filter(function(x){var z=sit(x);return z==='ativo'||z==='vence'}).length;$('msg-all-l').textContent='Enviar para todos os planos ativos ('+na+')';
-    $('msg-h').innerHTML=(msgsBy[id]||[]).slice(0,10).reverse().map(function(m){return'<div><small>'+(m.sender==='user'?'Cliente':'Você')+' · '+new Date(m.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(m.body)+'</div>'}).join('');
+    msgSel={};msgAsk=false;renderHist();
     if(unreadOf(d)){d.admin_read_at=new Date().toISOString();sb.from('licenses').update({admin_read_at:d.admin_read_at}).eq('code',id);render()}
     $('sh-msg').hidden=false;setTimeout(function(){$('msg-t').focus()},60)
   }

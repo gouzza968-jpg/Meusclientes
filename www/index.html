@@ -132,6 +132,40 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
 .sheet .lc{width:min(520px,100%);border-radius:26px 26px 0 0;text-align:left;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px))}
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:999px;font-weight:700;z-index:70;width:max-content;max-width:calc(100% - 32px);text-align:center;box-shadow:0 12px 30px -10px #000}
 #updbn{position:fixed;z-index:40;left:12px;right:12px;top:calc(8px + env(safe-area-inset-top,0px));border:0;border-radius:12px;padding:9px 12px;font:inherit;font-size:12.5px;font-weight:700;color:#fff;background:linear-gradient(135deg,#8b5cf6,#6d28d9);box-shadow:0 8px 20px -8px #8b5cf6;cursor:pointer}
+
+/* ios, balão, conversas, sugestões */
+.card label.swrow,.swrow{display:flex;align-items:center;gap:12px;justify-content:space-between;cursor:pointer;margin:0;font-size:inherit;color:inherit}
+.swrow span:first-child{flex:1;min-width:0}.swrow b{display:block;font-size:14px;color:var(--ink)}.swrow small{display:block;color:var(--mute);font-size:12px;font-weight:500;margin-top:2px}
+.ios{position:relative;flex:none;width:52px;height:32px}
+.ios input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:2}
+.ios i{position:absolute;inset:0;border-radius:99px;background:rgba(120,120,140,.45);transition:background .3s}
+.ios i::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.4);transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
+.ios input:checked+i{background:#34c759}
+.ios input:checked+i::after{transform:translateX(20px)}
+.chatfab{position:fixed;right:18px;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:30;width:56px;height:56px;border-radius:50%;border:0;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#8b5cf6,#3b82f6);box-shadow:0 0 26px -4px #6d5cff,0 12px 24px -8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.4);animation:chf 2.8s ease-in-out infinite}
+.chatfab[hidden]{display:none}
+.chatfab i{position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:#ef4444;box-shadow:0 0 0 2px var(--bg);display:none}
+.chatfab.has i{display:block}
+body.chato .chatfab{opacity:0;pointer-events:none}
+@keyframes chf{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.chatov{position:fixed;inset:0;z-index:45;display:flex;flex-direction:column;gap:12px;overflow:hidden;background:var(--bg);color:var(--ink);padding:max(14px,env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));border-radius:60px;opacity:0;visibility:hidden;transform:scale(.04);transition:transform .5s cubic-bezier(.55,-.35,.75,.1),border-radius .5s,opacity .3s .2s,visibility 0s .5s;will-change:transform}
+.chatov.open{opacity:1;visibility:visible;transform:scale(1);border-radius:0;transition:transform .65s cubic-bezier(.34,1.5,.64,1),border-radius .5s,opacity .15s,visibility 0s}
+.chat-hd{display:flex;align-items:center;justify-content:space-between;gap:10px}.chat-hd h2{margin:0;font-size:20px}
+.chat-list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-bottom:6px}
+.crow{display:flex;align-items:center;gap:12px;text-align:left;width:100%;border:1px solid var(--line);background:var(--glass);border-radius:18px;padding:10px 12px;color:var(--ink);font:inherit}
+.crow .av{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff}
+.crow .cm{flex:1;min-width:0}.crow .cm b{display:block;font-size:14.5px}.crow .cm span{display:block;color:var(--mute);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crow time{flex:none;color:var(--mute);font-size:11.5px}
+.crow .cn{flex:none;min-width:20px;height:20px;border-radius:10px;background:var(--bad);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;padding:0 6px}
+.crow.nomsg{opacity:.7}
+.sg{border:1px solid var(--line);background:var(--glass);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sg .sgh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.sg .sgh b{font-size:15px}.sg .sgh small{color:var(--mute);font-size:12px;flex:1 1 100%}
+.sg .sgb{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14.5px}
+.sg .st{margin-left:auto;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:99px;background:color-mix(in srgb,var(--info) 20%,transparent);color:var(--info)}
+.sg.s-util .st{background:color-mix(in srgb,var(--ok) 20%,transparent);color:var(--ok)}
+.sg.s-nao_util .st{background:color-mix(in srgb,var(--mute) 22%,transparent);color:var(--mute)}
+.sg .acts{display:flex;gap:8px;flex-wrap:wrap}
+.bn button span:not(.n){font-size:11px}
 </style>
 </head>
 <body>
@@ -183,12 +217,24 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
       </form>
     </section>
 
+    <section class="page" id="p-sug" hidden>
+      <div class="chips" id="sug-chips"></div>
+      <div class="list" id="sug-list"></div>
+    </section>
+
     <section class="page" id="p-cfg" hidden>
       <div class="card" style="--c:var(--ok)">
         <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></svg></i>Conexão</h2>
         <div class="kv"><span>Servidor</span><b id="c-net"><i class="dot"></i>Verificando…</b></div>
         <div class="kv"><span>Última atualização</span><b id="c-last">—</b></div>
-        <p>A lista se atualiza sozinha a cada 30 segundos.</p>
+        <p>A lista se atualiza sozinha a cada 20 segundos. Mensagens e sugestões novas geram notificação no celular enquanto o painel estiver aberto ou em segundo plano.</p>
+      </div>
+      <div class="card" style="--c:var(--info)">
+        <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></i>Telefone do suporte</h2>
+        <p>WhatsApp do suporte que aparece para os clientes no app Meus clientes.</p>
+        <div><label for="s-phone">WhatsApp do suporte</label><input class="inp" id="s-phone" inputmode="tel" placeholder="(44) 99999-9999" autocomplete="off"></div>
+        <label class="swrow" for="s-show"><span><b>Mostrar telefone para os clientes</b><small>Desligado: o número some do app e o contato fica só pelo chat</small></span><span class="ios"><input type="checkbox" id="s-show" checked><i></i></span></label>
+        <button class="b pri" id="s-save" type="button">Salvar telefone</button>
       </div>
       <div class="card" style="--c:var(--acc)">
         <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></i>Atualização do painel</h2>
@@ -208,6 +254,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
     <button data-t="list" aria-current="page"><span class="n" id="n-list" hidden></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Aparelhos</button>
     <button data-t="venc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Vencimentos<span class="n" id="n-venc" hidden></span></button>
     <button data-t="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>Ativar</button>
+    <button data-t="sug"><span class="n" id="n-sug" hidden></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2V17h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z"/></svg><span>Ideias</span></button>
     <button data-t="cfg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Ajustes</button>
   </div></nav>
 </div>
@@ -249,6 +296,14 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
   </form>
 </div>
 
+
+<!-- conversas -->
+<button class="chatfab" id="chatfab" type="button" aria-label="Conversas com clientes" hidden><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/></svg><i id="chat-dot"></i></button>
+<div class="chatov" id="chatov" role="dialog" aria-modal="true" aria-label="Conversas">
+  <div class="chat-hd"><h2>Conversas</h2><button class="b" id="chat-x" type="button">Fechar</button></div>
+  <input class="inp" id="chat-q" type="search" placeholder="Buscar cliente ou código" aria-label="Buscar conversa">
+  <div class="chat-list" id="chat-list"></div>
+</div>
 <button id="updbn" hidden type="button"></button>
 <!-- atualização opcional -->
 <div class="ov" id="updd" hidden role="dialog" aria-modal="true">
@@ -275,7 +330,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
   var CAP=window.Capacitor,NATIVE=!!(CAP&&CAP.isNativePlatform&&CAP.isNativePlatform());
   function plug(n){return CAP&&CAP.Plugins&&CAP.Plugins[n]}
   var sb=supabase.createClient(SB_URL,SB_KEY);
-  var DAY=86400000,msgsBy={},dueCode=null,msgCode=null,db=[],filter='todos',q='',tab='list',delId=null,openSet={},editCode=null,addM=1,logged=false;
+  var DAY=86400000,msgsBy={},dueCode=null,msgCode=null,db=[],filter='todos',q='',tab='list',delId=null,openSet={},editCode=null,addM=1,logged=false,sugs=[],sugF='nova',sugDel=null,settings=null;
   function $(i){return document.getElementById(i)}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function toast(m){var t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(function(){t.hidden=true},2600)}
@@ -377,7 +432,9 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
     if(r.error){setNet(false);if(manual)fail(r.error);return}
     db=r.data||[];setNet(true);
     try{var m=await sb.from('license_msgs').select('*').order('created_at',{ascending:false}).limit(600);msgsBy={};(m.data||[]).forEach(function(x){(msgsBy[x.code]=msgsBy[x.code]||[]).push(x)})}catch(e){}
-    render();
+    try{var g=await sb.from('suggestions').select('*').order('created_at',{ascending:false}).limit(300);if(!g.error)sugs=g.data||[]}catch(e){}
+    try{var st=await sb.from('app_settings').select('*').eq('id',1).maybeSingle();if(st&&st.data){settings=st.data;fillSettings()}}catch(e){}
+    render();renderSug();renderChat();checkNew();
   }
   function setNet(ok){
     $('c-net').innerHTML='<i class="dot '+(ok?'ok':'bad')+'"></i>'+(ok?'Conectado':'Sem conexão');
@@ -394,6 +451,14 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb();
   }
 
+  function openMsg(id){
+    var d=db.filter(function(x){return x.code===id})[0];if(!d)return;
+    msgCode=id;$('msg-c').textContent=id+' · '+(d.name||'');$('msg-t').value='';$('msg-all').checked=false;$('msg-e').textContent='';
+    var na=db.filter(function(x){var z=sit(x);return z==='ativo'||z==='vence'}).length;$('msg-all-l').textContent='Enviar para todos os planos ativos ('+na+')';
+    $('msg-h').innerHTML=(msgsBy[id]||[]).slice(0,10).reverse().map(function(m){return'<div><small>'+(m.sender==='user'?'Cliente':'Você')+' · '+new Date(m.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(m.body)+'</div>'}).join('');
+    if(unreadOf(d)){d.admin_read_at=new Date().toISOString();sb.from('licenses').update({admin_read_at:d.admin_read_at}).eq('code',id);render()}
+    $('sh-msg').hidden=false;setTimeout(function(){$('msg-t').focus()},60)
+  }
   document.addEventListener('click',async function(e){
     var f=e.target.closest('[data-f]');
     if(f){var k=f.getAttribute('data-f');filter=(f.classList.contains('tile')&&filter===k)?'todos':k;render();return}
@@ -410,11 +475,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
     if(a==='copy')copyTxt(id);
     if(a==='edit'){editCode=id;$('e-code').textContent=id;$('e-name').value=d.name==='Cliente novo'?'':d.name;$('e-wa').value=d.whatsapp||'';$('sheet').hidden=false;setTimeout(function(){$('e-name').focus()},50)}
     if(a==='due'){dueCode=id;$('due-c').textContent=id+' · '+(d.name||'');$('due-d').value=isoDay(d.paid_until&&new Date(d.paid_until)>new Date()?new Date(d.paid_until):new Date(Date.now()+30*DAY));$('due-e').textContent='';$('sh-due').hidden=false}
-    if(a==='msg'){msgCode=id;$('msg-c').textContent=id+' · '+(d.name||'');$('msg-t').value='';$('msg-all').checked=false;$('msg-e').textContent='';
-      var na=db.filter(function(x){var z=sit(x);return z==='ativo'||z==='vence'}).length;$('msg-all-l').textContent='Enviar para todos os planos ativos ('+na+')';
-      $('msg-h').innerHTML=(msgsBy[id]||[]).slice(0,10).reverse().map(function(m){return'<div><small>'+(m.sender==='user'?'Cliente':'Você')+' · '+new Date(m.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small>'+esc(m.body)+'</div>'}).join('');
-      if(unreadOf(d)){d.admin_read_at=new Date().toISOString();sb.from('licenses').update({admin_read_at:d.admin_read_at}).eq('code',id);render()}
-      $('sh-msg').hidden=false;setTimeout(function(){$('msg-t').focus()},60)}
+    if(a==='msg'){openMsg(id);return}
     if(a==='life')await upd(id,{status:'ativado',paid_until:LIFE},'Plano vitalício ativado.');
     if(a==='del'){delId=id;render()}
     if(a==='del2'){var r=await sb.from('licenses').delete().eq('code',id);delId=null;if(r.error)fail(r.error);else{toast('Aparelho excluído.');await load()}}
@@ -472,11 +533,123 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
     $('sh-msg').hidden=true;toast(codes.length===1?'Mensagem enviada. O cliente vê ao abrir o app.':'Mensagem enviada para '+codes.length+' aparelhos.');await load();
   });
 
+
+  /* telefone do suporte */
+  function fillSettings(){
+    if(!settings)return;
+    if(document.activeElement!==$('s-phone'))$('s-phone').value=fmtWa(String(settings.sup_phone||'').replace(/^55(?=\d{10,11}$)/,''));
+    $('s-show').checked=settings.sup_show!==false;
+  }
+  $('s-show').addEventListener('change',async function(){
+    var v=this.checked,r=await sb.from('app_settings').update({sup_show:v}).eq('id',1);
+    if(r.error){this.checked=!v;fail(r.error);return}
+    if(settings)settings.sup_show=v;toast(v?'Telefone visível para os clientes.':'Telefone oculto para os clientes.');
+  });
+  $('s-save').addEventListener('click',async function(){
+    var d=$('s-phone').value.replace(/\D/g,'');
+    if(d.length<10||d.length>13){toast('Digite o WhatsApp com DDD. Ex.: (44) 99999-9999');return}
+    if(d.length<=11)d='55'+d;
+    var r=await sb.from('app_settings').upsert({id:1,sup_phone:d,sup_show:$('s-show').checked},{onConflict:'id'});
+    if(r.error){fail(r.error);return}
+    settings={id:1,sup_phone:d,sup_show:$('s-show').checked};toast('Telefone do suporte salvo.');
+  });
+
+  /* sugestões */
+  function nameOf(code){var d=db.filter(function(x){return x.code===code})[0];return d&&d.name&&d.name!=='Cliente novo'?d.name:code}
+  var SGL={nova:'Nova',util:'Útil',nao_util:'Não útil'};
+  function renderSug(){
+    var c={nova:0,util:0,nao_util:0,todas:sugs.length};sugs.forEach(function(x){c[x.status]=(c[x.status]||0)+1});
+    var nb=$('n-sug');nb.hidden=!c.nova;nb.textContent=c.nova;
+    var names=[['nova','Novas'],['util','Úteis'],['nao_util','Não úteis'],['todas','Todas']];
+    $('sug-chips').innerHTML=names.map(function(n){return'<button class="chip" data-sf="'+n[0]+'" aria-pressed="'+(sugF===n[0])+'">'+n[1]+' ('+c[n[0]]+')</button>'}).join('');
+    var rows=sugs.filter(function(x){return sugF==='todas'||x.status===sugF});
+    $('sug-list').innerHTML=rows.length?rows.map(function(x){
+      var id=x.id;
+      return'<article class="sg s-'+x.status+'"><div class="sgh"><b>'+esc(nameOf(x.code))+'</b><span class="st">'+SGL[x.status]+'</span><small>'+esc(x.code)+' · '+new Date(x.created_at).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</small></div>'+
+        '<p class="sgb">'+esc(x.body)+'</p><div class="acts">'+
+        '<button class="b sm'+(x.status==='util'?' pri':'')+'" data-s="util" data-id="'+id+'">👍 Útil</button>'+
+        '<button class="b sm'+(x.status==='nao_util'?' pri':'')+'" data-s="nao_util" data-id="'+id+'">👎 Não útil</button>'+
+        (sugDel===id?'<button class="b sm bad" data-s="del2" data-id="'+id+'">Confirmar</button><button class="b sm" data-s="cancel" data-id="'+id+'">Cancelar</button>':'<button class="b sm bad" data-s="del" data-id="'+id+'">Apagar</button>')+'</div></article>'}).join(''):emptyHtml(sugs.length?'Nenhuma sugestão nesta lista.':'Nenhuma sugestão ainda. Elas aparecem aqui quando um cliente enviar pelo app.');
+  }
+  document.addEventListener('click',async function(e){
+    var f=e.target.closest('[data-sf]');if(f){sugF=f.getAttribute('data-sf');renderSug();return}
+    var b=e.target.closest('[data-s]');if(!b)return;
+    var a=b.getAttribute('data-s'),id=Number(b.getAttribute('data-id'));
+    if(a==='del'){sugDel=id;renderSug();return}
+    if(a==='cancel'){sugDel=null;renderSug();return}
+    if(a==='del2'){var r=await sb.from('suggestions').delete().eq('id',id);sugDel=null;if(r.error){fail(r.error);return}sugs=sugs.filter(function(x){return x.id!==id});renderSug();toast('Sugestão apagada.');return}
+    var cur=sugs.filter(function(x){return x.id===id})[0];if(!cur)return;
+    var nv=cur.status===a?'nova':a;
+    var r2=await sb.from('suggestions').update({status:nv}).eq('id',id);
+    if(r2.error){fail(r2.error);return}
+    cur.status=nv;renderSug();toast(nv==='util'?'Marcada como útil.':nv==='nao_util'?'Marcada como não útil.':'Voltou para novas.');
+  });
+
+  /* conversas (balão) */
+  function renderChat(){
+    var qq=($('chat-q').value||'').trim().toLowerCase(),tot=0;
+    var rows=db.map(function(d){var m=msgsBy[d.code]||[];return{d:d,last:m[0],un:unreadOf(d)}}).filter(function(r){tot+=r.un;return!qq||((r.d.name||'')+' '+r.d.code).toLowerCase().indexOf(qq)>=0});
+    rows.sort(function(a,b){if(!!b.un!==!!a.un)return b.un?1:-1;var ta=a.last?new Date(a.last.created_at).getTime():0,tb=b.last?new Date(b.last.created_at).getTime():0;return tb-ta});
+    $('chat-list').innerHTML=rows.length?rows.map(function(r){
+      var nm=r.d.name&&r.d.name!=='Cliente novo'?r.d.name:r.d.code,ini=nm.trim().charAt(0).toUpperCase();
+      return'<button class="crow'+(r.last?'':' nomsg')+'" data-chat="'+esc(r.d.code)+'"><span class="av">'+esc(ini)+'</span><span class="cm"><b>'+esc(nm)+'</b><span>'+(r.last?(r.last.sender==='user'?'':'Você: ')+esc(r.last.body):'Sem mensagens · toque para escrever')+'</span></span>'+(r.last?'<time>'+ago(r.last.created_at)+'</time>':'')+(r.un?'<span class="cn">'+r.un+'</span>':'')+'</button>'}).join(''):emptyHtml('Nenhum cliente encontrado.');
+    $('chatfab').classList.toggle('has',tot>0);
+  }
+  var chatOv=$('chatov'),chatFab=$('chatfab');
+  function chatOpen(){var r=chatFab.getBoundingClientRect();chatOv.style.transformOrigin=(r.left+r.width/2)+'px '+(r.top+r.height/2)+'px';void chatOv.offsetWidth;renderChat();chatOv.classList.add('open');document.body.classList.add('chato')}
+  function chatClose(){chatOv.classList.remove('open');document.body.classList.remove('chato')}
+  chatFab.addEventListener('click',chatOpen);$('chat-x').addEventListener('click',chatClose);
+  $('chat-q').addEventListener('input',renderChat);
+  $('chat-list').addEventListener('click',function(e){var b=e.target.closest('[data-chat]');if(b)openMsg(b.getAttribute('data-chat'))});
+
+  /* notificações no celular */
+  var LNP=NATIVE&&plug('LocalNotifications');
+  function nperm(){
+    if(!LNP)return Promise.resolve('web');
+    return LNP.checkPermissions().then(function(p){return p.display==='granted'?'granted':LNP.requestPermissions().then(function(r){return r.display})}).catch(function(){return'denied'});
+  }
+  if(LNP){
+    try{LNP.createChannel({id:'painel_msgs',name:'Mensagens e sugestões',description:'Avisos de mensagens e sugestões dos clientes',importance:4,visibility:1,vibration:true}).catch(function(){})}catch(e){}
+    try{LNP.addListener('localNotificationActionPerformed',function(a){
+      var ex=a&&a.notification&&a.notification.extra||{};
+      if(!logged)return;
+      if(ex.t==='chat'&&ex.code)setTimeout(function(){openMsg(ex.code)},300);
+      else if(ex.t==='sug')go('sug');
+    })}catch(e){}
+  }
+  function notify(id,title,body,extra){
+    if(!LNP)return;
+    nperm().then(function(st){if(st!=='granted')return;
+      return LNP.schedule({notifications:[{id:id,title:title,body:String(body).slice(0,160),largeBody:String(body),schedule:{at:new Date(Date.now()+600)},channelId:'painel_msgs',smallIcon:'ic_stat_painel',iconColor:'#8B5CF6',autoCancel:true,extra:extra}]})
+    }).catch(function(){});
+  }
+  function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function lsSet(k,v){try{localStorage.setItem(k,String(v))}catch(e){}}
+  function checkNew(){
+    var um=[];Object.keys(msgsBy).forEach(function(c){msgsBy[c].forEach(function(m){if(m.sender==='user')um.push(m)})});
+    var mx=0;um.forEach(function(m){if(m.id>mx)mx=m.id});
+    var seen=lsGet('painel-nid');
+    if(seen===null){lsSet('painel-nid',mx)}
+    else{
+      var nw=um.filter(function(m){return m.id>Number(seen)}).sort(function(a,b){return a.id-b.id});
+      if(mx>Number(seen))lsSet('painel-nid',mx);
+      nw.slice(-5).forEach(function(m){notify(3000+(m.id%900),nameOf(m.code),m.body,{t:'chat',code:m.code})});
+      if(nw.length>5)notify(3999,'Mensagens de clientes',nw.length+' novas mensagens',{t:'chat'});
+    }
+    var sx=0;sugs.forEach(function(x){if(x.id>sx)sx=x.id});
+    var ss=lsGet('painel-sid');
+    if(ss===null){lsSet('painel-sid',sx)}
+    else{
+      var ns=sugs.filter(function(x){return x.id>Number(ss)}).sort(function(a,b){return a.id-b.id});
+      if(sx>Number(ss))lsSet('painel-sid',sx);
+      ns.slice(-3).forEach(function(x){notify(4000+(x.id%900),'Nova sugestão · '+nameOf(x.code),x.body,{t:'sug'})});
+    }
+  }
   /* páginas */
-  var HD={list:['Aparelhos','Telão Play · licenças'],venc:['Vencimentos','Quem precisa renovar'],add:['Ativar aparelho','Libere um código novo'],cfg:['Ajustes','Conexão, versão e conta']};
+  var HD={sug:['Sugestões','Ideias dos clientes'],list:['Aparelhos','Telão Play · licenças'],venc:['Vencimentos','Quem precisa renovar'],add:['Ativar aparelho','Libere um código novo'],cfg:['Ajustes','Conexão, versão e conta']};
   function go(t){
     tab=t;
-    ['list','venc','add','cfg'].forEach(function(k){
+    ['list','venc','add','sug','cfg'].forEach(function(k){
       var p=$('p-'+k),on=k===t;
       if(on&&p.hidden){p.hidden=false;p.style.animation='none';void p.offsetWidth;p.style.animation=''}
       else p.hidden=!on;
@@ -488,7 +661,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
   document.querySelector('.bn').addEventListener('click',function(e){var b=e.target.closest('button');if(b)go(b.getAttribute('data-t'))});
 
   /* entrada */
-  function show(on){logged=on;$('login').hidden=on;$('app').hidden=!on}
+  function show(on){logged=on;$('login').hidden=on;$('app').hidden=!on;$('chatfab').hidden=!on;if(on)nperm();else chatClose()}
   $('l-eye').onclick=function(){var i=$('l-pass');i.type=i.type==='password'?'text':'password'};
   $('f-login').addEventListener('submit',async function(e){
     e.preventDefault();$('l-err').textContent='';$('l-go').disabled=true;
@@ -497,7 +670,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
     if(r.error){var m=String(r.error.message||r.error);$('l-err').textContent=/invalid login|credentials/i.test(m)?'Senha incorreta. Confira letras maiúsculas e o olho para ver o que digitou.':/fetch|network|failed/i.test(m)?'Sem conexão com o servidor. Confira a internet. ('+m+')':'Erro ao entrar: '+m;return}
     $('l-pass').value='';show(true);go('list');load();
   });
-  setInterval(function(){if(logged&&!document.hidden&&$('sheet').hidden)load()},30000);
+  setInterval(function(){if(logged&&$('sheet').hidden)load()},20000);
   sb.auth.getSession().then(function(r){if(r.data&&r.data.session){show(true);load()}});
 
   /* atualização obrigatória por dentro do app */

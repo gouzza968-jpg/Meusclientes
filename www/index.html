@@ -520,7 +520,7 @@ main{padding-bottom:128px}
 .kb button svg{width:18px;height:18px;color:var(--vio)}
 .kb button.dl,.kb button.dl svg{color:var(--bad)}
 /* navegação inferior */
-.bnav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:616px;margin:0 auto;z-index:12;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:6px;border-radius:26px;background:var(--glass-strong);border:1px solid var(--glass-line);-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%);box-shadow:0 16px 40px -10px rgba(0,0,0,.7),var(--hl)}
+.bnav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:616px;margin:0 auto;z-index:12;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:6px;border-radius:26px;background:var(--glass-strong);border:1px solid var(--glass-line);-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%);box-shadow:0 16px 40px -10px rgba(0,0,0,.7),var(--hl)}
 .bnav button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 7px;border:0;border-radius:20px;background:none;color:var(--mute);font:inherit;font-size:10.5px;font-weight:700;cursor:pointer;transition:color .3s,background .3s}
 .bnav button svg{transition:transform .35s cubic-bezier(.3,1.5,.5,1),filter .3s}
 .bnav button.on{color:var(--ha);background:color-mix(in srgb,var(--ha) 15%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ha) 30%,transparent)}
@@ -805,6 +805,18 @@ body.ro #add{opacity:.45}
 .vrow .cvh{flex:1;font-size:11.5px;color:var(--mute);line-height:1.25}
 .c-l{color:#22c55e;font-weight:750}
 .lc{color:#22c55e!important;font-weight:750}
+/* guias centralizadas e animadas */
+.bnav{max-width:400px!important;left:50%!important;right:auto!important;width:calc(100% - 24px);transform:translateX(-50%);animation:nvin .7s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes nvin{from{opacity:0;transform:translateX(-50%) translateY(40px) scale(.92)}to{opacity:1;transform:translateX(-50%)}}
+.bnav .nvp{position:absolute;z-index:0;top:6px;bottom:6px;left:6px;width:calc((100% - 12px - 4px)/3);border-radius:20px;pointer-events:none;background:color-mix(in srgb,var(--ha) 17%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ha) 34%,transparent),0 6px 18px -8px var(--ha);transform:translateX(calc(var(--k,0)*(100% + 2px)));transition:transform .55s cubic-bezier(.34,1.45,.5,1),background .4s,box-shadow .4s}
+.bnav button{position:relative;z-index:1;justify-content:center}
+.bnav button.on{background:none!important;box-shadow:none!important}
+.bnav button.on svg{animation:nvpop .6s cubic-bezier(.3,1.6,.5,1)}
+.bnav button.on span{animation:nvlb .45s ease both}
+.bnav button:active svg{transform:scale(.86)}
+@keyframes nvpop{0%{transform:translateY(4px) scale(.7) rotate(-12deg)}55%{transform:translateY(-5px) scale(1.25) rotate(6deg)}100%{transform:translateY(-1px) scale(1.12)}}
+@keyframes nvlb{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bnav,.bnav .nvp,.bnav button.on svg,.bnav button.on span{animation:none!important;transition:none!important}}
 /* início v2 */
 .rhero.big{position:relative;overflow:hidden;padding:18px 16px;margin-bottom:12px}
 .rhero.big::after{content:"";position:absolute;right:-40px;top:-60px;width:170px;height:170px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,#22c55e 35%,transparent),transparent);pointer-events:none}
@@ -1050,7 +1062,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
   </div>
 <button class="supfab" id="supfab" type="button" aria-label="Suporte"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/></svg><i></i></button>
 <div class="toast" id="toast" role="status"></div>
-<nav class="bnav" id="bnav" aria-label="Navegação"><button data-p="list" class="on"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span>Início</span></button><button data-p="rel"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>Relatórios</span></button><button data-p="cfg"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Configurações</span></button></nav>
+<nav class="bnav" id="bnav" aria-label="Navegação"><i class="nvp" aria-hidden="true"></i><button data-p="list" class="on"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span>Início</span></button><button data-p="rel"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>Relatórios</span></button><button data-p="cfg"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Configurações</span></button></nav>
 <button class="fab" id="add" aria-label="Novo cliente"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
 <div class="kb" id="kb" hidden></div>
 <dialog id="belld" aria-labelledby="bd-t"><h2 id="bd-t" style="margin:0 0 4px">Notificações</h2><p class="meta" id="bd-s" style="margin:0 0 8px"></p><div id="bd-l"></div><div class="acts" style="margin-top:14px"><button class="btn g-violet" id="bd-cfg"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Configurar horário</button><button class="btn" id="bd-x">Fechar</button></div></dialog>
@@ -1660,7 +1672,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
   var TABS=["list","rel","cfg"],curTab=0;
   var HD={list:["home","Início",""],rel:["bars","Relatórios","Resumo da carteira"],cfg:["gear","Configurações","Atualizado por dentro do app ✓"]};
   function go(i){
-    var pg=$("pages");if(i!==curTab)snd("tab");curTab=i;
+    var pg=$("pages");if(i!==curTab)snd("tab");curTab=i;$("bnav").style.setProperty("--k",i);
     pg.classList.add("moving");pg.style.setProperty("--i",i);
     TABS.forEach(function(n,k){$("v-"+n).classList.toggle("on",k===i);var t=$("t-"+n);if(t)t.setAttribute("aria-selected",String(k===i))});
     [].forEach.call($("bnav").children,function(b){b.classList.toggle("on",b.dataset.p===TABS[i])});

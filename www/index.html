@@ -1167,7 +1167,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     var st=$("srvcss");if(!st){st=document.createElement("style");st.id="srvcss";document.head.appendChild(st)}st.textContent=css
   }
   function sitesUI(){
-    $("c-sites").innerHTML=srvNames().map(function(n){return '<div class="srow"><label class="u"><span class="srv" data-s="'+esc(n)+'">'+esc(n)+'</span></label><div class="urlrow"><input type="url" inputmode="url" autocomplete="off" autocapitalize="off" data-sv="'+esc(n)+'" value="'+esc(cfg.sites[n]||"")+'" placeholder="https://painel…"><button class="btn g-green" data-open="'+esc(n)+'">Abrir</button>'+(BUILT[n]?'':'<button class="btn x" data-del="'+esc(n)+'" aria-label="Remover">'+IC.trash+'</button>')+'</div><div class="vrow"><span>Valor por cliente</span><input data-vv="'+esc(n)+'" inputmode="decimal" placeholder="R$ 0,00" value="'+(cfg.vals[n]!=null?String(cfg.vals[n]).replace(".",","):"")+'" aria-label="Valor dos clientes de '+esc(n)+'"><button class="btn g-violet" data-apply="'+esc(n)+'">Aplicar a todos ('+clients.filter(function(c){return c.server===n}).length+')</button></div><div class="vrow"><span>Custo por crédito</span><input data-cv="'+esc(n)+'" inputmode="decimal" placeholder="R$ 0,00" value="'+(cfg.costs&&cfg.costs[n]!=null?String(cfg.costs[n]).replace(".",","):"")+'" aria-label="Custo por crédito do servidor '+esc(n)+'"><small class="cvh">1 crédito = 1 mês de um cliente. Usado para calcular o lucro.</small></div></div>'}).join("");
+    $("c-sites").innerHTML=srvNames().map(function(n){return '<div class="srow"><label class="u"><span class="srv" data-s="'+esc(n)+'">'+esc(n)+'</span></label><div class="urlrow"><input type="url" inputmode="url" autocomplete="off" autocapitalize="off" data-sv="'+esc(n)+'" value="'+esc(cfg.sites[n]||"")+'" placeholder="https://painel…"><button class="btn g-green" data-open="'+esc(n)+'">Abrir</button>'+(BUILT[n]?'':'<button class="btn x" data-del="'+esc(n)+'" aria-label="Remover">'+IC.trash+'</button>')+'</div><div class="vrow"><span>Valor por cliente</span><input data-vv="'+esc(n)+'" inputmode="decimal" placeholder="R$ 0,00" value="'+(cfg.vals[n]!=null?String(cfg.vals[n]).replace(".",","):"")+'" aria-label="Valor dos clientes de '+esc(n)+'"><button class="btn g-violet" data-apply="'+esc(n)+'">Aplicar a todos ('+clients.filter(function(c){return c.server===n}).length+')</button></div><div class="vrow"><span>Custo por crédito</span><input data-cv="'+esc(n)+'" inputmode="decimal" placeholder="R$ 0,00" value="'+(cfg.costs&&cfg.costs[n]!=null?String(cfg.costs[n]).replace(".",","):"")+'" aria-label="Custo por crédito do servidor '+esc(n)+'"><button class="btn g-green" data-savecost="'+esc(n)+'">Salvar custo</button></div><small class="cvh" style="display:block;margin-top:4px">1 crédito = 1 mês de um cliente. Usado para calcular o lucro; não precisa definir o valor por cliente.</small></div>'}).join("");
     fillServers()
   }
   function siteUrl(sv){var u=String(cfg.sites[sv]||"").trim();if(!u)return "";if(!/^https?:\/\//i.test(u))u="https://"+u;return u}
@@ -2097,12 +2097,16 @@ body.supo .supfab{opacity:0;pointer-events:none}
       var k=Object.keys(old).length;persist();render();sitesUI();
       toast(k?"R$ "+v.toFixed(2).replace(".",",")+" aplicado a "+k+(k===1?" cliente":" clientes"):"Valor salvo (nenhum cliente neste servidor ainda)",k?function(){clients.forEach(function(c){if(old[c.id]!==undefined)c.val=old[c.id]});persist();render();sitesUI()}:null)
     }
+    function saveCost(ci){
+      var cn=ci.dataset.cv,ct=ci.value.trim();cfg.costs=cfg.costs||{};
+      if(!ct){if(cfg.costs[cn]==null)return;delete cfg.costs[cn];saveCfg();render();toast("Custo removido");return}
+      var cv=parseV(ct);if(isNaN(cv)){toast("Valor inválido");return}
+      cfg.costs[cn]=cv;saveCfg();ci.value=cv.toFixed(2).replace(".",",");render();toast("Custo do "+cn+": R$ "+cv.toFixed(2).replace(".",",")+" por crédito");snd("save")
+    }
+    $("c-sites").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.matches("input[data-cv]")){e.preventDefault();saveCost(e.target)}});
     $("c-sites").addEventListener("change",function(e){
       var ci=e.target.closest("input[data-cv]");
-      if(ci){var cn=ci.dataset.cv,ct=ci.value.trim();cfg.costs=cfg.costs||{};
-        if(!ct){delete cfg.costs[cn];saveCfg();render();toast("Custo removido");return}
-        var cv=parseV(ct);if(isNaN(cv)){toast("Valor inválido");return}
-        cfg.costs[cn]=cv;saveCfg();ci.value=cv.toFixed(2).replace(".",",");render();toast("Custo do "+cn+": R$ "+cv.toFixed(2).replace(".",",")+" por crédito");snd("save");return}
+      if(ci){saveCost(ci);return}
       var vi=e.target.closest("input[data-vv]");
       if(vi){var n=vi.dataset.vv,t=vi.value.trim();
         if(!t){delete cfg.vals[n];saveCfg();toast("Valor padrão removido");return}
@@ -2113,6 +2117,8 @@ body.supo .supfab{opacity:0;pointer-events:none}
         else{toast("Valor do "+n+" salvo");snd("save")}
         return}var i=e.target.closest("input[data-sv]");if(!i)return;cfg.sites[i.dataset.sv]=i.value.trim();saveCfg();toast("Site do "+i.dataset.sv+" salvo");snd("save")});
     $("v-cfg").onclick=function(e){
+      var sc=e.target.closest("button[data-savecost]");
+      if(sc){var ci2=document.querySelector('input[data-cv="'+sc.dataset.savecost.replace(/"/g,'\\"')+'"]');if(ci2)saveCost(ci2);return}
       var ap=e.target.closest("button[data-apply]");
       if(ap){var an=ap.dataset.apply,vv=document.querySelector('input[data-vv="'+an.replace(/"/g,'\\"')+'"]'),v2=parseV(vv.value);if(isNaN(v2)){toast("Digite o valor primeiro");vv.focus();return}cfg.vals[an]=v2;saveCfg();applyVal(an,v2);return}
       var o=e.target.closest("button[data-open]"),d=e.target.closest("button[data-del]");

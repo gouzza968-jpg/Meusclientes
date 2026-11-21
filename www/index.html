@@ -1040,7 +1040,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
 <section class="cfg-card" id="sec-upd">
     <h3><i class="ci" style="--tc:#3b82f6"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg></i>Atualização do app<span class="lpill ok" id="upd-st" hidden>Nova versão</span></h3>
     <p class="meta" id="upd-msg" style="margin:2px 0 0"></p>
-    <div class="btns"><button class="btn big g-blue" id="upd-chk">Verificar atualização</button></div>
+    <div class="btns"><button class="btn big g-blue" id="upd-chk">Buscar versão atual</button></div>
   </section>
   <p class="verp"><span id="ver"></span></p>
 </div>
@@ -2381,20 +2381,21 @@ body.supo .supfab{opacity:0;pointer-events:none}
     roOn();if(!updShown){updShown=true;updOpen()}
     var L=LN();if(L&&document.hidden&&updNotified!==u.versionCode){updNotified=u.versionCode;try{L.schedule({notifications:[{id:998,title:"🔒 Atualização de segurança disponível",body:"Abra o Meus clientes para atualizar. Sem a atualização você só consegue consultar os clientes.",schedule:{at:new Date(Date.now()+1500)},channelId:"venc_"+(cfg.nsound&&cfg.nsound!=="mudo"?cfg.nsound:"sys"),smallIcon:NTI}]}).catch(function(){})}catch(e){}}
   }
-  function updOk(cur){updInfo=null;roOff();try{localStorage.removeItem(UNK)}catch(e){}$("upd-st").hidden=true;$("upd-chk").textContent="Verificar atualização";$("upd-msg").textContent="Você está na versão mais recente"+(cur?" ("+cur.versionName+")":"")+".";if($("updd").open)$("updd").close()}
+  function updOk(cur){updInfo=null;roOff();try{localStorage.removeItem(UNK)}catch(e){}$("upd-st").hidden=true;$("upd-chk").textContent="Buscar versão atual";$("upd-msg").textContent="Você está na versão mais recente"+(cur?" ("+cur.versionName+")":"")+".";if($("updd").open)$("updd").close()}
   function updCheck(manual){
     var P=plug("AppUpdate");
     if(!NATIVE||!P){if(manual)toast("A atualização funciona no aplicativo instalado");$("upd-msg").textContent="Disponível só no aplicativo instalado.";return}
     if(updBusy)return;
+    if(manual){$("upd-msg").textContent="Buscando a versão mais recente…";$("upd-chk").disabled=true}
     P.info().then(function(cur){
       var saved=null;try{saved=JSON.parse(localStorage.getItem(UNK)||"null")}catch(e){}
       if(saved&&Number(saved.versionCode)>Number(cur.versionCode))updNeed(saved);   /* sem internet: continua bloqueado */
       else if(saved)updOk(cur);
       return httpJson(UPD_URL).then(function(u){
         if(Number(u.versionCode)>Number(cur.versionCode))updNeed(u);else updOk(cur);
-        if(manual&&!updInfo)toast("Seu app já está atualizado")
+        if(manual){$("upd-msg").textContent="Instalada: "+cur.versionName+" · Mais recente: "+u.versionName+(Number(u.versionCode)>Number(cur.versionCode)?" — atualização disponível.":" — você já está na última.");if(!updInfo)toast("Seu app já está atualizado")}
       })
-    }).catch(function(){if(manual)toast("Sem conexão para verificar")})
+    }).catch(function(){if(manual){toast("Sem conexão para verificar");$("upd-msg").textContent="Não foi possível buscar agora. Confira a internet."}}).then(function(){$("upd-chk").disabled=false})
   }
   function updOpen(){
     if(!updInfo)return;

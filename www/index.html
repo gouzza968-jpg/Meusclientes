@@ -822,6 +822,7 @@ body.ro #add{opacity:.45}
 #sec-ind .vrow{display:flex;gap:8px}#sec-ind .vrow input{flex:1;min-width:150px}#sec-ind .vrow .btn{flex:none;padding-inline:18px}
 .privd{margin-top:10px;font-size:12px;color:var(--mute)}.privd summary{cursor:pointer;font-weight:650;list-style:none}.privd summary::-webkit-details-marker{display:none}
 .termos{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.5;color:var(--ink);max-height:60vh;overflow:auto}
+.dlc{border:1px solid var(--b1);border-radius:16px;padding:12px;margin-bottom:10px;display:flex;flex-direction:column;gap:8px;background:color-mix(in srgb,#06b6d4 6%,transparent)}.dlc>b{font-size:15px}.dlr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.dlr small{flex-basis:100%;color:var(--mute);font-weight:650;font-size:11.5px}.dlv{flex:1;min-width:0;font-family:ui-monospace,monospace;font-size:14px;font-weight:700;overflow-wrap:anywhere}.dlu{font-size:12px;font-weight:600}
 /* início v2 */
 .rhero.big{position:relative;overflow:hidden;padding:18px 16px;margin-bottom:12px}
 .rhero.big::after{content:"";position:absolute;right:-40px;top:-60px;width:170px;height:170px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,#22c55e 35%,transparent),transparent);pointer-events:none}
@@ -984,7 +985,12 @@ body.supo .supfab{opacity:0;pointer-events:none}
       <div class="vrow"><input id="ind-in" maxlength="14" autocomplete="off" autocapitalize="characters" placeholder="MC-XXXX-XXXX" aria-label="Código de quem indicou"><button class="btn g-violet" id="ind-save" type="button">Salvar</button></div>
       <p class="meta" id="ind-msg" style="margin:4px 0 0"></p></div>
   </section>
-<section class="cfg-card" id="sec-termos" hidden>
+<section class="cfg-card" id="sec-dl">
+    <h3><i class="ci" style="--tc:#06b6d4"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg></i>Downloads</h3>
+    <p class="meta" style="margin:2px 0 8px">Apps disponíveis para baixar. Digite o código no app Downloader ou use o link direto.</p>
+    <div id="dl-list"></div>
+  </section>
+  <section class="cfg-card" id="sec-termos" hidden>
     <h3><i class="ci" style="--tc:#64748b"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8M8 9h2"/></svg></i>Termos de uso</h3>
     <div id="termos-txt" class="termos"></div>
   </section>
@@ -2113,7 +2119,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
         if(!NATIVE||!P){toast("A troca de ícone funciona no aplicativo instalado");return}
         P.set({id:id}).then(function(){cfg.icon=id;saveCfg();rd(id);snd("tab");toast("Ícone alterado. Pode levar alguns segundos para atualizar.")}).catch(function(){toast("Não foi possível trocar o ícone")})}
     })();
-    ["sec-lic","sec-ind","sec-nome","sec-sug","sec-bkp","sec-cor","sec-not","sec-ico","sec-int","sec-sites","sec-termos"].forEach(function(id){var sec=$(id);if(!sec||sec.classList.contains("fd"))return;var h=sec.querySelector("h3");if(!h)return;
+    ["sec-lic","sec-ind","sec-nome","sec-sug","sec-bkp","sec-cor","sec-not","sec-ico","sec-int","sec-sites","sec-dl","sec-termos"].forEach(function(id){var sec=$(id);if(!sec||sec.classList.contains("fd"))return;var h=sec.querySelector("h3");if(!h)return;
       var body=document.createElement("div"),inn=document.createElement("div");body.className="cbody";inn.className="cin";body.appendChild(inn);
       while(h.nextSibling)inn.appendChild(h.nextSibling);sec.appendChild(body);sec.classList.add("fd");
       h.tabIndex=0;h.setAttribute("role","button");h.setAttribute("aria-expanded","false");
@@ -2246,7 +2252,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     var n=Date.now(),sn=Date.parse(r.now)||n;
     if(n>lic.seen)lic.seen=n;
     var ms=(r.msgs||[]).map(function(m){return{id:m.id,t:m.t,at:Date.parse(m.at)||0,s:m.s||"admin"}});
-    lic.sv={status:r.status,tests:r.tests|0,te:r.test_end?Date.parse(r.test_end):0,pe:r.plan_end?Date.parse(r.plan_end):0,off:sn-n,at:n,name:r.name||"",wa:r.wa||"",msgs:ms,sp:r.sup_phone||"",ss:r.sup_show!==false,rb:r.ref_by||"",rn:r.ref_n|0,ro:r.ref_ok|0,rf:r.ref_on!==false,tm:r.terms_show===true,tt:String(r.terms_text||""),fa:r.ref_a==null?30:r.ref_a|0,fb:r.ref_b==null?15:r.ref_b|0};
+    lic.sv={status:r.status,tests:r.tests|0,te:r.test_end?Date.parse(r.test_end):0,pe:r.plan_end?Date.parse(r.plan_end):0,off:sn-n,at:n,name:r.name||"",wa:r.wa||"",msgs:ms,sp:r.sup_phone||"",ss:r.sup_show!==false,rb:r.ref_by||"",rn:r.ref_n|0,ro:r.ref_ok|0,rf:r.ref_on!==false,dl:Array.isArray(r.downloads)?r.downloads:[],tm:r.terms_show===true,tt:String(r.terms_text||""),fa:r.ref_a==null?30:r.ref_a|0,fb:r.ref_b==null?15:r.ref_b|0};
     var mx=0;ms.forEach(function(m){if(m.id>mx)mx=m.id});
     if(lic.nSeen==null)lic.nSeen=mx;
     else{var nw=ms.filter(function(m){return m.s!=="user"&&m.id>lic.nSeen}).sort(function(a,b){return a.id-b.id});if(mx>lic.nSeen)lic.nSeen=mx;if(nw.length)notifyChat(nw)}
@@ -2308,8 +2314,26 @@ body.supo .supfab{opacity:0;pointer-events:none}
     else{pill.textContent="Bloqueado";pill.className="lpill";left.textContent="Acesso bloqueado. Fale com o suporte."}
     if(lic.sv){licExtra();refUI()}
   }
+  function dlUI(){
+    var l=(lic.sv&&lic.sv.dl)||[],h="";
+    if(!l.length){$("dl-list").innerHTML='<p class="meta">Nenhum download disponível por enquanto.</p>';return}
+    $("dl-list").innerHTML=l.map(function(x,i){
+      return '<div class="dlc"><b>'+esc(x.n)+'</b>'+(x.c?'<div class="dlr"><small>Código do Downloader</small><span class="dlv">'+esc(x.c)+'</span><button class="btn" data-dl="c" data-i="'+i+'" type="button">Copiar</button></div>':'')+(x.u?'<div class="dlr"><small>Link direto</small><span class="dlv dlu">'+esc(x.u)+'</span><button class="btn" data-dl="u" data-i="'+i+'" type="button">Copiar</button></div><button class="btn g-blue" data-dl="o" data-i="'+i+'" type="button">Abrir link</button>':'')+'</div>'
+    }).join("")
+  }
+  $("dl-list").onclick=function(e){
+    var b=e.target.closest("[data-dl]");if(!b)return;
+    var x=((lic.sv&&lic.sv.dl)||[])[Number(b.dataset.i)];if(!x)return;
+    var k=b.dataset.dl;
+    if(k==="o"){snd("tap");window.open(x.u,"_blank","noopener");return}
+    var t=k==="c"?x.c:x.u,l=b.textContent;
+    function ok(){b.textContent="Copiado ✓";setTimeout(function(){b.textContent=l},1500)}
+    function fb(){try{var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();ok()}catch(er){}}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb()
+  };
   function refUI(){
     var v=lic.sv;if(!v)return;
+    dlUI();
     var tOn=v.tm===true&&!!(v.tt||"").trim();$("sec-termos").hidden=!tOn;if(tOn)$("termos-txt").textContent=v.tt;
     var on=v.rf!==false;$("sec-ind").hidden=!on;if(!on)return;
     function dt(n){return n&&n%30===0?(n/30)+(n/30===1?" mês":" meses"):n+(n===1?" dia":" dias")}

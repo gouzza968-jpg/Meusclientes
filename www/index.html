@@ -801,6 +801,38 @@ main{padding-bottom:128px}
 #robar{position:fixed;z-index:30;left:10px;right:10px;top:calc(6px + env(safe-area-inset-top,0px));border:0;border-radius:12px;padding:8px 12px;font:inherit;font-size:12px;font-weight:750;color:#fff;background:linear-gradient(135deg,#3b82f6,#1d4ed8);box-shadow:0 8px 20px -8px #3b82f6;cursor:pointer;text-align:center}
 body.ro{padding-top:42px}
 body.ro #add{opacity:.45}
+/* cartões recolhíveis, ícones, abertura 2 */
+.cfg-card.fd h3{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;margin-bottom:0}
+.cfg-card.fd h3::after{content:"";margin-left:auto;width:9px;height:9px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:translateY(-2px) rotate(45deg);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.cfg-card.fd.open h3::after{transform:translateY(2px) rotate(-135deg)}
+.cbody{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s cubic-bezier(.2,.8,.2,1)}
+.cfg-card.open .cbody{grid-template-rows:1fr}
+.cin{overflow:hidden;min-height:0;visibility:hidden;opacity:0;transition:visibility 0s .38s,opacity .25s}
+.cfg-card.open .cin{visibility:visible;opacity:1;transition:visibility 0s,opacity .35s .08s}
+.cfg-card.fd.open h3{margin-bottom:6px}
+.seg.two{grid-template-columns:repeat(2,1fr)}
+.sub-t{margin:12px 0 0;font-weight:800;font-size:13px;color:var(--mute)}
+.ics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.ic{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px 8px;border-radius:16px;border:1px solid var(--glass-line);background:var(--glass);color:var(--ink);font:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .25s,border-color .25s}
+.ic img{width:56px;height:56px;border-radius:15px;box-shadow:0 6px 14px -8px rgba(0,0,0,.6)}
+.ic:active{transform:scale(.96)}
+.ic.on{border-color:var(--vio);box-shadow:0 0 0 2px color-mix(in srgb,var(--vio) 40%,transparent),0 8px 20px -10px var(--vio)}
+.x-skip{position:absolute;z-index:5;top:calc(14px + env(safe-area-inset-top,0px));right:16px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:#fff;font:inherit;font-size:13px;font-weight:750;padding:8px 16px;border-radius:999px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#intro.v2{background:radial-gradient(90% 70% at 50% 45%,#14113a 0,#06070f 70%)}
+.y-glow{position:absolute;width:120vmax;height:120vmax;left:50%;top:50%;margin:-60vmax 0 0 -60vmax;background:conic-gradient(from 0deg,transparent,color-mix(in srgb,var(--vio,#8b5cf6) 38%,transparent),transparent 30%,rgba(59,130,246,.3) 55%,transparent 80%);border-radius:50%;-webkit-mask-image:radial-gradient(closest-side,#000 25%,transparent 100%);mask-image:radial-gradient(closest-side,#000 25%,transparent 100%);opacity:0;animation:yglow 3.4s linear both;will-change:transform,opacity}
+@keyframes yglow{0%{opacity:0;transform:rotate(0) scale(.4)}25%{opacity:.85}100%{opacity:0;transform:rotate(200deg) scale(1)}}
+.y-wrap{position:relative;width:min(64vw,280px);aspect-ratio:1;display:grid;place-items:center}
+.y-o{position:absolute;border-radius:50%;border:2px solid transparent;opacity:0;will-change:transform,opacity;animation:yo 3.4s cubic-bezier(.2,.8,.2,1) both}
+.y-o.o1{inset:0;border-top-color:var(--vio,#8b5cf6);border-right-color:#60a5fa}
+.y-o.o2{inset:14%;border-bottom-color:#f472b6;border-left-color:var(--vio,#8b5cf6);animation-name:yo2;animation-delay:.08s}
+.y-o.o3{inset:28%;border-top-color:#34d399;border-left-color:#60a5fa;animation-delay:.16s}
+@keyframes yo{0%{opacity:0;transform:rotate(-200deg) scale(.2)}20%{opacity:1}75%{opacity:1;transform:rotate(360deg) scale(1)}100%{opacity:0;transform:rotate(420deg) scale(1.9)}}
+@keyframes yo2{0%{opacity:0;transform:rotate(200deg) scale(.2)}20%{opacity:1}75%{opacity:1;transform:rotate(-360deg) scale(1)}100%{opacity:0;transform:rotate(-420deg) scale(1.9)}}
+.y-core{position:relative;width:24%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,color-mix(in srgb,var(--vio,#8b5cf6) 70%,#fff) 35%,var(--vio,#8b5cf6) 75%);box-shadow:0 0 50px 8px color-mix(in srgb,var(--vio,#8b5cf6) 70%,transparent);animation:yc 3.4s cubic-bezier(.2,.8,.2,1) both;will-change:transform,opacity}
+@keyframes yc{0%{transform:scale(0);opacity:0}22%{transform:scale(1.2);opacity:1}38%{transform:scale(.92)}55%{transform:scale(1.04)}72%{transform:scale(1);opacity:1}100%{transform:scale(8);opacity:0}}
+.y-rip{position:absolute;inset:18%;border-radius:50%;border:2px solid color-mix(in srgb,var(--vio,#8b5cf6) 80%,#fff);opacity:0;animation:yr 2.2s ease-out .4s infinite;will-change:transform,opacity}
+.y-rip.r2{animation-delay:.9s}.y-rip.r3{animation-delay:1.4s}
+@keyframes yr{0%{opacity:.7;transform:scale(.3)}100%{opacity:0;transform:scale(3)}}
 </style>
 </head>
 <body>
@@ -814,6 +846,7 @@ body.ro #add{opacity:.45}
   <h1 class="x-title" id="in-title">Meus clientes</h1>
   <div class="x-line"><i></i></div>
 </div></div></template>
+<template id="intro2-tpl"><div id="intro" class="v2" aria-hidden="true"><div class="y-glow"></div><div class="y-wrap"><i class="y-rip"></i><i class="y-rip r2"></i><i class="y-rip r3"></i><i class="y-o o1"></i><i class="y-o o2"></i><i class="y-o o3"></i><i class="y-core"></i></div></div></template>
 <main>
   <header class="hd"><span class="hd-ic" id="hd-ic"></span><div class="hd-t"><h1 id="hd-h">Clientes</h1><p class="sub" id="greet">Vencimentos e renovações num só lugar.</p></div><button class="bell" id="bell" aria-label="Notificações"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><b id="bell-n" hidden>0</b></button></header>
 <div class="vp"><div class="pages" id="pages">
@@ -842,6 +875,11 @@ body.ro #add{opacity:.45}
     <h3><i class="ci" style="--tc:#ec4899"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 22a10 10 0 1 1 10-10c0 3-2 4-4 4h-2a2 2 0 0 0-1 3.7c.6.5.4 2.3-3 2.3z"/></svg></i>Cor do app</h3>
     <p class="meta" style="margin:2px 0 0">Escolha a cor dos botões e destaques.</p>
     <div class="cols" id="c-cols"></div>
+  </section>
+  <section class="cfg-card" id="sec-ico">
+    <h3><i class="ci" style="--tc:#3b82f6"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M9 9l6 3-6 3z"/></svg></i>Ícone do app</h3>
+    <p class="meta" style="margin:2px 0 0">Escolha o ícone que aparece na tela inicial do celular. A troca pode levar alguns segundos e, em alguns celulares, o app fecha sozinho.</p>
+    <div class="ics" id="c-ics"></div>
   </section>
   <section class="cfg-card" id="sec-nome">
     <h3><i class="ci" style="--tc:#ec4899"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></i>Seu nome</h3>
@@ -879,7 +917,7 @@ body.ro #add{opacity:.45}
     <button class="btn big g-blue" id="shr" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>Compartilhar backup</button></div>
   <div class="sub-h">Limpeza</div><p class="meta" style="margin:2px 0 0">Apague os duplicados ou zere a lista para começar com um backup novo. Baixe um backup antes.</p><div class="btns"><button class="btn big g-orange" id="dd"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Apagar duplicados</button>
     <button class="btn big g-red" id="da"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Apagar todos os clientes</button></div><input id="file" type="file" accept="application/json" hidden></section>
-  <section class="cfg-card">
+  <section class="cfg-card" id="sec-not">
     <h3><i class="ci" style="--tc:#f59e0b"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></i>Notificações</h3>
     <label class="sw"><span><b>Avisar sobre vencimentos</b><small>Todo dia, quando houver cliente vencido ou com menos de 7 dias</small></span><input type="checkbox" id="c-notify"><i></i></label>
     <div class="trow"><span><b>Horário do aviso</b><small>Hora em que a notificação chega todos os dias</small></span><input type="time" id="c-ntime" value="09:00" aria-label="Horário das notificações"></div>
@@ -893,8 +931,10 @@ body.ro #add{opacity:.45}
     <label class="sw"><span><b>Sons de alterações</b><small>Salvar, excluir, renovar, importar e trocar de aba</small></span><input type="checkbox" id="c-schg"><i></i></label>
     <div class="btns two"><button class="btn big g-violet" id="c-t1"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4z"/></svg>Abertura</button><button class="btn big g-violet" id="c-t2"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4z"/></svg>Confirmação</button></div>
   </section>
-  <section class="cfg-card">
+  <section class="cfg-card" id="sec-int">
     <h3><i class="ci" style="--tc:#ec4899"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4z"/></svg></i>Abertura do app</h3>
+    <div class="sub-t">Estilo da abertura</div>
+    <div class="seg two" id="c-intro"><button type="button" data-i="classic">Clássica</button><button type="button" data-i="anim">Só animação</button></div>
     <label class="sw"><span><b>Pular abertura do app</b><small>Vai direto para a lista de clientes</small></span><input type="checkbox" id="c-skip"><i></i></label>
     <div class="btns"><button class="btn big g-pink" id="c-t3"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4z"/></svg>Rever abertura</button></div>
   </section>
@@ -1693,10 +1733,18 @@ body.ro #add{opacity:.45}
 
   /* ---- animação de entrada (v5) ---- */
   function bootList(){var L=$("list");L.classList.add("boot");setTimeout(function(){L.classList.remove("boot")},1800)}
+  function addSkip(el,close){var b=document.createElement("button");b.type="button";b.className="x-skip";b.textContent="Pular";b.onclick=function(e){e.stopPropagation();close()};el.appendChild(b)}
+  function intro2(force){
+    document.body.appendChild($("intro2-tpl").content.cloneNode(true));
+    var el=$("intro"),done=false;
+    function close(){if(done)return;done=true;el.classList.add("out");if(!force)bootList();setTimeout(function(){el.remove()},750)}
+    addSkip(el,close);el.addEventListener("click",close);setTimeout(close,3400)
+  }
   function intro(force){
     if($("intro"))return;
     var rm=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if(!force&&(cfg.skipIntro||rm)){bootList();return}
+    if(cfg.introStyle==="anim")return intro2(force);
     document.body.appendChild($("intro-tpl").content.cloneNode(true));
     var el=$("intro"),t0=performance.now(),raf=0,done=false,played=false,boom=false;
     var tt=$("in-title"),txt=cfg.appName||tt.textContent;tt.textContent="";
@@ -1724,7 +1772,7 @@ body.ro #add{opacity:.45}
       if(done)return;done=true;cancelAnimationFrame(raf);el.classList.add("out");if(!force)bootList();
       setTimeout(function(){el.remove()},750)
     }
-    el.addEventListener("click",close);
+    addSkip(el,close);el.addEventListener("click",close);
     setTimeout(close,4100)
   }
 
@@ -1833,6 +1881,23 @@ body.ro #add{opacity:.45}
     $("c-t2").onclick=function(){actx();S.renew()};
     $("c-skip").checked=!!cfg.skipIntro;$("c-skip").onchange=function(){cfg.skipIntro=this.checked;saveCfg();snd("tap")};
     $("c-t3").onclick=function(){actx();intro(true)};
+    (function(){function m(){[].forEach.call($("c-intro").children,function(b){b.setAttribute("aria-pressed",String(b.dataset.i===(cfg.introStyle||"classic")))})}m();
+      $("c-intro").onclick=function(e){var b=e.target.closest("button[data-i]");if(!b)return;cfg.introStyle=b.dataset.i;saveCfg();m();snd("tab")}})();
+    (function(){
+      var IC2=[["a0","Clássico"],["a1","Neon"],["a2","Esmeralda"],["a3","Chama"],["a4","Noturno"],["a5","Ouro"]],P=plug("AppIcon");
+      function rd(cur){$("c-ics").innerHTML=IC2.map(function(x){return '<button type="button" class="ic'+(x[0]===cur?" on":"")+'" data-i="'+x[0]+'" aria-pressed="'+(x[0]===cur)+'"><img src="icons/'+x[0]+'.png" alt="" width="56" height="56"><span>'+x[1]+'</span></button>'}).join("")}
+      rd(cfg.icon||"a0");
+      if(NATIVE&&P)P.get().then(function(r){if(r&&r.id){cfg.icon=r.id;rd(r.id)}}).catch(function(){});
+      $("c-ics").onclick=function(e){var b=e.target.closest("button[data-i]");if(!b)return;var id=b.dataset.i;
+        if(!NATIVE||!P){toast("A troca de ícone funciona no aplicativo instalado");return}
+        P.set({id:id}).then(function(){cfg.icon=id;saveCfg();rd(id);snd("tab");toast("Ícone alterado. Pode levar alguns segundos para atualizar.")}).catch(function(){toast("Não foi possível trocar o ícone")})}
+    })();
+    ["sec-bkp","sec-cor","sec-not","sec-ico","sec-int"].forEach(function(id){var sec=$(id);if(!sec||sec.classList.contains("fd"))return;var h=sec.querySelector("h3");if(!h)return;
+      var body=document.createElement("div"),inn=document.createElement("div");body.className="cbody";inn.className="cin";body.appendChild(inn);
+      while(h.nextSibling)inn.appendChild(h.nextSibling);sec.appendChild(body);sec.classList.add("fd");
+      h.tabIndex=0;h.setAttribute("role","button");h.setAttribute("aria-expanded","false");
+      function tg(){var o=sec.classList.toggle("open");h.setAttribute("aria-expanded",String(o));snd("tab")}
+      h.onclick=tg;h.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();tg()}}})
     $("c-theme").onclick=function(e){var b=e.target.closest("button[data-t]");if(!b)return;cfg.theme=b.dataset.t;saveCfg();applyTheme();th();snd("tab")};
     function parseV(x){var v=parseFloat(String(x).replace(/[^0-9,.]/g,"").replace(",","."));return isFinite(v)?v:NaN}
     function applyVal(n,v){

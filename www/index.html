@@ -311,6 +311,11 @@ body.chato .chatfab{opacity:0;pointer-events:none}
         <label class="swrow" for="s-show"><span><b>Mostrar telefone para os clientes</b><small>Desligado: o número some do app e o contato fica só pelo chat</small></span><span class="ios"><input type="checkbox" id="s-show" checked><i></i></span></label>
         <button class="b pri" id="s-save" type="button">Salvar telefone</button>
       </div></div></section>
+      <section class="card fd" id="cc-terms" style="--c:var(--info)"><h2 tabindex="0" role="button" aria-expanded="false"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8M8 9h2"/></svg></i><span class="tt"><b>Termos de uso</b><small id="t-sub">Texto do app Meus clientes</small></span></h2><div class="cbody"><div class="cin">
+        <label class="swrow" for="t-on"><span><b>Mostrar nos Termos de uso no app</b><small>Desligado: a guia Termos de uso some do app Meus clientes</small></span><span class="ios"><input type="checkbox" id="t-on"><i></i></span></label>
+        <div><label for="t-txt">Texto dos termos</label><textarea class="inp" id="t-txt" rows="10" maxlength="20000" placeholder="Escreva aqui os termos de uso…" style="resize:vertical;min-height:160px"></textarea></div>
+        <button class="b pri" id="t-save" type="button">Salvar termos</button>
+      </div></div></section>
       <section class="card fd" id="cc-th" style="--c:var(--acc)"><h2 tabindex="0" role="button" aria-expanded="false"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 22a10 10 0 1 1 10-10c0 2.5-2 3-4 3h-2a2 2 0 0 0-1.5 3.3c.6.8.1 3.7-2.5 3.7z"/></svg></i><span class="tt"><b>Tema e cores</b><small>Aparência do painel</small></span></h2><div class="cbody"><div class="cin">
         <div><label>Tema</label><div class="seg" id="th-seg"><button type="button" data-th="dark" aria-pressed="true">Escuro</button><button type="button" data-th="light" aria-pressed="false">Claro</button></div></div>
         <div><label>Cor do painel</label><div class="swg" id="th-col"></div></div>
@@ -650,6 +655,9 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     if(!settings)return;
     if(document.activeElement!==$('s-phone'))$('s-phone').value=fmtWa(String(settings.sup_phone||'').replace(/^55(?=\d{10,11}$)/,''));
     $('s-show').checked=settings.sup_show!==false;
+    $('t-on').checked=settings.terms_show===true;
+    if(document.activeElement!==$('t-txt'))$('t-txt').value=settings.terms_text||'';
+    $('t-sub').textContent=settings.terms_show===true?'Visível no app':'Oculto no app';
     $('r-on').checked=settings.ref_on!==false;
     if(document.activeElement!==$('r-a'))$('r-a').value=settings.ref_days_referrer!=null?settings.ref_days_referrer:30;
     if(document.activeElement!==$('r-b'))$('r-b').value=settings.ref_days_referred!=null?settings.ref_days_referred:15;
@@ -688,6 +696,18 @@ body.chato .chatfab{opacity:0;pointer-events:none}
   $('chat-list').addEventListener('click',function(e){var b=e.target.closest('[data-chat]');if(b)openMsg(b.getAttribute('data-chat'))});
 
 
+  /* termos de uso */
+  $('t-on').addEventListener('change',async function(){
+    var v=this.checked,r=await sb.from('app_settings').upsert({id:1,terms_show:v},{onConflict:'id'});
+    if(r.error){this.checked=!v;fail(r.error);return}
+    settings=Object.assign(settings||{id:1},{terms_show:v});$('t-sub').textContent=v?'Visível no app':'Oculto no app';
+    toast(v?(String($('t-txt').value).trim()?'Termos visíveis no app.':'Ligado, mas só aparece no app depois de salvar um texto.'):'Termos ocultos no app.');
+  });
+  $('t-save').addEventListener('click',async function(){
+    var t=$('t-txt').value,r=await sb.from('app_settings').upsert({id:1,terms_text:t},{onConflict:'id'});
+    if(r.error){fail(r.error);return}
+    settings=Object.assign(settings||{id:1},{terms_text:t});toast('Termos salvos.');
+  });
   /* indicações */
   function dTxt(n){n=Number(n)||0;return n&&n%30===0?(n/30)+(n/30===1?' mês':' meses'):n+(n===1?' dia':' dias')}
   function rName(c){var d=db.filter(function(x){return x.code===c})[0];return d&&d.name&&d.name!=='Cliente novo'?d.name:c}

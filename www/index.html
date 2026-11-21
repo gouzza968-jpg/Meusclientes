@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0f1d">
+<meta name="theme-color" content="#0b0f1d" id="tcol">
 <title>Painel de Licenças</title>
 <style>
 :root{
@@ -15,7 +15,7 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{background:radial-gradient(60% 38% at 12% 0%,rgba(110,90,255,.32),transparent 70%),radial-gradient(50% 36% at 100% 22%,rgba(255,90,170,.16),transparent 70%),radial-gradient(60% 40% at 0% 100%,rgba(40,190,170,.16),transparent 70%),var(--bg);background-attachment:fixed;color:var(--ink);font:400 15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;min-height:100vh}
+body{background:radial-gradient(60% 38% at 12% 0%,color-mix(in srgb,var(--acc) 34%,transparent),transparent 70%),radial-gradient(50% 36% at 100% 22%,rgba(255,90,170,.16),transparent 70%),radial-gradient(60% 40% at 0% 100%,rgba(40,190,170,.16),transparent 70%),var(--bg);background-attachment:fixed;color:var(--ink);font:400 15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;min-height:100vh}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--glass2);backdrop-filter:blur(20px)}
 [hidden]{display:none!important}
 button,input,select{font:inherit;color:inherit}
@@ -70,7 +70,7 @@ button{cursor:pointer}
 .acts{display:flex;gap:7px;align-items:center}
 .b{flex:1 1 auto;min-height:38px;padding:0 12px;border-radius:13px;border:1px solid var(--line);background:rgba(255,255,255,.05);font-weight:700;font-size:13.5px;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:var(--hl)}
 .b:active{transform:scale(.97)}
-.b.pri{background:linear-gradient(135deg,#8b5cf6,#3b82f6);border-color:transparent;color:#fff;box-shadow:0 8px 20px -10px #6d5cff}
+.b.pri{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;color:#fff;box-shadow:0 8px 20px -10px #6d5cff}
 .b.wa{flex:none;width:38px;padding:0;background:linear-gradient(135deg,#22c55e,#15803d);border-color:transparent;color:#fff}
 .b.ic{flex:none;width:38px;padding:0;font-size:18px;line-height:1}
 .b.bad{color:var(--bad)}
@@ -104,7 +104,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
 .bn div{pointer-events:auto;display:flex;gap:2px;width:min(480px,100%);padding:6px;border-radius:24px;background:var(--glass2);border:1px solid var(--line);backdrop-filter:blur(26px) saturate(180%);box-shadow:0 14px 40px -10px #000,var(--hl)}
 .bn button{flex:1;border:0;background:transparent;border-radius:18px;padding:7px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mute);font-size:11px;font-weight:700;position:relative}
 .bn button svg{width:22px;height:22px}
-.bn button[aria-current="page"]{color:#fff;background:linear-gradient(135deg,rgba(139,92,246,.55),rgba(59,130,246,.45));box-shadow:0 6px 20px -8px var(--acc)}
+.bn button[aria-current="page"]{color:#fff;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 58%,transparent),color-mix(in srgb,var(--acc2) 48%,transparent));box-shadow:0 6px 20px -8px var(--acc)}
 .bn .n{position:absolute;top:2px;right:calc(50% - 22px);min-width:17px;height:17px;border-radius:9px;background:var(--bad);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;padding:0 4px}
 
 /* páginas e transições */
@@ -120,14 +120,14 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
 .lc p{margin:0;color:var(--mute)}
 .pw{position:relative}.pw .inp{padding-right:52px;text-align:center;font-size:17px}
 .pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:transparent;color:var(--mute)}
-.btn-big{min-height:52px;border-radius:17px;border:0;font-weight:800;font-size:16px;background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff;box-shadow:0 12px 30px -12px #6d5cff}
+.btn-big{min-height:52px;border-radius:17px;border:0;font-weight:800;font-size:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 12px 30px -12px #6d5cff}
 .btn-big:disabled{opacity:.6}
 
 /* atualização obrigatória e folha de edição */
 .ov{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;background:rgba(5,8,18,.88);backdrop-filter:blur(14px)}
 .ov .lc{background:var(--glass2);border:1px solid var(--line);border-radius:26px;padding:24px 20px;box-shadow:0 24px 70px -20px #000}
 .bar{height:10px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8b5cf6,#3b82f6);transition:width .3s}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .3s}
 .sheet{align-items:flex-end;padding:0}
 .sheet .lc{width:min(520px,100%);border-radius:26px 26px 0 0;text-align:left;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px))}
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:999px;font-weight:700;z-index:70;width:max-content;max-width:calc(100% - 32px);text-align:center;box-shadow:0 12px 30px -10px #000}
@@ -142,7 +142,7 @@ textarea.inp{min-height:110px;resize:vertical;font:inherit}.tpl{display:flex;gap
 .ios i::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.4);transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
 .ios input:checked+i{background:#34c759}
 .ios input:checked+i::after{transform:translateX(20px)}
-.chatfab{position:fixed;right:18px;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:30;width:56px;height:56px;border-radius:50%;border:0;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#8b5cf6,#3b82f6);box-shadow:0 0 26px -4px #6d5cff,0 12px 24px -8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.4);animation:chf 2.8s ease-in-out infinite}
+.chatfab{position:fixed;right:18px;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:30;width:56px;height:56px;border-radius:50%;border:0;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 26px -4px #6d5cff,0 12px 24px -8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.4);animation:chf 2.8s ease-in-out infinite}
 .chatfab[hidden]{display:none}
 .chatfab i{position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:#ef4444;box-shadow:0 0 0 2px var(--bg);display:none}
 .chatfab.has i{display:block}
@@ -153,7 +153,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
 .chat-hd{display:flex;align-items:center;justify-content:space-between;gap:10px}.chat-hd h2{margin:0;font-size:20px}
 .chat-list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-bottom:6px}
 .crow{display:flex;align-items:center;gap:12px;text-align:left;width:100%;border:1px solid var(--line);background:var(--glass);border-radius:18px;padding:10px 12px;color:var(--ink);font:inherit}
-.crow .av{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff}
+.crow .av{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
 .crow .cm{flex:1;min-width:0}.crow .cm b{display:block;font-size:14.5px}.crow .cm span{display:block;color:var(--mute);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .crow time{flex:none;color:var(--mute);font-size:11.5px}
 .crow .cn{flex:none;min-width:20px;height:20px;border-radius:10px;background:var(--bad);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;padding:0 6px}
@@ -166,6 +166,60 @@ body.chato .chatfab{opacity:0;pointer-events:none}
 .sg.s-nao_util .st{background:color-mix(in srgb,var(--mute) 22%,transparent);color:var(--mute)}
 .sg .acts{display:flex;gap:8px;flex-wrap:wrap}
 .bn button span:not(.n){font-size:11px}
+
+/* v2: tema, cartões recolhíveis, destaque e grupos */
+:root[data-theme="light"]{--bg:#eef1f9;--ink:#141a33;--mute:#5a6385;--line:rgba(20,30,70,.13);--glass:rgba(255,255,255,.78);--glass2:rgba(255,255,255,.94);--hl:inset 0 1px 0 rgba(255,255,255,.95);--ok:#059669;--warn:#d97706;--bad:#e11d48;--info:#2563eb;color-scheme:light}
+:root[data-theme="light"] .cd{background:linear-gradient(135deg,color-mix(in srgb,var(--c) 11%,#fff),#fff 70%);border-color:color-mix(in srgb,var(--c) 30%,rgba(20,30,70,.08))}
+:root[data-theme="light"] .b{background:rgba(20,30,70,.05)}
+:root[data-theme="light"] .b.pri,:root[data-theme="light"] .b.wa{color:#fff}
+:root[data-theme="light"] .ios i{background:rgba(120,125,150,.4)}
+:root[data-theme="light"] .bar{background:rgba(20,30,70,.12)}
+:root[data-theme="light"] .ov{background:rgba(238,241,249,.9)}
+:root[data-theme="light"] .toast{background:#141a33;color:#fff}
+:root[data-theme="light"] .pill{color:color-mix(in srgb,var(--c) 85%,#000)}
+:root[data-theme="light"] .line .em{color:color-mix(in srgb,var(--c) 85%,#000)}
+.cd,.sg,.crow,.tile,.chip,.ib,.inp{-webkit-backdrop-filter:none;backdrop-filter:none}
+.cd{content-visibility:auto;contain-intrinsic-size:auto 150px}
+.hero{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px;border-radius:24px;margin-bottom:12px;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 28%,transparent),color-mix(in srgb,var(--ok) 12%,transparent)),var(--glass);border:1px solid var(--line);box-shadow:var(--hl),0 14px 30px -18px var(--acc)}
+.hero::after{content:"";position:absolute;right:-40px;top:-60px;width:170px;height:170px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--ok) 32%,transparent),transparent);pointer-events:none}
+.hero .hl{min-width:0;display:flex;flex-direction:column;gap:3px;position:relative;z-index:1}
+.hero small{color:var(--mute);font-weight:700;font-size:12.5px}
+.hero b{font-size:32px;line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.hero .hs{color:var(--mute);font-size:12px}
+.hero .hn{font-size:12px;font-weight:750;color:var(--warn)}
+.donut{flex:none;width:92px;height:92px;border-radius:50%;background:var(--g);display:grid;place-content:center;text-align:center;position:relative;z-index:1}
+.donut::before{content:"";position:absolute;inset:11px;border-radius:50%;background:var(--bg)}
+.donut>*{position:relative;line-height:1.1}.donut b{font-size:19px}.donut small{font-size:10.5px}
+.gsec{margin-bottom:10px;border:1px solid var(--line);background:var(--glass);border-radius:22px;padding:12px 14px;box-shadow:var(--hl)}
+.gsec>h3{margin:0;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;font-size:15px}
+.gsec>h3 i.gi{flex:none;width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--gc) 20%,transparent);color:var(--gc)}
+.gsec>h3 .tt{flex:1;min-width:0}
+.gsec .gn{font-style:normal;font-weight:800;font-size:12px;padding:2px 9px;border-radius:999px;color:var(--gc);background:color-mix(in srgb,var(--gc) 16%,transparent)}
+.gsec>h3::after,.card.fd h2::after{content:"";flex:none;width:9px;height:9px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:translateY(-2px) rotate(45deg);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.gsec.open>h3::after,.card.fd.open h2::after{transform:translateY(2px) rotate(-135deg)}
+.tt{display:flex;flex-direction:column;min-width:0;gap:1px}.tt b{font-size:14.5px;line-height:1.2}.tt small{font-size:11.5px;color:var(--mute);font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cbody{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s cubic-bezier(.2,.8,.2,1)}
+.open>.cbody{grid-template-rows:1fr}
+.cin{overflow:hidden;min-height:0;visibility:hidden;opacity:0;transition:visibility 0s .38s,opacity .25s}
+.open>.cbody>.cin{visibility:visible;opacity:1;transition:visibility 0s,opacity .35s .08s}
+.gsec .list{padding-top:10px}
+#p-cfg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:start;grid-auto-flow:row dense}
+#p-cfg>.card{margin:0;grid-column:span 2;gap:0}
+#p-cfg>.card.fd:not(.open){grid-column:span 1;padding:0 10px;height:72px;justify-content:center;border-radius:18px}
+.card.fd h2{cursor:pointer;user-select:none;gap:10px;font-size:15px}
+.card.fd .cin{display:flex;flex-direction:column;gap:12px}
+.card.fd.open .cin{padding-top:12px}
+.card.fd:not(.open) h2 i{width:30px;height:30px;border-radius:10px}
+.card.fd h2 .tt{flex:1}
+.card.fd.open h2 .tt b{font-size:16.5px}
+.swg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.swc{aspect-ratio:1;border-radius:16px;border:2px solid transparent;background:var(--sw);box-shadow:0 6px 14px -8px var(--sw);position:relative;min-height:44px}
+.swc[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--sw)}
+.swc.bgc{border-color:var(--line)}
+.swc.bgc[aria-pressed="true"]{border-color:var(--acc)}
+.swc span{position:absolute;left:0;right:0;bottom:-17px;font-size:10.5px;color:var(--mute);text-align:center;font-weight:650}
+#th-bg{margin-bottom:14px}
+.tabx{will-change:auto}
 </style>
 </head>
 <body>
@@ -193,6 +247,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     </header>
 
     <section class="page" id="p-list">
+      <div class="hero" id="hero"></div>
       <div class="tiles" id="tiles"></div>
       <div class="search"><input class="inp" id="q" type="search" placeholder="Buscar nome, código ou WhatsApp" aria-label="Buscar"></div>
       <div class="chips" id="chips"></div>
@@ -223,30 +278,32 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     </section>
 
     <section class="page" id="p-cfg" hidden>
-      <div class="card" style="--c:var(--ok)">
-        <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></svg></i>Conexão</h2>
+      <section class="card fd" id="cc-net" style="--c:var(--ok)"><h2 tabindex="0" role="button" aria-expanded="false"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01"/></svg></i><span class="tt"><b>Conexão</b><small id="c-sub">Status do servidor</small></span></h2><div class="cbody"><div class="cin">
         <div class="kv"><span>Servidor</span><b id="c-net"><i class="dot"></i>Verificando…</b></div>
         <div class="kv"><span>Última atualização</span><b id="c-last">—</b></div>
         <p>A lista se atualiza sozinha a cada 20 segundos. Mensagens e sugestões novas geram notificação no celular enquanto o painel estiver aberto ou em segundo plano.</p>
-      </div>
-      <div class="card" style="--c:var(--info)">
-        <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></i>Telefone do suporte</h2>
+      </div></div></section>
+      <section class="card fd" id="cc-sup" style="--c:var(--info)"><h2 tabindex="0" role="button" aria-expanded="false"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></i><span class="tt"><b>Telefone do suporte</b><small id="s-sub">Contato</small></span></h2><div class="cbody"><div class="cin">
         <p>WhatsApp do suporte que aparece para os clientes no app Meus clientes.</p>
         <div><label for="s-phone">WhatsApp do suporte</label><input class="inp" id="s-phone" inputmode="tel" placeholder="(44) 99999-9999" autocomplete="off"></div>
         <label class="swrow" for="s-show"><span><b>Mostrar telefone para os clientes</b><small>Desligado: o número some do app e o contato fica só pelo chat</small></span><span class="ios"><input type="checkbox" id="s-show" checked><i></i></span></label>
         <button class="b pri" id="s-save" type="button">Salvar telefone</button>
-      </div>
-      <div class="card" style="--c:var(--acc)">
-        <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></i>Atualização do painel</h2>
+      </div></div></section>
+      <section class="card fd" id="cc-th" style="--c:var(--acc)"><h2 tabindex="0" role="button" aria-expanded="false"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 22a10 10 0 1 1 10-10c0 2.5-2 3-4 3h-2a2 2 0 0 0-1.5 3.3c.6.8.1 3.7-2.5 3.7z"/></svg></i><span class="tt"><b>Tema e cores</b><small>Aparência do painel</small></span></h2><div class="cbody"><div class="cin">
+        <div><label>Tema</label><div class="seg" id="th-seg"><button type="button" data-th="dark" aria-pressed="true">Escuro</button><button type="button" data-th="light" aria-pressed="false">Claro</button></div></div>
+        <div><label>Cor do painel</label><div class="swg" id="th-col"></div></div>
+        <div><label>Cor de fundo</label><div class="swg" id="th-bg"></div></div>
+
+      </div></div></section>
+      <section class="card fd" id="cc-upd" style="--c:var(--acc)"><h2 tabindex="0" role="button" aria-expanded="false"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></i><span class="tt"><b>Atualização do painel</b><small>Versão instalada</small></span></h2><div class="cbody"><div class="cin">
         <div class="kv"><span>Versão instalada</span><b id="c-ver">—</b></div>
         <p id="upd-msg">Quando houver versão nova, o painel avisa e você escolhe quando atualizar.</p>
         <button class="b" id="upd-chk" type="button">Verificar atualização</button>
-      </div>
-      <div class="card" style="--c:var(--bad)">
-        <h2><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></i>Conta</h2>
+      </div></div></section>
+      <section class="card fd" id="cc-out" style="--c:var(--bad)"><h2 tabindex="0" role="button" aria-expanded="false"><i><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></i><span class="tt"><b>Conta</b><small>Sair do painel</small></span></h2><div class="cbody"><div class="cin">
         <p>Ao sair, a senha será pedida de novo na próxima vez.</p>
         <button class="b bad" id="b-out" type="button">Sair do painel</button>
-      </div>
+      </div></div></section>
     </section>
   </div>
 
@@ -402,7 +459,9 @@ body.chato .chatfab{opacity:0;pointer-events:none}
   }
   function emptyHtml(t){return'<div class="empty"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg><div>'+t+'</div></div>'}
 
-  function render(){
+  function render(){if(document.hidden){doRender();return}if(render.q)return;render.q=requestAnimationFrame(function(){render.q=0;doRender()})}
+  var gSel=null,GR=[['vencido','Vencidos','#fb7185','bad'],['vence','Vencem em 7 dias','#fbbf24','warn'],['teste','Em teste','#60a5fa','info'],['expirado','Teste expirado','#f59e0b','warn'],['ativo','Ativos','#34d399','ok'],['bloqueado','Desativados','#97a0c0','bad']];
+  function doRender(){
     var c={todos:db.length,novas:0,ativo:0,vence:0,vencido:0,teste:0,expirado:0,bloqueado:0};
     db.forEach(function(d){c[sit(d)]++;if(unreadOf(d))c.novas++});
     var T=[['ativo','Ativos','ok','ativo'],['vence','Vencem 7d','warn','vence'],['vencido','Vencidos','bad','vencido'],['teste','Em teste','info','teste']];
@@ -417,12 +476,21 @@ body.chato .chatfab{opacity:0;pointer-events:none}
       else if(filter!=='todos'&&sit(d)!==filter)return false;
       return!qq||((d.name||'')+' '+d.code+' '+(d.whatsapp||'')).toLowerCase().indexOf(qq)>=0;
     });
-    $('list').innerHTML=rows.length?rows.map(card).join(''):emptyHtml(db.length?'Nenhum aparelho nesta lista.':'Nenhum aparelho ainda. Quando um cliente abrir o app, o código aparece aqui.');
+    var gs=GR.filter(function(g){return filter==='todos'||filter==='novas'||filter===g[0]}).map(function(g){
+      var l=rows.filter(function(d){return sit(d)===g[0]});
+      if(g[0]==='vencido'||g[0]==='vence')l.sort(function(a,b){return new Date(a.paid_until||0)-new Date(b.paid_until||0)});
+      return{g:g,l:l}}).filter(function(x){return x.l.length});
+    var sel=gSel===null?(gs.length?gs[0].g[0]:''):gSel;
+    $('list').innerHTML=gs.length?gs.map(function(x){var g=x.g,op=!!qq||sel===g[0];
+      return'<section class="gsec'+(op?' open':'')+'" data-g="'+g[0]+'" style="--gc:'+g[2]+'"><h3 tabindex="0" role="button" aria-expanded="'+op+'"><i class="gi">'+ICON[g[3]]+'</i><span class="tt"><b>'+g[1]+'</b><small>'+x.l.length+(x.l.length===1?' aparelho':' aparelhos')+'</small></span><em class="gn">'+x.l.length+'</em></h3><div class="cbody"><div class="cin"><div class="list">'+x.l.map(card).join('')+'</div></div></div></section>'}).join(''):emptyHtml(db.length?'Nenhum aparelho nesta lista.':'Nenhum aparelho ainda. Quando um cliente abrir o app, o código aparece aqui.');
+    var ac=c.ativo+c.vence,pc=db.length?Math.round(ac/db.length*100):0,aa=0,st=[];
+    [['ativo','#34d399'],['vence','#fbbf24'],['vencido','#fb7185'],['teste','#60a5fa'],['expirado','#f59e0b'],['bloqueado','#97a0c0']].forEach(function(x){if(!c[x[0]])return;var b=aa+c[x[0]]/db.length*100;st.push(x[1]+' '+aa+'% '+b+'%');aa=b});
+    $('hero').innerHTML='<div class="hl"><small>Licenças ativas</small><b>'+ac+'<span style="font-size:16px;color:var(--mute);font-weight:700"> de '+db.length+'</span></b><span class="hs">'+c.teste+(c.teste===1?' em teste':' em teste')+' · '+c.expirado+' expirados · '+c.bloqueado+' desativados</span>'+(c.vence||c.vencido||c.novas?'<span class="hn">'+[c.vencido?c.vencido+(c.vencido===1?' vencido':' vencidos'):'',c.vence?c.vence+' vence em 7 dias':'',c.novas?c.novas+(c.novas===1?' mensagem nova':' mensagens novas'):''].filter(Boolean).join(' · ')+'</span>':'')+'</div><div class="donut" style="--g:'+(st.length?'conic-gradient('+st.join(',')+')':'conic-gradient(rgba(128,128,150,.3) 0 100%)')+'"><b>'+pc+'%</b><small>ativos</small></div>';
     var v=db.filter(function(d){var s=sit(d);return s==='vence'||s==='vencido'}).sort(function(a,b){return new Date(a.paid_until||0)-new Date(b.paid_until||0)});
     $('list-v').innerHTML=v.length?v.map(card).join(''):emptyHtml('Nenhum plano para renovar agora.');
     var nv=$('n-venc');nv.hidden=!v.length;nv.textContent=v.length;
     var nl=$('n-list');nl.hidden=!c.novas;nl.textContent=c.novas;
-    if(c.novas>(render.prev||0)&&render.prev!==undefined)toast('Nova mensagem de cliente.');render.prev=c.novas;
+    if(c.novas>(doRender.prev||0)&&doRender.prev!==undefined)toast('Nova mensagem de cliente.');doRender.prev=c.novas;
   }
 
   async function load(manual){
@@ -434,10 +502,13 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     try{var m=await sb.from('license_msgs').select('*').order('created_at',{ascending:false}).limit(600);msgsBy={};(m.data||[]).forEach(function(x){(msgsBy[x.code]=msgsBy[x.code]||[]).push(x)})}catch(e){}
     try{var g=await sb.from('suggestions').select('*').order('created_at',{ascending:false}).limit(300);if(!g.error)sugs=g.data||[]}catch(e){}
     try{var st=await sb.from('app_settings').select('*').eq('id',1).maybeSingle();if(st&&st.data){settings=st.data;fillSettings()}}catch(e){}
-    render();renderSug();renderChat();checkNew();
+    var sig=JSON.stringify([db,sugs,settings,Object.keys(msgsBy).map(function(k){return k+msgsBy[k].length+(msgsBy[k][0]&&msgsBy[k][0].id)})])+Math.floor(Date.now()/60000);
+    checkNew();if(sig===load.sig&&!manual)return;load.sig=sig;
+    render();renderSug();renderChat();
   }
   function setNet(ok){
     $('c-net').innerHTML='<i class="dot '+(ok?'ok':'bad')+'"></i>'+(ok?'Conectado':'Sem conexão');
+    $('c-sub').textContent=ok?'Conectado':'Sem conexão';
     if(ok)$('c-last').textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   }
   async function upd(code,patch,msg){
@@ -459,9 +530,15 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     if(unreadOf(d)){d.admin_read_at=new Date().toISOString();sb.from('licenses').update({admin_read_at:d.admin_read_at}).eq('code',id);render()}
     $('sh-msg').hidden=false;setTimeout(function(){$('msg-t').focus()},60)
   }
+  $('list').addEventListener('click',function(e){
+    var h=e.target.closest('.gsec>h3');if(!h)return;if(q.trim())return;
+    var sc=h.parentNode,g=sc.getAttribute('data-g'),was=sc.classList.contains('open');gSel=was?'':g;render();
+    if(!was)setTimeout(function(){var el=document.querySelector('.gsec[data-g="'+g+'"]');if(el){var r=el.getBoundingClientRect();if(r.top<70||r.top>innerHeight*.5)window.scrollTo({top:Math.max(0,window.scrollY+r.top-80),behavior:'smooth'})}},60);
+  });
+  $('list').addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.matches('.gsec>h3')){e.preventDefault();e.target.click()}});
   document.addEventListener('click',async function(e){
     var f=e.target.closest('[data-f]');
-    if(f){var k=f.getAttribute('data-f');filter=(f.classList.contains('tile')&&filter===k)?'todos':k;render();return}
+    if(f){var k=f.getAttribute('data-f');filter=(f.classList.contains('tile')&&filter===k)?'todos':k;gSel=null;render();return}
     var b=e.target.closest('[data-a]');if(!b)return;
     var a=b.getAttribute('data-a'),id=b.getAttribute('data-id'),d=db.filter(function(x){return x.code===id})[0];
     if(a==='cancel'){delId=null;render();return}
@@ -645,6 +722,37 @@ body.chato .chatfab{opacity:0;pointer-events:none}
       ns.slice(-3).forEach(function(x){notify(4000+(x.id%900),'Nova sugestão · '+nameOf(x.code),x.body,{t:'sug'})});
     }
   }
+
+  /* aparência */
+  var COLS=[['Violeta','#8b5cf6','#3b82f6'],['Azul','#3b82f6','#06b6d4'],['Verde','#10b981','#14b8a6'],['Rosa','#ec4899','#8b5cf6'],['Laranja','#f97316','#f43f5e'],['Ciano','#06b6d4','#6366f1'],['Vermelho','#ef4444','#f97316'],['Dourado','#f59e0b','#ef4444']];
+  var BGS=[['Padrão','#0b0f1d','#eef1f9'],['Preto','#05060a','#ffffff'],['Grafite','#14161c','#e6e8ee'],['Marinho','#08142a','#e3ecfb'],['Vinho','#1a0a14','#f8e9f0'],['Floresta','#07160f','#e4f4ea'],['Roxo','#120a22','#efe8fb'],['Café','#17100a','#f3ece4']];
+  var LK={theme:'dark',color:0,bg:0};
+  try{var lk=JSON.parse(localStorage.getItem('painel-look')||'null');if(lk)LK=Object.assign(LK,lk)}catch(e){}
+  function applyLook(){
+    var r=document.documentElement,c=COLS[LK.color]||COLS[0],bg=(BGS[LK.bg]||BGS[0])[LK.theme==='light'?2:1];
+    r.setAttribute('data-theme',LK.theme);r.style.setProperty('--acc',c[1]);r.style.setProperty('--acc2',c[2]);r.style.setProperty('--bg',bg);
+    var m=$('tcol');if(m)m.setAttribute('content',bg);
+    [].forEach.call(document.querySelectorAll('#th-seg button'),function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-th')===LK.theme))});
+    $('th-col').innerHTML=COLS.map(function(x,i){return'<button type="button" class="swc" data-c="'+i+'" style="--sw:'+x[1]+';background:linear-gradient(135deg,'+x[1]+','+x[2]+')" aria-label="'+x[0]+'" aria-pressed="'+(LK.color===i)+'"></button>'}).join('');
+    $('th-bg').innerHTML=BGS.map(function(x,i){var v=x[LK.theme==='light'?2:1];return'<button type="button" class="swc bgc" data-b="'+i+'" style="--sw:'+v+';background:'+v+'" aria-label="'+x[0]+'" aria-pressed="'+(LK.bg===i)+'"><span>'+x[0]+'</span></button>'}).join('');
+  }
+  function saveLook(){try{localStorage.setItem('painel-look',JSON.stringify(LK))}catch(e){}applyLook();render()}
+  $('cc-th').addEventListener('click',function(e){
+    var t=e.target.closest('[data-th]'),c=e.target.closest('[data-c]'),b=e.target.closest('[data-b]');
+    if(t){LK.theme=t.getAttribute('data-th');saveLook()}
+    else if(c){LK.color=Number(c.getAttribute('data-c'));saveLook()}
+    else if(b){LK.bg=Number(b.getAttribute('data-b'));saveLook()}
+  });
+  /* cartões recolhíveis das configurações */
+  var cfgP=$('p-cfg');
+  function cfgTog(h){
+    var c=h.parentNode,o=!c.classList.contains('open');
+    [].forEach.call(cfgP.querySelectorAll('.fd.open'),function(x){x.classList.remove('open');x.querySelector('h2').setAttribute('aria-expanded','false')});
+    c.classList.toggle('open',o);h.setAttribute('aria-expanded',String(o));
+    if(o)setTimeout(function(){var r=c.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight-90)window.scrollTo({top:Math.max(0,window.scrollY+r.top-80),behavior:'smooth'})},420);
+  }
+  cfgP.addEventListener('click',function(e){var h=e.target.closest('.fd>h2');if(h)cfgTog(h)});
+  cfgP.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.matches('.fd>h2')){e.preventDefault();cfgTog(e.target)}});
   /* páginas */
   var HD={sug:['Sugestões','Ideias dos clientes'],list:['Aparelhos','Telão Play · licenças'],venc:['Vencimentos','Quem precisa renovar'],add:['Ativar aparelho','Libere um código novo'],cfg:['Ajustes','Conexão, versão e conta']};
   function go(t){
@@ -658,6 +766,14 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     $('hd-t').textContent=HD[t][0];$('hd-s').textContent=HD[t][1];
     window.scrollTo(0,0);
   }
+  var TABS=['list','venc','add','sug','cfg'],sx0=0,sy0=0,sOk=false;
+  document.addEventListener('touchstart',function(e){var t=e.touches[0];sx0=t.clientX;sy0=t.clientY;sOk=!e.target.closest('.chips,.hist,textarea,input,.seg,.ov,.chatov,.swg')&&e.touches.length===1&&logged},{passive:true});
+  document.addEventListener('touchend',function(e){
+    if(!sOk)return;sOk=false;var t=e.changedTouches[0],dx=t.clientX-sx0,dy=t.clientY-sy0;
+    if(Math.abs(dx)<70||Math.abs(dy)>Math.abs(dx)*.5)return;
+    var i=TABS.indexOf(tab)+(dx<0?1:-1);if(i>=0&&i<TABS.length)go(TABS[i]);
+  },{passive:true});
+  applyLook();
   document.querySelector('.bn').addEventListener('click',function(e){var b=e.target.closest('button');if(b)go(b.getAttribute('data-t'))});
 
   /* entrada */
@@ -705,7 +821,7 @@ body.chato .chatfab{opacity:0;pointer-events:none}
     A.canInstall().then(function(r){
       if(!r.ok){e.textContent='Permita instalar apps desta fonte e volte para o painel.';A.openInstallSettings().catch(function(){});return}
       updBusy=true;$('updd-bar').hidden=false;$('updd-go').disabled=true;$('updd-go').textContent='Baixando…';
-      A.download({url:updInfo.url}).then(function(){
+      httpJson(UPD_URL).catch(function(){return updInfo}).then(function(u){if(u&&u.url&&u.versionCode>=updInfo.versionCode)updInfo=u;return A.download({url:updInfo.url})}).then(function(){
         var t=setInterval(function(){
           A.status().then(function(s){
             $('updd-i').style.width=(s.pct||0)+'%';

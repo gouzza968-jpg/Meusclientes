@@ -2389,7 +2389,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     P.canInstall().then(function(r){
       if(!r.ok){$("ud-s").textContent="Permita instalar apps desta fonte e toque em Atualizar de novo.";P.openInstallSettings();return}
       updBusy=true;$("ud-go").disabled=true;$("ud-bar").hidden=false;$("ud-fill").style.width="0";$("ud-s").textContent="Baixando…";
-      return P.download({url:updInfo.url}).then(function(){
+      return httpJson(UPD_URL).catch(function(){return updInfo}).then(function(u){if(u&&u.url&&u.versionCode>=updInfo.versionCode)updInfo=u;return P.download({url:updInfo.url})}).then(function(){
         (function poll(){P.status().then(function(st){
           $("ud-fill").style.width=st.pct+"%";
           if(st.error){updBusy=false;$("ud-go").disabled=false;$("ud-s").textContent="Falha no download. Tente de novo.";return}

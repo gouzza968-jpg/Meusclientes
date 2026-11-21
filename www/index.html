@@ -801,6 +801,16 @@ main{padding-bottom:128px}
 #robar{position:fixed;z-index:30;left:10px;right:10px;top:calc(6px + env(safe-area-inset-top,0px));border:0;border-radius:12px;padding:8px 12px;font:inherit;font-size:12px;font-weight:750;color:#fff;background:linear-gradient(135deg,#3b82f6,#1d4ed8);box-shadow:0 8px 20px -8px #3b82f6;cursor:pointer;text-align:center}
 body.ro{padding-top:42px}
 body.ro #add{opacity:.45}
+/* configurações em 2 colunas */
+#v-cfg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:start;grid-auto-flow:row dense}
+#v-cfg>.cfg-card{margin:0;grid-column:span 2}
+#v-cfg>.cfg-card.fd:not(.open){grid-column:span 1;padding:11px 10px;border-radius:18px}
+#v-cfg>.cfg-card.fd:not(.open) h3{font-size:13px;line-height:1.2;gap:8px;margin:0;padding-right:16px;position:relative;flex-wrap:wrap}
+#v-cfg>.cfg-card.fd:not(.open) h3 .ci{width:30px;height:30px;border-radius:10px}
+#v-cfg>.cfg-card.fd:not(.open) h3 .ci svg{width:16px;height:16px}
+#v-cfg>.cfg-card.fd:not(.open) h3::after{position:absolute;right:2px;top:50%;margin:-6px 0 0}
+#v-cfg>.cfg-card.fd:not(.open) .lpill{margin:0 0 0 38px;font-size:10.5px;padding:2px 8px}
+#v-cfg>.verp,#v-cfg>#sec-upd{grid-column:span 2}
 /* v7: suporte em balão, importador, fundo */
 .supfab{position:fixed;right:18px;bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:12;width:56px;height:56px;border-radius:50%;border:0;display:none;place-items:center;color:#fff;background:linear-gradient(135deg,#34d399,#059669);box-shadow:0 0 26px -4px #10b981,0 12px 24px -8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.4);cursor:pointer;animation:supf 2.8s ease-in-out infinite;-webkit-tap-highlight-color:transparent}
 body[data-p="cfg"] .supfab{display:grid}
@@ -953,7 +963,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     <div id="imp-out"></div>
   <div class="sub-h">Limpeza</div><p class="meta" style="margin:2px 0 0">Apague os duplicados ou zere a lista para começar com um backup novo. Baixe um backup antes.</p><div class="btns"><button class="btn big g-orange" id="dd"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Apagar duplicados</button>
     <button class="btn big g-red" id="da"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Apagar todos os clientes</button></div><input id="file" type="file" accept=".json,.csv,application/json,text/csv" hidden></section>
-<section class="cfg-card">
+<section class="cfg-card" id="sec-sites">
     <h3><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></i>Sites de gerenciamento</h3>
     <p class="meta" style="margin:2px 0 0">Cadastre o endereço do painel de cada servidor, quantos quiser. O nome aparece nas listas de servidor dos clientes. Ao renovar, o app oferece abrir o site para alterar o usuário.</p>
     <div id="c-sites"></div>
@@ -1947,7 +1957,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
         if(!NATIVE||!P){toast("A troca de ícone funciona no aplicativo instalado");return}
         P.set({id:id}).then(function(){cfg.icon=id;saveCfg();rd(id);snd("tab");toast("Ícone alterado. Pode levar alguns segundos para atualizar.")}).catch(function(){toast("Não foi possível trocar o ícone")})}
     })();
-    ["sec-lic","sec-nome","sec-bkp","sec-cor","sec-not","sec-ico","sec-int"].forEach(function(id){var sec=$(id);if(!sec||sec.classList.contains("fd"))return;var h=sec.querySelector("h3");if(!h)return;
+    ["sec-lic","sec-nome","sec-bkp","sec-cor","sec-not","sec-ico","sec-int","sec-sites"].forEach(function(id){var sec=$(id);if(!sec||sec.classList.contains("fd"))return;var h=sec.querySelector("h3");if(!h)return;
       var body=document.createElement("div"),inn=document.createElement("div");body.className="cbody";inn.className="cin";body.appendChild(inn);
       while(h.nextSibling)inn.appendChild(h.nextSibling);sec.appendChild(body);sec.classList.add("fd");
       h.tabIndex=0;h.setAttribute("role","button");h.setAttribute("aria-expanded","false");

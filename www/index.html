@@ -971,10 +971,10 @@ body.supo .supfab{opacity:0;pointer-events:none}
   </section>
 <section class="cfg-card" id="sec-ind">
     <h3><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg></i>Indicações</h3>
-    <p class="meta" style="margin:2px 0 0">Indique o Meus clientes para um amigo. Quando ele contratar o primeiro plano, você ganha <b>1 mês de acesso</b> automaticamente.</p>
+    <p class="meta" id="ind-txt" style="margin:2px 0 0"></p>
     <div class="lc-dev"><small>Seu código de indicação</small><b id="ind-code">…</b><button class="btn" id="ind-copy" type="button">Copiar</button></div>
     <button class="btn big g-green" id="ind-share" type="button" style="margin-top:10px">Compartilhar no WhatsApp</button>
-    <div class="ind-st"><div><b id="ind-n">0</b><small>Indicados</small></div><div><b id="ind-ok">0</b><small>Meses ganhos</small></div></div>
+    <div class="ind-st"><div><b id="ind-n">0</b><small>Indicados</small></div><div><b id="ind-ok">0</b><small>Premiadas</small></div></div>
     <p class="meta" style="margin:2px 0 0">Seu amigo informa o seu código ao falar com o suporte para contratar. Vale a partir do primeiro plano pago dele.</p>
     <div id="ind-by-box"><div class="sub-t">Alguém indicou você?</div>
       <div class="vrow"><input id="ind-in" maxlength="14" autocomplete="off" autocapitalize="characters" placeholder="MC-XXXX-XXXX" aria-label="Código de quem indicou"><button class="btn g-violet" id="ind-save" type="button">Salvar</button></div>
@@ -2238,7 +2238,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     var n=Date.now(),sn=Date.parse(r.now)||n;
     if(n>lic.seen)lic.seen=n;
     var ms=(r.msgs||[]).map(function(m){return{id:m.id,t:m.t,at:Date.parse(m.at)||0,s:m.s||"admin"}});
-    lic.sv={status:r.status,tests:r.tests|0,te:r.test_end?Date.parse(r.test_end):0,pe:r.plan_end?Date.parse(r.plan_end):0,off:sn-n,at:n,name:r.name||"",wa:r.wa||"",msgs:ms,sp:r.sup_phone||"",ss:r.sup_show!==false,rb:r.ref_by||"",rn:r.ref_n|0,ro:r.ref_ok|0};
+    lic.sv={status:r.status,tests:r.tests|0,te:r.test_end?Date.parse(r.test_end):0,pe:r.plan_end?Date.parse(r.plan_end):0,off:sn-n,at:n,name:r.name||"",wa:r.wa||"",msgs:ms,sp:r.sup_phone||"",ss:r.sup_show!==false,rb:r.ref_by||"",rn:r.ref_n|0,ro:r.ref_ok|0,rf:r.ref_on!==false,fa:r.ref_a==null?30:r.ref_a|0,fb:r.ref_b==null?15:r.ref_b|0};
     var mx=0;ms.forEach(function(m){if(m.id>mx)mx=m.id});
     if(lic.nSeen==null)lic.nSeen=mx;
     else{var nw=ms.filter(function(m){return m.s!=="user"&&m.id>lic.nSeen}).sort(function(a,b){return a.id-b.id});if(mx>lic.nSeen)lic.nSeen=mx;if(nw.length)notifyChat(nw)}
@@ -2302,6 +2302,9 @@ body.supo .supfab{opacity:0;pointer-events:none}
   }
   function refUI(){
     var v=lic.sv;if(!v)return;
+    var on=v.rf!==false;$("sec-ind").hidden=!on;if(!on)return;
+    function dt(n){return n&&n%30===0?(n/30)+(n/30===1?" mês":" meses"):n+(n===1?" dia":" dias")}
+    $("ind-txt").innerHTML="Indique o Meus clientes para um amigo. Quando ele contratar o primeiro plano, <b>você ganha "+dt(v.fa)+" de acesso</b> e <b>seu amigo ganha "+dt(v.fb)+"</b>, automaticamente.";
     $("ind-code").textContent=lic.dev||"…";$("ind-n").textContent=v.rn;$("ind-ok").textContent=v.ro;
     $("ind-by-box").hidden=false;
     if(v.rb){$("ind-in").value=v.rb;$("ind-in").disabled=true;$("ind-save").hidden=true;$("ind-msg").textContent="Você foi indicado por "+v.rb+". Obrigado!"}

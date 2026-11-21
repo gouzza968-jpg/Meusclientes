@@ -967,7 +967,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     <h3><i class="ci" style="--tc:#8b5cf6"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></i>Licença<span class="lpill" id="lic-st"></span></h3>
     <p class="meta" id="lic-left" style="margin:2px 0 0"></p>
     <div class="lc-dev"><small>Código do aparelho</small><b id="lic-code">…</b><button class="btn" id="lic-copy" type="button">Copiar</button></div>
-    <label class="sw" style="margin-top:12px"><span><b>Compartilhar totais com o suporte</b><small>Envia apenas o número de clientes ativos e a receita estimada do mês. Nunca nomes, telefones, usuários ou senhas.</small></span><input type="checkbox" id="c-share"><i></i></label>
+    <p class="meta" style="margin:10px 0 0">ℹ️ Para o suporte funcionar, o app envia apenas totais (clientes ativos e receita estimada do mês). Nunca envia nomes, telefones, usuários ou senhas.</p>
   </section>
 <section class="cfg-card" id="sec-ind">
     <h3><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg></i>Indicações</h3>
@@ -2417,15 +2417,13 @@ body.supo .supfab{opacity:0;pointer-events:none}
   }
   var repT=0,repSig="",repLast=0;
   function tryReport(force){
-    if(!NATIVE||cfg.share===false)return;
+    if(!NATIVE)return;
     var st=repStats(),sig=JSON.stringify(st),now=Date.now();
     if(!force&&sig===repSig&&now-repLast<6*3600e3)return;
     if(!force&&now-repLast<10*60e3)return;
     devCode().then(function(c){if(!c)return;return sbRpc("app_report",c,st).then(function(){repSig=sig;repLast=Date.now()})}).catch(function(){})
   }
   function repSoon(){clearTimeout(repT);repT=setTimeout(tryReport,5000)}
-  $("c-share").checked=cfg.share!==false;
-  $("c-share").onchange=function(){cfg.share=this.checked;saveCfg();snd("tap");if(this.checked)tryReport(true);toast(this.checked?"Totais compartilhados com o suporte":"Compartilhamento desligado")};
   document.addEventListener("visibilitychange",function(){if(!document.hidden)repSoon()});
   repSoon();
 

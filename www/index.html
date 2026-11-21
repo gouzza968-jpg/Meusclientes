@@ -818,6 +818,8 @@ body.ro #add{opacity:.45}
 @keyframes nvlb{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.bnav,.bnav .nvp,.bnav button.on svg,.bnav button.on span{animation:none!important;transition:none!important}}
 #sec-upd .btns{display:flex;gap:8px}#sec-upd .btns .btn{flex:1;min-width:0}#upd-inst.pulse{animation:updp 1.6s ease-in-out infinite}@keyframes updp{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}50%{box-shadow:0 0 0 8px rgba(34,197,94,0)}}
+.ind-st{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.ind-st>div{border:1px solid var(--b1);border-radius:16px;padding:10px;text-align:center;background:color-mix(in srgb,#22c55e 8%,transparent)}.ind-st b{display:block;font-size:22px}.ind-st small{color:var(--mute);font-weight:650;font-size:11.5px}
+#sec-ind .vrow{display:flex;gap:8px}#sec-ind .vrow input{flex:1;min-width:150px}#sec-ind .vrow .btn{flex:none;padding-inline:18px}
 /* início v2 */
 .rhero.big{position:relative;overflow:hidden;padding:18px 16px;margin-bottom:12px}
 .rhero.big::after{content:"";position:absolute;right:-40px;top:-60px;width:170px;height:170px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,#22c55e 35%,transparent),transparent);pointer-events:none}
@@ -966,6 +968,17 @@ body.supo .supfab{opacity:0;pointer-events:none}
     <p class="meta" id="lic-left" style="margin:2px 0 0"></p>
     <div class="lc-dev"><small>Código do aparelho</small><b id="lic-code">…</b><button class="btn" id="lic-copy" type="button">Copiar</button></div>
     <label class="sw" style="margin-top:12px"><span><b>Compartilhar totais com o suporte</b><small>Envia apenas o número de clientes ativos e a receita estimada do mês. Nunca nomes, telefones, usuários ou senhas.</small></span><input type="checkbox" id="c-share"><i></i></label>
+  </section>
+<section class="cfg-card" id="sec-ind">
+    <h3><i class="ci" style="--tc:#22c55e"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg></i>Indicações</h3>
+    <p class="meta" style="margin:2px 0 0">Indique o Meus clientes para um amigo. Quando ele contratar o primeiro plano, você ganha <b>1 mês de acesso</b> automaticamente.</p>
+    <div class="lc-dev"><small>Seu código de indicação</small><b id="ind-code">…</b><button class="btn" id="ind-copy" type="button">Copiar</button></div>
+    <button class="btn big g-green" id="ind-share" type="button" style="margin-top:10px">Compartilhar no WhatsApp</button>
+    <div class="ind-st"><div><b id="ind-n">0</b><small>Indicados</small></div><div><b id="ind-ok">0</b><small>Meses ganhos</small></div></div>
+    <p class="meta" style="margin:2px 0 0">Seu amigo informa o seu código ao falar com o suporte para contratar. Vale a partir do primeiro plano pago dele.</p>
+    <div id="ind-by-box"><div class="sub-t">Alguém indicou você?</div>
+      <div class="vrow"><input id="ind-in" maxlength="14" autocomplete="off" autocapitalize="characters" placeholder="MC-XXXX-XXXX" aria-label="Código de quem indicou"><button class="btn g-violet" id="ind-save" type="button">Salvar</button></div>
+      <p class="meta" id="ind-msg" style="margin:4px 0 0"></p></div>
   </section>
 <section class="cfg-card" id="sec-nome">
     <h3><i class="ci" style="--tc:#ec4899"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></i>Seu nome</h3>
@@ -2092,7 +2105,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
         if(!NATIVE||!P){toast("A troca de ícone funciona no aplicativo instalado");return}
         P.set({id:id}).then(function(){cfg.icon=id;saveCfg();rd(id);snd("tab");toast("Ícone alterado. Pode levar alguns segundos para atualizar.")}).catch(function(){toast("Não foi possível trocar o ícone")})}
     })();
-    ["sec-lic","sec-nome","sec-sug","sec-bkp","sec-cor","sec-not","sec-ico","sec-int","sec-sites"].forEach(function(id){var sec=$(id);if(!sec||sec.classList.contains("fd"))return;var h=sec.querySelector("h3");if(!h)return;
+    ["sec-lic","sec-ind","sec-nome","sec-sug","sec-bkp","sec-cor","sec-not","sec-ico","sec-int","sec-sites"].forEach(function(id){var sec=$(id);if(!sec||sec.classList.contains("fd"))return;var h=sec.querySelector("h3");if(!h)return;
       var body=document.createElement("div"),inn=document.createElement("div");body.className="cbody";inn.className="cin";body.appendChild(inn);
       while(h.nextSibling)inn.appendChild(h.nextSibling);sec.appendChild(body);sec.classList.add("fd");
       h.tabIndex=0;h.setAttribute("role","button");h.setAttribute("aria-expanded","false");
@@ -2225,7 +2238,7 @@ body.supo .supfab{opacity:0;pointer-events:none}
     var n=Date.now(),sn=Date.parse(r.now)||n;
     if(n>lic.seen)lic.seen=n;
     var ms=(r.msgs||[]).map(function(m){return{id:m.id,t:m.t,at:Date.parse(m.at)||0,s:m.s||"admin"}});
-    lic.sv={status:r.status,tests:r.tests|0,te:r.test_end?Date.parse(r.test_end):0,pe:r.plan_end?Date.parse(r.plan_end):0,off:sn-n,at:n,name:r.name||"",wa:r.wa||"",msgs:ms,sp:r.sup_phone||"",ss:r.sup_show!==false};
+    lic.sv={status:r.status,tests:r.tests|0,te:r.test_end?Date.parse(r.test_end):0,pe:r.plan_end?Date.parse(r.plan_end):0,off:sn-n,at:n,name:r.name||"",wa:r.wa||"",msgs:ms,sp:r.sup_phone||"",ss:r.sup_show!==false,rb:r.ref_by||"",rn:r.ref_n|0,ro:r.ref_ok|0};
     var mx=0;ms.forEach(function(m){if(m.id>mx)mx=m.id});
     if(lic.nSeen==null)lic.nSeen=mx;
     else{var nw=ms.filter(function(m){return m.s!=="user"&&m.id>lic.nSeen}).sort(function(a,b){return a.id-b.id});if(mx>lic.nSeen)lic.nSeen=mx;if(nw.length)notifyChat(nw)}
@@ -2285,8 +2298,29 @@ body.supo .supfab{opacity:0;pointer-events:none}
     else if(st==="act"){var d=Math.ceil((s.pe-srvNow())/86400000);pill.textContent="Plano ativo";pill.className="lpill ok";left.textContent="Vence em "+fmtLicDate(s.pe)+" ("+d+(d===1?" dia":" dias")+")"}
     else if(st==="test"){pill.textContent="Versão teste";pill.className="lpill";left.textContent="Tempo restante do teste: "+fmtLeft(s.te-srvNow())}
     else{pill.textContent="Bloqueado";pill.className="lpill";left.textContent="Acesso bloqueado. Fale com o suporte."}
-    if(lic.sv)licExtra()
+    if(lic.sv){licExtra();refUI()}
   }
+  function refUI(){
+    var v=lic.sv;if(!v)return;
+    $("ind-code").textContent=lic.dev||"…";$("ind-n").textContent=v.rn;$("ind-ok").textContent=v.ro;
+    $("ind-by-box").hidden=false;
+    if(v.rb){$("ind-in").value=v.rb;$("ind-in").disabled=true;$("ind-save").hidden=true;$("ind-msg").textContent="Você foi indicado por "+v.rb+". Obrigado!"}
+  }
+  $("ind-copy").onclick=function(){copyCode(this,lic.dev)};
+  $("ind-share").onclick=function(){
+    var c=lic.dev;if(!c)return;
+    var t="Uso o app *Meus clientes* para organizar meus clientes de IPTV. Ao falar com o suporte para contratar, informe o meu código de indicação: *"+c+"*";
+    var u="https://wa.me/?text="+encodeURIComponent(t);
+    window.open(u,"_blank")
+  };
+  $("ind-save").onclick=function(){
+    var c=$("ind-in").value.trim().toUpperCase(),m=$("ind-msg");
+    if(!/^MC-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(c)){m.textContent="Código inválido. Use o formato MC-XXXX-XXXX.";return}
+    m.textContent="Salvando…";$("ind-save").disabled=true;
+    devCode().then(function(d){if(!d)throw new Error("code");return sbRpc("app_refer",d,{p_ref:c})}).then(function(r){applySv(r);licUI();toast("Indicação registrada!");snd("save")})
+    .catch(function(e){var t=String(e&&(e.message||e.msg)||"");m.textContent=/proprio/.test(t)?"Esse é o seu próprio código.":/encontrado/.test(t)?"Código não encontrado. Confira com quem indicou.":/indispon/.test(t)?"Não é mais possível informar uma indicação neste aparelho.":"Não foi possível agora. Confira a internet."})
+    .then(function(){$("ind-save").disabled=false})
+  };
   var profEdit=false,profBusy=false,supKey="",msgShown=false;
   function profNeed(){var v=lic.sv;return !!v&&(profEdit||(!lic.prof&&!(v.name&&v.name!=="Cliente novo"&&v.wa)))}
   function unread(){var v=lic.sv;return v&&v.msgs?v.msgs.filter(function(m){return m.s!=="user"&&m.id>(lic.msgSeen||0)}):[]}
